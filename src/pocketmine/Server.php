@@ -37,7 +37,7 @@ use pocketmine\event\HandlerList;
 use pocketmine\event\level\LevelInitEvent;
 use pocketmine\event\level\LevelLoadEvent;
 //use pocketmine\event\player\PlayerAddOpEvent;
-//TODO: crete PlayerAddOpEvent
+//TODO: create PlayerAddOpEvent
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\Timings;
