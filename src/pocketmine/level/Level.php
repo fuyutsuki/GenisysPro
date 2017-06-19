@@ -140,6 +140,7 @@ class Level implements ChunkManager, Metadatable{
 
 	const DIMENSION_NORMAL = 0;
 	const DIMENSION_NETHER = 1;
+	const DIMENSION_END = 2;
 
 	/** @var Tile[] */
 	private $tiles = [];
@@ -274,7 +275,7 @@ class Level implements ChunkManager, Metadatable{
 	private $generatorInstance;
 
 	private $closed = false;
-	
+
 	/** @var Weather */
 	private $weather;
 
@@ -367,47 +368,55 @@ class Level implements ChunkManager, Metadatable{
 	 *
 	 * @throws \Throwable
 	 */
-	public function __construct(Server $server, string $name, string $path, string $provider){
-		$this->blockStates = Block::$fullList;
-		$this->levelId = static::$levelIdCounter++;
-		$this->blockMetadata = new BlockMetadataStore($this);
-		$this->server = $server;
-		$this->autoSave = $server->getAutoSave();
+	public function __construct(Server $server, string $name, string $path, string $provider)
+    {
+        $this->blockStates = Block::$fullList;
+        $this->levelId = static::$levelIdCounter++;
+        $this->blockMetadata = new BlockMetadataStore($this);
+        $this->server = $server;
+        $this->autoSave = $server->getAutoSave();
 
-		/** @var LevelProvider $provider */
+        /** @var LevelProvider $provider */
 
-		if(is_subclass_of($provider, LevelProvider::class, true)){
-			$this->provider = new $provider($this, $path);
-		}else{
-			throw new LevelException("Provider is not a subclass of LevelProvider");
-		}
-		$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.level.preparing", [$this->provider->getName()]));
-		$this->generator = Generator::getGenerator($this->provider->getGenerator());
+        if (is_subclass_of($provider, LevelProvider::class, true)) {
+            $this->provider = new $provider($this, $path);
+        } else {
+            throw new LevelException("Provider is not a subclass of LevelProvider");
+        }
+        $this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.level.preparing", [$this->provider->getName()]));
+        $this->generator = Generator::getGenerator($this->provider->getGenerator());
 
-		$this->folderName = $name;
-		$this->updateQueue = new ReversePriorityQueue();
-		$this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
-		$this->time = (int) $this->provider->getTime();
+        $this->folderName = $name;
+        $this->updateQueue = new ReversePriorityQueue();
+        $this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
+        $this->time = (int)$this->provider->getTime();
 
-		$this->chunkTickRadius = min($this->server->getViewDistance(), max(1, (int) $this->server->getProperty("chunk-ticking.tick-radius", 4)));
-		$this->chunksPerTick = (int) $this->server->getProperty("chunk-ticking.per-tick", 40);
-		$this->chunkGenerationQueueSize = (int) $this->server->getProperty("chunk-generation.queue-size", 8);
-		$this->chunkPopulationQueueSize = (int) $this->server->getProperty("chunk-generation.population-queue-size", 2);
-		$this->chunkTickList = [];
-		$this->clearChunksOnTick = (bool) $this->server->getProperty("chunk-ticking.clear-tick-list", true);
-		$this->cacheChunks = (bool) $this->server->getProperty("chunk-sending.cache-chunks", false);
+        $this->chunkTickRadius = min($this->server->getViewDistance(), max(1, (int)$this->server->getProperty("chunk-ticking.tick-radius", 4)));
+        $this->chunksPerTick = (int)$this->server->getProperty("chunk-ticking.per-tick", 40);
+        $this->chunkGenerationQueueSize = (int)$this->server->getProperty("chunk-generation.queue-size", 8);
+        $this->chunkPopulationQueueSize = (int)$this->server->getProperty("chunk-generation.population-queue-size", 2);
+        $this->chunkTickList = [];
+        $this->clearChunksOnTick = (bool)$this->server->getProperty("chunk-ticking.clear-tick-list", true);
+        $this->cacheChunks = (bool)$this->server->getProperty("chunk-sending.cache-chunks", false);
 
-		$this->timings = new LevelTimings($this);
-		$this->temporalPosition = new Position(0, 0, 0, $this);
-		$this->temporalVector = new Vector3(0, 0, 0);
-		$this->tickRate = 1;
+        $this->timings = new LevelTimings($this);
+        $this->temporalPosition = new Position(0, 0, 0, $this);
+        $this->temporalVector = new Vector3(0, 0, 0);
+        $this->tickRate = 1;
 
-		$this->weather = new Weather($this, 0);
-		if($this->server->netherEnabled and $this->server->netherName == $this->folderName) $this->setDimension(self::DIMENSION_NETHER);
-		else $this->setDimension(self::DIMENSION_NORMAL);
-		if($this->server->weatherEnabled and $this->getDimension() == self::DIMENSION_NORMAL){
-			$this->weather->setCanCalculate(true);
-		}else $this->weather->setCanCalculate(false);
+        $this->weather = new Weather($this, 0);
+
+        $this->setDimension(self::DIMENSION_NORMAL);
+
+        if ($this->server->netherEnabled and $this->server->netherName == $this->folderName)
+            $this->setDimension(self::DIMENSION_NETHER);
+        elseif ($this->server->enderEnabled and $this->server->enderName == $this->folderName)
+            $this->setDimension(self::DIMENSION_END);
+
+		if($this->server->weatherEnabled and $this->getDimension() == self::DIMENSION_NORMAL)
+            $this->weather->setCanCalculate(true);
+        else
+		    $this->weather->setCanCalculate(false);
 	}
 
 	public function setDimension(int $dimension){
@@ -495,14 +504,14 @@ class Level implements ChunkManager, Metadatable{
 	final public function getId() : int{
 		return $this->levelId;
 	}
-	
+
 	public function isClosed() : bool{
 		return $this->closed;
 	}
 
 	public function close(){
 	assert(!$this->closed, "Tried to close a level which is already closed");
-	
+
 		if($this->getAutoSave()){
 			$this->save();
 		}
@@ -518,7 +527,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->blockMetadata = null;
 		$this->blockCache = [];
 		$this->temporalPosition = null;
-		
+
 		$this->closed = true;
 	}
 
@@ -2814,7 +2823,7 @@ class Level implements ChunkManager, Metadatable{
 		}catch(\Throwable $e){
 			$logger = $this->server->getLogger();
 			$logger->error($this->server->getLanguage()->translateString("pocketmine.level.chunkUnloadError", [$e->getMessage()]));
-			$logger->logException($e);	
+			$logger->logException($e);
 		}
 
 		unset($this->chunks[$index]);
@@ -2915,7 +2924,7 @@ class Level implements ChunkManager, Metadatable{
 		}else{
 		 return $this->getFolderName();
 		}
-		
+
 	}
 
 	/**
@@ -3081,7 +3090,7 @@ class Level implements ChunkManager, Metadatable{
 			}
 		}
 	}
-	
+
 	/**
 	 * @param int    $chunkX
 	 * @param int    $chunkZ

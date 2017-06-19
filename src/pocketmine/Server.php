@@ -36,7 +36,8 @@ use pocketmine\entity\Entity;
 use pocketmine\event\HandlerList;
 use pocketmine\event\level\LevelInitEvent;
 use pocketmine\event\level\LevelLoadEvent;
-use pocketmine\event\player\PlayerAddOpEvent;
+//use pocketmine\event\player\PlayerAddOpEvent;
+//TODO: crete PlayerAddOpEvent
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\Timings;
@@ -55,6 +56,7 @@ use pocketmine\level\format\io\region\Anvil;
 use pocketmine\level\format\io\region\McRegion;
 use pocketmine\level\format\io\region\PMAnvil;
 use pocketmine\level\generator\biome\Biome;
+use pocketmine\level\generator\ender\Ender;
 use pocketmine\level\generator\Flat;
 use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\hell\Nether;
@@ -268,7 +270,8 @@ class Server{
 	/** @var Level */
 	private $levelDefault = null;
 
-	private $aboutContent = "";
+	//private $aboutContent = "";
+    //this var not used
 
 	/** Advanced Config */
 	public $advancedConfig = null;
@@ -310,6 +313,12 @@ class Server{
 	public $allowInventoryCheats = false;
 	public $folderpluginloader = true;
 	public $mapEnabled = true;//TODO: 配置文件
+    public $expCache;
+    public $loadIncompatibleAPI;
+    public $enderEnabled = true; //TODO: set to false & add this to settings
+    public $enderName = "ender";
+    /** @var null|Level */
+    public $enderLevel = null;
 
 	/**
 	 * @return string
@@ -656,8 +665,8 @@ class Server{
 	}
 
 	/**
-	 * @return MainLogger
-	 */
+	 * @return \AttachableThreadedLogger|MainLogger|\ThreadedLogger
+     */
 	public function getLogger(){
 		return $this->logger;
 	}
@@ -1496,7 +1505,7 @@ class Server{
 	QQ群: §a559301590 §f
 	欢迎捐赠QQ: §c1912003473
 	';
-	
+
 		$this->getLogger()->info($string);
 	}
 
@@ -1551,7 +1560,7 @@ class Server{
 		$this->folderpluginloader = $this->getAdvancedProperty("developer.folder-plugin-loader", true);
 
 	}
-	
+
 	/**
 	 * @return int
 	 *
@@ -1847,6 +1856,7 @@ class Server{
 			Generator::addGenerator(Nether::class, "nether");
 			Generator::addGenerator(Void::class, "void");
 			Generator::addGenerator(Normal2::class, "normal2");
+			Generator::addGenerator(Ender::class, "ender");
 
 			foreach((array) $this->getProperty("worlds", []) as $name => $worldSetting){
 				if($this->loadLevel($name) === false){
@@ -1903,7 +1913,16 @@ class Server{
 			$this->netherLevel = $this->getLevelByName($this->netherName);
 		}
 
-			if($this->getProperty("ticks-per.autosave", 6000) > 0){
+		//TODO: Code reforming! It's not readable
+
+            if($this->enderEnabled) {
+                if(!$this->loadLevel($this->enderName)){
+                    $this->generateLevel($this->enderName, time(), Generator::getGenerator("ender"));
+                }
+                $this->enderLevel = $this->getLevelByName($this->enderName);
+            }
+
+            if($this->getProperty("ticks-per.autosave", 6000) > 0){
 				$this->autoSaveTicks = (int) $this->getProperty("ticks-per.autosave", 6000);
 			}
 
@@ -2201,6 +2220,8 @@ class Server{
 	 * @param bool   $restart
 	 * @param string $msg
 	 */
+	//$restart not used!
+    //TODO: remove
 	public function shutdown(bool $restart = false, string $msg = ""){
 		/*if($this->isRunning){
 			$killer = new ServerKiller(90);
