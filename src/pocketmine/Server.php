@@ -111,6 +111,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils;
 use pocketmine\utils\UUID;
 use pocketmine\utils\VersionString;
+use pocketmine\entity\ai\AIHolder;
 
 /**
  * The class that manages everything
@@ -310,6 +311,9 @@ class Server{
 	public $allowInventoryCheats = false;
 	public $folderpluginloader = true;
 	public $mapEnabled = true;//TODO: 配置文件
+	public $aiConfig = [];
+	public $aiEnabled = false;
+	public $aiHolder = null;
 
 	/**
 	 * @return string
@@ -720,6 +724,10 @@ class Server{
 	 */
 	public function getTick(){
 		return $this->tickCounter;
+	}
+	
+	public function getAIHolder(){
+		return $this->aiHolder;
 	}
 
 	/**
@@ -1549,6 +1557,21 @@ class Server{
 
 		$this->allowInventoryCheats = $this->getAdvancedProperty("inventory.allow-cheats", false);
 		$this->folderpluginloader = $this->getAdvancedProperty("developer.folder-plugin-loader", true);
+		$this->aiEnabled = $this->getAdvancedProperty("ai.enable", false);
+		$this->aiConfig = [
+			"cow" => $this->getAdvancedProperty("ai.cow", true),
+			"chicken" => $this->getAdvancedProperty("ai.chicken", true),
+			"zombie" => $this->getAdvancedProperty("ai.zombie", 1),
+			"skeleton" => $this->getAdvancedProperty("ai.skeleton", true),
+			"pig" => $this->getAdvancedProperty("ai.pig", true),
+			"sheep" => $this->getAdvancedProperty("ai.sheep", true),
+			"creeper" => $this->getAdvancedProperty("ai.creeper", true),
+			"irongolem" => $this->getAdvancedProperty("ai.iron-golem", true),
+			"snowgolem" => $this->getAdvancedProperty("ai.snow-golem", true),
+			"pigzombie" => $this->getAdvancedProperty("ai.pigzombie", true),
+			"creeperexplode" => $this->getAdvancedProperty("ai.creeper-explode-destroy-block", false),
+			"mobgenerate" => $this->getAdvancedProperty("ai.mobgenerate", false),
+		];
 
 	}
 	
@@ -1908,6 +1931,7 @@ class Server{
 			}
 
 			$this->enablePlugins(PluginLoadOrder::POSTWORLD);
+			if($this->aiEnabled) $this->aiHolder = new AIHolder($this);
 
 			if($this->dserverConfig["enable"] and ($this->getAdvancedProperty("dserver.server-list", "") != "")) $this->scheduler->scheduleRepeatingTask(new CallbackTask([
 				$this,
