@@ -29,6 +29,7 @@ class ChangeDimensionPacket extends DataPacket{
 
 	const DIMENSION_NORMAL = 0;
 	const DIMENSION_NETHER = 1;
+	const DIMENSION_END = 2;
 
 	public $dimension;
 
@@ -49,7 +50,7 @@ class ChangeDimensionPacket extends DataPacket{
 	}
 
 	/**
-	 * @return PacketName|string
+	 * @return string
 	 */
 	public function getName(){
 		return "ChangeDimensionPacket";

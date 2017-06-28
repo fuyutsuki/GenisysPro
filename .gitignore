@@ -29,3 +29,4 @@ Desktop.ini
 /docs/build/
 !/docs/requirements.txt
 .project
+resource_packs/resource_packs.yml
