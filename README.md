@@ -1,4 +1,4 @@
-GenisysPro
+GenisysPro (Item Frame)
 ===================
 
 ![GenisysPro](http://i.imgur.com/R8gExma.jpg)
