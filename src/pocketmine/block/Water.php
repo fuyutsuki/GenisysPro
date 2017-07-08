@@ -36,7 +36,9 @@ class Water extends Liquid{
 	public function getName() : string{
 		return "Water";
 	}
-
+	public function getLightFilter() : int{
+ 		return 2;
+ 	}
 	public function onEntityCollide(Entity $entity){
 		$entity->resetFallDistance();
 		if($entity->fireTicks > 0){
