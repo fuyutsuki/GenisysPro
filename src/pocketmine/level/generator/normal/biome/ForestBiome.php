@@ -37,16 +37,31 @@ class ForestBiome extends GrassyBiome{
 
 		$this->type = $type;
 
-		$trees = new Tree($type === self::TYPE_BIRCH ? Sapling::BIRCH : Sapling::OAK);
-		$trees->setBaseAmount(5);
-		$this->addPopulator($trees);
+		$trees1 = new Tree(Sapling::OAK);
+		$trees1->setBaseAmount(15);
+		$this->addPopulator($trees1);
+/*		$trees2 = new Tree(Sapling::SPRUCE);
+		$trees2->setBaseAmount(3);
+		$this->addPopulator($trees2);
+		$trees3 = new Tree(Sapling::BIRCH);
+		$trees3->setBaseAmount(3);
+		$this->addPopulator($trees3);
+		$trees4 = new Tree(Sapling::JUNGLE);
+		$trees4->setBaseAmount(3);
+		$this->addPopulator($trees4);
+		$trees5 = new Tree(Sapling::ACACIA);
+		$trees5->setBaseAmount(3);
+		$this->addPopulator($trees5);
+		$trees6 = new Tree(Sapling::DARK_OAK);
+		$trees6->setBaseAmount(3);
+		$this->addPopulator($trees6);*/
 
 		$tallGrass = new TallGrass();
 		$tallGrass->setBaseAmount(3);
 
 		$this->addPopulator($tallGrass);
 
-		$this->setElevation(63, 81);
+		$this->setElevation(24, 110);
 
 		if($type === self::TYPE_BIRCH){
 			$this->temperature = 0.6;

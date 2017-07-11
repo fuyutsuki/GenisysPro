@@ -27,7 +27,7 @@ class DesertBiome extends SandyBiome{
 
 	public function __construct(){
 		parent::__construct();
-		$this->setElevation(63, 74);
+		$this->setElevation(45, 100);
 
 		$this->temperature = 2;
 		$this->rainfall = 0;

@@ -22,6 +22,8 @@
 namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\block\Block;
+use pocketmine\level\generator\populator\Cave;
+use pocketmine\level\generator\populator\WaterPit;
 
 abstract class GrassyBiome extends NormalBiome{
 
@@ -33,5 +35,7 @@ abstract class GrassyBiome extends NormalBiome{
 			Block::get(Block::DIRT, 0),
 			Block::get(Block::DIRT, 0),
 		]);
+		$this->removePopulator(Cave::class);
+		$this->removePopulator(WaterPit::class);
 	}
 }
