@@ -424,6 +424,7 @@ class Chunk{
 	public function populateSkyLight(){
 		for($x = 0; $x < 16; ++$x){
 			for($z = 0; $z < 16; ++$z){
+
 				$heightMap = $this->getHeightMap($x, $z);
 
 				$y = ($this->getHighestSubChunkIndex() + 1) << 4;
@@ -431,10 +432,17 @@ class Chunk{
 				for(; $y >= $heightMap; --$y){
 					$this->setBlockSkyLight($x, $y, $z, 15);
 				}
+				$air = false;
 				$light = 15;
 				for(; $y > 0; --$y){
-						if($light > 0){
- 						$light -= Block::$lightFilter[$this->getBlockId($x, $y, $z)];
+					$filter = Block::$lightFilter[$this->getBlockId($x, $y, $z)];
+					if(!$air && $filter === 1){
+						$light = $this->getChunkLight($x, $y, $z);//明るさチェック入れる
+					}
+					$air = ($filter === 1);
+					if($light > 0 && !$air){
+
+ 						$light -= ($filter-1);
  						if($light < 0){
  							$light = 0;
  						}
@@ -443,6 +451,43 @@ class Chunk{
 				}
 			}
 		}
+	}
+
+	/**
+	 * Return light level
+	 *
+	 * @param int $x 0-15
+	 * @param int $y
+	 * @param int $z 0-15
+	 *
+	 * @return int 0-15
+	 */
+	public function getChunkLight(int $x, int $y, int $z) : int{
+		for($i = 1; $i <= 15; $i++){
+			if($i%2 === 0){
+				if(false !== $l = $this->checkLight($x+($i/2+1), $y, $z+($i/2+1), $x, $z)) return $l;
+				if(false !== $l = $this->checkLight($x-($i/2+1), $y, $z+($i/2+1), $x, $z)) return $l;
+				if(false !== $l = $this->checkLight($x+($i/2+1), $y, $z-($i/2+1), $x, $z)) return $l;
+				if(false !== $l = $this->checkLight($x-($i/2+1), $y, $z-($i/2+1), $x, $z)) return $l;
+			}
+			if(false !== $l = $this->checkLight($x+($i/2+1), $y, $z, $x, $z)) return $l;
+			if(false !== $l = $this->checkLight($x-($i/2+1), $y, $z, $x, $z)) return $l;
+			if(false !== $l = $this->checkLight($x, $y, $z+($i/2+1), $x, $z)) return $l;
+			if(false !== $l = $this->checkLight($x, $y, $z-($i/2+1), $x, $z)) return $l;
+		}
+		return 0;
+	}
+
+	public function checkLight($x, $y, $z, $ox, $oz){
+		if($x < 0 || $x > 15 || $z < 0 || $z > 15){
+			return false;
+		}
+		$x = intval($x);
+		$z = intval($z);
+		if($y > $this->getHeightMap($x, $z)){
+			return 15-(abs($x-$ox)+abs($z-$oz));
+		}
+		return false;
 	}
 
 	/**
