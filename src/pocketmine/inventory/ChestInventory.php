@@ -24,10 +24,16 @@ namespace pocketmine\inventory;
 use pocketmine\block\TrappedChest;
 use pocketmine\level\Level;
 use pocketmine\network\protocol\BlockEventPacket;
+use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 
-class ChestInventory extends ContainerInventory{
+class ChestInventory extends ContainerInventory {
+	/**
+	 * ChestInventory constructor.
+	 *
+	 * @param Chest $tile
+	 */
 	public function __construct(Chest $tile){
 		parent::__construct($tile, InventoryType::get(InventoryType::CHEST));
 	}
@@ -39,6 +45,11 @@ class ChestInventory extends ContainerInventory{
 		return $this->holder;
 	}
 
+	/**
+	 * @param bool $withAir
+	 *
+	 * @return array|\pocketmine\item\Item[]
+	 */
 	public function getContents($withAir = false){
 		if($withAir){
 			$contents = [];
@@ -51,6 +62,9 @@ class ChestInventory extends ContainerInventory{
 		return parent::getContents();
 	}
 
+	/**
+	 * @param Player $who
+	 */
 	public function onOpen(Player $who){
 		parent::onOpen($who);
 
@@ -62,6 +76,7 @@ class ChestInventory extends ContainerInventory{
 			$pk->case1 = 1;
 			$pk->case2 = 2;
 			if(($level = $this->getHolder()->getLevel()) instanceof Level){
+				$level->broadcastLevelSoundEvent($this->getHolder(), LevelSoundEventPacket::SOUND_CHEST_OPEN);
 				$level->addChunkPacket($this->getHolder()->getX() >> 4, $this->getHolder()->getZ() >> 4, $pk);
 			}
 		}
@@ -77,6 +92,9 @@ class ChestInventory extends ContainerInventory{
 		}
 	}
 
+	/**
+	 * @param Player $who
+	 */
 	public function onClose(Player $who){
 		if($this->getHolder()->getLevel() instanceof Level){
 			/** @var TrappedChest $block */
@@ -96,6 +114,7 @@ class ChestInventory extends ContainerInventory{
 			$pk->case1 = 1;
 			$pk->case2 = 0;
 			if(($level = $this->getHolder()->getLevel()) instanceof Level){
+				$level->broadcastLevelSoundEvent($this->getHolder(), LevelSoundEventPacket::SOUND_CHEST_CLOSED);
 				$level->addChunkPacket($this->getHolder()->getX() >> 4, $this->getHolder()->getZ() >> 4, $pk);
 			}
 		}

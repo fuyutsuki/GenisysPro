@@ -1110,7 +1110,7 @@ class Server{
 
 		$level->initLevel();
 
-		$this->getPluginManager()->callEvent(new LevelLoadEvent($level));
+        $this->getPluginManager()->callEvent(new LevelLoadEvent($level));
 
 		$level->setTickRate($this->baseTickRate);
 
