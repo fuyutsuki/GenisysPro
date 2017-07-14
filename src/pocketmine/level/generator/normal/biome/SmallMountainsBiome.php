@@ -21,13 +21,79 @@
 
 namespace pocketmine\level\generator\normal\biome;
 
+use pocketmine\block\Sapling;
+use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\level\generator\populator\Setter;
+use pocketmine\level\generator\populator\Tree;
+use pocketmine\block\Block;
 
 class SmallMountainsBiome extends MountainsBiome{
 
 	public function __construct(){
 		parent::__construct();
 
-		$this->setElevation(63, 97);
+		$this->setGroundCover([
+			Block::get(237, 8),
+			Block::get(237, 8),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+		]);
+
+		$trees = new Tree([Block::STONE, Block::COBBLESTONE, Sapling::OAK]);
+		$trees->setBaseAmount(2);
+		$this->addPopulator($trees);
+
+		$trees2 = new Tree([Block::COAL_BLOCK, Block::COAL_ORE, Sapling::OAK]);
+		$trees2->setBaseAmount(1);
+		$this->addPopulator($trees2);
+
+		$setter = new Setter([
+			[-1, 8, 0, Block::STAINED_CLAY, 9],
+			[-1, 8, 1, Block::STAINED_CLAY, 9],
+			[-1, 8,-1, Block::STAINED_CLAY, 9],
+			[ 0, 8, 0, Block::STAINED_CLAY, 9],
+			[ 0, 8, 1, Block::STAINED_CLAY, 9],
+			[ 0, 8,-1, Block::STAINED_CLAY, 9],
+			[ 1, 8, 0, Block::STAINED_CLAY, 9],
+			[ 1, 8, 1, Block::STAINED_CLAY, 9],
+			[ 1, 8,-1, Block::STAINED_CLAY, 9],
+
+			[-2, 7, 0, Block::STAINED_CLAY, 9],
+			[-2, 7, 1, Block::STAINED_CLAY, 9],
+			[-2, 7,-1, Block::STAINED_CLAY, 9],
+			[ 2, 7, 0, Block::STAINED_CLAY, 9],
+			[ 2, 7, 1, Block::STAINED_CLAY, 9],
+			[ 2, 7,-1, Block::STAINED_CLAY, 9],
+			[ 0, 7,-2, Block::STAINED_CLAY, 9],
+			[ 1, 7,-2, Block::STAINED_CLAY, 9],
+			[-1, 7,-2, Block::STAINED_CLAY, 9],
+			[ 0, 7, 2, Block::STAINED_CLAY, 9],
+			[ 1, 7, 2, Block::STAINED_CLAY, 9],
+			[-1, 7, 2, Block::STAINED_CLAY, 9],
+
+			[0, 7, 0, Block::CLAY_BLOCK, 0],
+			[0, 6, 0, Block::CLAY_BLOCK, 0],
+			[0, 5, 0, Block::CLAY_BLOCK, 0],
+			[0, 4, 0, Block::CLAY_BLOCK, 0],
+			[0, 3, 0, Block::CLAY_BLOCK, 0],
+			[0, 2, 0, Block::CLAY_BLOCK, 0],
+			[0, 1, 0, Block::CLAY_BLOCK, 0],
+			[0, 0, 0, Block::CLAY_BLOCK, 0],
+		], [237 => true]);
+		$setter->setBaseAmount(1);
+
+		$this->addPopulator($setter);
+
+		$this->setElevation(35, 90);
 	}
 
 	public function getName() : string{

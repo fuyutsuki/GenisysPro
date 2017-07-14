@@ -37,7 +37,7 @@ class Setter extends Populator{
 	public $block_id = 0;
 	public $block_data = 0;	
 
-	public function __construct($id, $data){
+	public function __construct($id, $data = 0){
 		$this->block_id = $id;
 		$this->block_data = $data;
 	}
@@ -59,8 +59,16 @@ class Setter extends Populator{
 			$y = $this->getHighestWorkableBlock($x, $z);
 
 			if($y !== -1 and $this->canStay($x, $y, $z)){
-				$this->level->setBlockIdAt($x, $y, $z, $this->block_id);
-				$this->level->setBlockDataAt($x, $y, $z, $this->block_data);
+				if(is_array($this->block_id)){
+					foreach($this->block_id as $key => $array) {
+						list($xx, $yy, $zz, $id, $data) = $array;
+						$this->level->setBlockIdAt($x+$xx, $y+$yy, $z+$zz, $id);
+						$this->level->setBlockDataAt($x+$xx, $y+$yy, $z+$zz, $data);
+					}
+				}else{
+					$this->level->setBlockIdAt($x, $y, $z, $this->block_id);
+					$this->level->setBlockDataAt($x, $y, $z, $this->block_data);
+				}
 			}
 		}
 	}
@@ -73,7 +81,7 @@ class Setter extends Populator{
 	private function getHighestWorkableBlock($x, $z){
 		for($y = 127; $y >= 0; --$y){
 			$b = $this->level->getBlockIdAt($x, $y, $z);
-			if($b !== Block::AIR and $b !== Block::WATER and $b !== Block::STILL_WATER and $b !== Block::LEAVES and $b !== Block::LEAVES2 and $b !== Block::SNOW_LAYER){
+			if((!is_array($this->block_data) or isset($this->block_data[$b])) and ($b !== Block::AIR and $b !== Block::WATER and $b !== Block::STILL_WATER and $b !== Block::LEAVES and $b !== Block::LEAVES2 and $b !== Block::SNOW_LAYER)){
 				break;
 			}
 		}

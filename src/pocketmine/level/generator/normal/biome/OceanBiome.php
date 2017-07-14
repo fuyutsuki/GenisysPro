@@ -19,8 +19,6 @@
  *
 */
 
-declare(strict_types=1);
-
 namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\block\Sapling;
@@ -35,52 +33,71 @@ class OceanBiome extends GrassyBiome{
 		parent::__construct();
 
 		$this->setGroundCover([
-			Block::get(237, 9),
-			Block::get(237, 9),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
-			Block::get(168, 0),
+			Block::get(237, 8),
+			Block::get(237, 8),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
+			Block::get(13, 0),
 		]);
-		
-		//$tallGrass = new TallGrass();
-		//$tallGrass->setBaseAmount(5);
+		$this->removePopulator(Tree::class);
+		$trees = new Tree([Block::STONE, Block::COBBLESTONE, Sapling::OAK]);
+		$trees->setBaseAmount(2);
+		$this->addPopulator($trees);
 
-		$setter = new Setter(38, 1);
-		$setter->setBaseAmount(5);
+		$trees2 = new Tree([Block::COAL_BLOCK, Block::COAL_ORE, Sapling::OAK]);
+		$trees2->setBaseAmount(1);
+		$this->addPopulator($trees2);
+
+		$setter = new Setter([
+			[-1, 8, 0, Block::STAINED_CLAY, 9],
+			[-1, 8, 1, Block::STAINED_CLAY, 9],
+			[-1, 8,-1, Block::STAINED_CLAY, 9],
+			[ 0, 8, 0, Block::STAINED_CLAY, 9],
+			[ 0, 8, 1, Block::STAINED_CLAY, 9],
+			[ 0, 8,-1, Block::STAINED_CLAY, 9],
+			[ 1, 8, 0, Block::STAINED_CLAY, 9],
+			[ 1, 8, 1, Block::STAINED_CLAY, 9],
+			[ 1, 8,-1, Block::STAINED_CLAY, 9],
+
+			[-2, 7, 0, Block::STAINED_CLAY, 9],
+			[-2, 7, 1, Block::STAINED_CLAY, 9],
+			[-2, 7,-1, Block::STAINED_CLAY, 9],
+			[ 2, 7, 0, Block::STAINED_CLAY, 9],
+			[ 2, 7, 1, Block::STAINED_CLAY, 9],
+			[ 2, 7,-1, Block::STAINED_CLAY, 9],
+			[ 0, 7,-2, Block::STAINED_CLAY, 9],
+			[ 1, 7,-2, Block::STAINED_CLAY, 9],
+			[-1, 7,-2, Block::STAINED_CLAY, 9],
+			[ 0, 7, 2, Block::STAINED_CLAY, 9],
+			[ 1, 7, 2, Block::STAINED_CLAY, 9],
+			[-1, 7, 2, Block::STAINED_CLAY, 9],
+
+			[0, 7, 0, Block::CLAY_BLOCK, 0],
+			[0, 6, 0, Block::CLAY_BLOCK, 0],
+			[0, 5, 0, Block::CLAY_BLOCK, 0],
+			[0, 4, 0, Block::CLAY_BLOCK, 0],
+			[0, 3, 0, Block::CLAY_BLOCK, 0],
+			[0, 2, 0, Block::CLAY_BLOCK, 0],
+			[0, 1, 0, Block::CLAY_BLOCK, 0],
+			[0, 0, 0, Block::CLAY_BLOCK, 0],
+		], 
+		[237 => true]);
+		$setter->setBaseAmount(1);
 
 		$this->addPopulator($setter);
 
-		$trees = new Tree([Block::WOOD2, Block::PACKED_ICE, Sapling::SPRUCE]);
-		$trees->setBaseAmount(1);
-		$this->addPopulator($trees);
-
-		$this->setElevation(15, 95);
-
-		$this->temperature = 0.5;
-		$this->rainfall = 0.5;
+		$this->setElevation(35, 90);
 	}
 
-	public function getName(){
-		return "Ocean";
+	public function getName() : string{
+		return "Small Mountains";
 	}
 }
