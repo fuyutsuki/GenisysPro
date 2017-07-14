@@ -44,34 +44,38 @@ abstract class Tree{
 	public $leafType = 0;
 
 	public static function growTree(ChunkManager $level, $x, $y, $z, Random $random, $type = 0, bool $noBigTree = true){
-		switch($type){
-			case Sapling::SPRUCE:
-				$tree = new SpruceTree();
-				break;
-			case Sapling::BIRCH:
-				if($random->nextBoundedInt(39) === 0){
-					$tree = new BirchTree(true);
-				}else{
-					$tree = new BirchTree();
-				}
-				break;
-			case Sapling::JUNGLE:
-				$tree = new JungleTree();
-				break;
-			case Sapling::ACACIA:
-				$tree = new AcaciaTree();
-				break;
-			case Sapling::DARK_OAK:
-				$tree = new DarkOakTree();
-				break;
-			case Sapling::OAK:
-			default:
-				if(!$noBigTree and $random->nextRange(0, 9) === 0){
-					$tree = new BigTree();
-				}else{
-					$tree = new OakTree();
-				}
-				break;
+		if(is_array($type)){
+			$tree = new DummyTree($type[0], $type[1], $type[2]);
+		}else{
+			switch($type){
+				case Sapling::SPRUCE:
+					$tree = new SpruceTree();
+					break;
+				case Sapling::BIRCH:
+					if($random->nextBoundedInt(39) === 0){
+						$tree = new BirchTree(true);
+					}else{
+						$tree = new BirchTree();
+					}
+					break;
+				case Sapling::JUNGLE:
+					$tree = new JungleTree();
+					break;
+				case Sapling::ACACIA:
+					$tree = new AcaciaTree();
+					break;
+				case Sapling::DARK_OAK:
+					$tree = new DarkOakTree();
+					break;
+				case Sapling::OAK:
+				default:
+					if(!$noBigTree and $random->nextRange(0, 9) === 0){
+						$tree = new BigTree();
+					}else{
+						$tree = new OakTree();
+					}
+					break;
+			}
 		}
 		if($tree->canPlaceObject($level, $x, $y, $z, $random)){
 			$tree->placeObject($level, $x, $y, $z, $random);
@@ -122,7 +126,7 @@ abstract class Tree{
 
 	protected function placeTrunk(ChunkManager $level, $x, $y, $z, Random $random, $trunkHeight){
 		// The base dirt block
-		$level->setBlockIdAt($x, $y - 1, $z, Block::DIRT);
+		if(!$this instanceof DummyTree) $level->setBlockIdAt($x, $y - 1, $z, Block::DIRT);
 
 		for($yy = 0; $yy < $trunkHeight; ++$yy){
 			$blockId = $level->getBlockIdAt($x, $y + $yy, $z);

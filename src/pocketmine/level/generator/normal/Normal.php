@@ -148,8 +148,10 @@ class Normal extends Generator{
 		$cover = new GroundCover();
 		$this->generationPopulators[] = $cover;
 
+		/*
 		$cave = new Cave();
 		$this->populators[] = $cave;
+		*/
 
 		$ores = new Ore();
 		$ores->setOreTypes([
@@ -234,7 +236,7 @@ class Normal extends Generator{
 					if($noiseValue > 0){
 						$chunk->setBlockId($x, $y, $z, Block::STONE);
 						$solidLand = true;
-					}elseif($y <= $this->waterHeight && $solidLand == false){
+					}elseif($y <= $this->waterHeight/* && $solidLand == false*/){
 						$chunk->setBlockId($x, $y, $z, Block::STILL_WATER);
 					}
 				}

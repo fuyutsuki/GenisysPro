@@ -19,31 +19,68 @@
  *
 */
 
+declare(strict_types=1);
+
 namespace pocketmine\level\generator\normal\biome;
 
-use pocketmine\level\generator\populator\Sugarcane;
+use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\level\generator\populator\Setter;
+use pocketmine\level\generator\populator\Tree;
+use pocketmine\block\Block;
 
-class OceanBiome extends WateryBiome{
+class OceanBiome extends GrassyBiome{
 
 	public function __construct(){
 		parent::__construct();
 
-		$sugarcane = new Sugarcane();
-		$sugarcane->setBaseAmount(6);
-		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(5);
+		$this->setGroundCover([
+			Block::get(237, 9),
+			Block::get(237, 9),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+		]);
+		
+		//$tallGrass = new TallGrass();
+		//$tallGrass->setBaseAmount(5);
 
-		$this->addPopulator($sugarcane);
-		$this->addPopulator($tallGrass);
+		$setter = new Setter(38, 1);
+		$setter->setBaseAmount(5);
 
-		$this->setElevation(46, 68);
+		$this->addPopulator($setter);
+
+		$trees = new Tree([Block::WOOD2, Block::PACKED_ICE, Sapling::SPRUCE]);
+		$trees->setBaseAmount(1);
+		$this->addPopulator($trees);
+
+		$this->setElevation(15, 95);
 
 		$this->temperature = 0.5;
 		$this->rainfall = 0.5;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Ocean";
 	}
 }
