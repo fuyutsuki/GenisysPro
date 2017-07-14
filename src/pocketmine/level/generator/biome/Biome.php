@@ -152,7 +152,7 @@ abstract class Biome{
 	}
 
 	public function addPopulator(Populator $populator){
-		$this->populators[get_class($populator)] = $populator;
+		$this->populators[get_class($populator)][] = $populator;
 	}
 
 	public function removePopulator($class){
@@ -163,7 +163,13 @@ abstract class Biome{
 
 	public function populateChunk(ChunkManager $level, $chunkX, $chunkZ, Random $random){
 		foreach($this->populators as $populator){
-			$populator->populate($level, $chunkX, $chunkZ, $random);
+			if(is_array($populator)){
+				foreach($populator as $p){
+					$p->populate($level, $chunkX, $chunkZ, $random);
+				}
+			}else{
+				$populator->populate($level, $chunkX, $chunkZ, $random);
+			}
 		}
 	}
 
