@@ -158,12 +158,12 @@ class Normal extends Generator{
 		$ores = new Ore();
 		$ores->setOreTypes([
 			new OreType(new CoalOre(), 20, 16, 0, 128),
-			new OreType(New IronOre(), 20, 8, 0, 64),
+			new OreType(New IronOre(), 24, 16, 0, 64),
 			new OreType(new RedstoneOre(), 8, 7, 0, 16),
 			new OreType(new LapisOre(), 1, 6, 0, 32),
 			new OreType(new GoldOre(), 2, 8, 0, 32),
-			new OreType(new DiamondOre(), 2, 7, 0, 16),
-			new OreType(new EmeraldOre(), 3, 8, 45, 128),
+			new OreType(new DiamondOre(), 2, 4, 0, 16),
+			new OreType(new EmeraldOre(), 2, 3, 45, 128),
 			new OreType(new Obsidian(), 7, 19, 0, 128),
 			new OreType(new Dirt(), 20, 32, 0, 128),
 			new OreType(new Stone(Stone::GRANITE), 20, 32, 0, 128),
