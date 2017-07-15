@@ -19,41 +19,68 @@
  *
 */
 
+declare(strict_types=1);
+
 namespace pocketmine\level\generator\normal\biome;
 
-use pocketmine\block\Block;
 use pocketmine\block\Sapling;
-use pocketmine\level\generator\populator\MossStone;
+use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Tree;
+use pocketmine\block\Block;
 
-class TaigaBiome extends SnowyBiome{
+class TaigaBiome extends GrassyBiome{
 
 	public function __construct(){
 		parent::__construct();
 
-		$trees = new Tree(Sapling::SPRUCE);
-		$trees->setBaseAmount(10);
+		$this->setGroundCover([
+			Block::get(237, 9),
+			Block::get(237, 9),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+			Block::get(168, 0),
+		]);
+		
+		//$tallGrass = new TallGrass();
+		//$tallGrass->setBaseAmount(5);
+
+		$setter = new Setter(38, 1);
+		$setter->setBaseAmount(5);
+
+		$this->addPopulator($setter);
+
+		$trees = new Tree([Block::WOOD2, Block::PACKED_ICE, Sapling::SPRUCE]);
+		$trees->setBaseAmount(1);
 		$this->addPopulator($trees);
 
-		$mossStone = new MossStone();
-		$mossStone->setBaseAmount(1);
+		$this->setElevation(15, 95);
 
-		$this->addPopulator($mossStone);
-
-		$this->setElevation(63, 81);
-
-		$this->temperature = 0.05;
-		$this->rainfall = 0.8;
-
-		$this->setGroundCover([
-			Block::get(Block::PODZOL, 0),
-			Block::get(Block::DIRT, 0),
-			Block::get(Block::DIRT, 0),
-			Block::get(Block::DIRT, 0)
-		]);
+		$this->temperature = 0.5;
+		$this->rainfall = 0.5;
 	}
 
-	public function getName() : string{
-		return "Taiga";
+	public function getName(){
+		return "Ocean";
 	}
 }
