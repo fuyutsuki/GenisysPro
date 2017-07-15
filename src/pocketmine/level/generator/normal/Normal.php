@@ -35,6 +35,8 @@ use pocketmine\block\Gravel;
 use pocketmine\block\IronOre;
 use pocketmine\block\LapisOre;
 use pocketmine\block\RedstoneOre;
+use pocketmine\block\EmeraldOre;
+use pocketmine\block\Obsidian;
 use pocketmine\block\Stone;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\biome\Biome;
@@ -160,7 +162,9 @@ class Normal extends Generator{
 			new OreType(new RedstoneOre(), 8, 7, 0, 16),
 			new OreType(new LapisOre(), 1, 6, 0, 32),
 			new OreType(new GoldOre(), 2, 8, 0, 32),
-			new OreType(new DiamondOre(), 1, 7, 0, 16),
+			new OreType(new DiamondOre(), 2, 7, 0, 16),
+			new OreType(new EmeraldOre(), 3, 8, 45, 128),
+			new OreType(new Obsidian(), 7, 19, 0, 128),
 			new OreType(new Dirt(), 20, 32, 0, 128),
 			new OreType(new Stone(Stone::GRANITE), 20, 32, 0, 128),
 			new OreType(new Stone(Stone::DIORITE), 20, 32, 0, 128),

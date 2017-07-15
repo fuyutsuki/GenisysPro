@@ -27,7 +27,7 @@ use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\block\Block;
 
-class SmallMountainsBiome extends MountainsBiome{
+class SmallMountainsBiome extends GrassyBiome{
 
 	public function __construct(){
 		parent::__construct();

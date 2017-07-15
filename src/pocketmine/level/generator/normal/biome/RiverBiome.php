@@ -29,6 +29,8 @@ class RiverBiome extends WateryBiome{
 	public function __construct(){
 		parent::__construct();
 
+		$this->setGroundCover([]);
+
 		$sugarcane = new Sugarcane();
 		$sugarcane->setBaseAmount(6);
 		$tallGrass = new TallGrass();
@@ -37,7 +39,7 @@ class RiverBiome extends WateryBiome{
 		$this->addPopulator($sugarcane);
 		$this->addPopulator($tallGrass);
 
-		$this->setElevation(58, 62);
+		$this->setElevation(5, 22);
 
 		$this->temperature = 0.5;
 		$this->rainfall = 0.7;

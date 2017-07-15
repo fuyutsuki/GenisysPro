@@ -23,11 +23,14 @@ namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\block\Block;
 use pocketmine\block\Flower as FlowerBlock;
+use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\Flower;
 use pocketmine\level\generator\populator\LilyPad;
 use pocketmine\level\generator\populator\Sugarcane;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\WaterPit;
+
+use pocketmine\level\generator\populator\Tree;
 
 class PlainBiome extends GrassyBiome{
 
@@ -53,7 +56,10 @@ class PlainBiome extends GrassyBiome{
 		$flower->addType([Block::RED_FLOWER, FlowerBlock::TYPE_WHITE_TULIP]);
 		$flower->addType([Block::RED_FLOWER, FlowerBlock::TYPE_PINK_TULIP]);
 		$flower->addType([Block::RED_FLOWER, FlowerBlock::TYPE_OXEYE_DAISY]);
+		$trees1 = new Tree(Sapling::OAK);
+		$trees1->setBaseAmount(2);
 
+		$this->addPopulator($trees1);
 		$this->addPopulator($sugarcane);
 		$this->addPopulator($tallGrass);
 		$this->addPopulator($flower);

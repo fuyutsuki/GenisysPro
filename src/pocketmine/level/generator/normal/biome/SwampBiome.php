@@ -22,9 +22,12 @@
 namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\block\Block;
+use pocketmine\block\Sapling;
 use pocketmine\block\Flower as FlowerBlock;
 use pocketmine\level\generator\populator\Flower;
 use pocketmine\level\generator\populator\LilyPad;
+use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\populator\Setter;
 
 class SwampBiome extends GrassyBiome{
 
@@ -37,11 +40,19 @@ class SwampBiome extends GrassyBiome{
 
 		$this->addPopulator($flower);
 
+		$setter1 = new Setter([[0, 0, 0, Block::SLIME_BLOCK, 0]], [2 => true, 3 => true]);
+		$setter1->setBaseAmount(3);
+		$this->addPopulator($setter1);
+
 		$lilypad = new LilyPad();
-		$lilypad->setBaseAmount(4);
+		$lilypad->setBaseAmount(7);
 		$this->addPopulator($lilypad);
 
-		$this->setElevation(62, 63);
+		$trees5 = new Tree(Sapling::DARK_OAK);
+		$trees5->setBaseAmount(1);
+		$this->addPopulator($trees5);
+
+		$this->setElevation(47, 55);
 
 		$this->temperature = 0.8;
 		$this->rainfall = 0.9;

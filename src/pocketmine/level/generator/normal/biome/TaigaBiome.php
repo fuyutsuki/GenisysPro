@@ -65,7 +65,7 @@ class TaigaBiome extends GrassyBiome{
 		//$tallGrass = new TallGrass();
 		//$tallGrass->setBaseAmount(5);
 
-		$setter = new Setter(38, 1);
+		$setter = new Setter([[0, 0, 0, 38, 1]], [237 => true, 1 => true]);
 		$setter->setBaseAmount(5);
 
 		$this->addPopulator($setter);
@@ -73,6 +73,17 @@ class TaigaBiome extends GrassyBiome{
 		$trees = new Tree([Block::WOOD2, Block::PACKED_ICE, Sapling::SPRUCE]);
 		$trees->setBaseAmount(1);
 		$this->addPopulator($trees);
+
+		$setter2 = new Setter([
+			[ 0, 0, 0, Block::SEA_LANTERN, 0],
+			[ 0,-1, 1, Block::PACKED_ICE, 0],
+			[-1,-1, 0, Block::PACKED_ICE, 0], 
+			[ 0,-1, 0, Block::PACKED_ICE, 0], 
+			[ 1,-1, 0, Block::PACKED_ICE, 0],
+			[ 0,-1,-1, Block::PACKED_ICE, 0],
+		], [8 => true, 9 => true]);
+		$setter2->setBaseAmount(1);
+		$this->addPopulator($setter2);
 
 		$this->setElevation(15, 95);
 

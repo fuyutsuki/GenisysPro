@@ -25,6 +25,7 @@ use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\level\generator\populator\Setter;
+use pocketmine\block\Block;
 
 class ForestBiome extends GrassyBiome{
 
@@ -39,16 +40,16 @@ class ForestBiome extends GrassyBiome{
 		$this->type = $type;
 
 		$trees1 = new Tree(Sapling::OAK);
-		$trees1->setBaseAmount(8);
+		$trees1->setBaseAmount(5);
 		$this->addPopulator($trees1);
 		$trees2 = new Tree(Sapling::SPRUCE);
-		$trees2->setBaseAmount(4);
+		$trees2->setBaseAmount(2);
 		$this->addPopulator($trees2);
 		$trees3 = new Tree(Sapling::BIRCH);
-		$trees3->setBaseAmount(4);
+		$trees3->setBaseAmount(2);
 		$this->addPopulator($trees3);
 		$trees4 = new Tree(Sapling::JUNGLE);
-		$trees4->setBaseAmount(4);
+		$trees4->setBaseAmount(2);
 		$this->addPopulator($trees4);
 		$trees5 = new Tree(Sapling::DARK_OAK);
 		$trees5->setBaseAmount(1);
@@ -59,14 +60,149 @@ class ForestBiome extends GrassyBiome{
 
 		$this->addPopulator($tallGrass);
 
-		$setter1 = new Setter(39, 0);
+		$setter1 = new Setter([[0, 0, 0, 39, 0]], [2 => true, 3 => true]);
 		$setter1->setBaseAmount(3);
 		$this->addPopulator($setter1);
 
-		$setter2 = new Setter(40, 0);
+		$setter2 = new Setter([[0, 0, 0, 40, 0]], [2 => true, 3 => true]);
 		$setter2->setBaseAmount(3);
 		$this->addPopulator($setter2);
+
+		$setter3 = new Setter([
+			[ 0, 1, 0, 234, 0],
+			[ 0, 0, 1, Block::LEAVES, Sapling::JUNGLE],
+			[-1, 0, 0, Block::LEAVES, Sapling::JUNGLE], 
+			[ 0, 0, 0, Block::LOG, Sapling::JUNGLE], 
+			[ 1, 0, 0, Block::LEAVES, Sapling::JUNGLE],
+			[ 0, 0,-1, Block::LEAVES, Sapling::JUNGLE],
+		], [2 => true, 3 => true]);
+		$setter3->setBaseAmount(1);
+		$this->addPopulator($setter3);
 		
+		$setter4 = new Setter([
+			[ 0, 2, 0, 224, 0],
+			[ 0, 1, 1, Block::LEAVES, Sapling::JUNGLE],
+			[-1, 1, 0, Block::LEAVES, Sapling::JUNGLE], 
+			[ 0, 1, 0, Block::LOG, Sapling::JUNGLE], 
+			[ 1, 1, 0, Block::LEAVES, Sapling::JUNGLE],
+			[ 0, 1,-1, Block::LEAVES, Sapling::JUNGLE],
+			[ 0, 0, 0, Block::FENCE, Sapling::DARK_OAK],
+		], [2 => true, 3 => true]);
+		$setter4->setBaseAmount(1);
+		$this->addPopulator($setter4);
+
+		$setter5 = new Setter([
+			[-1, 9, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 9, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 9,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 9, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 9, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 9,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 9, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 9, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 9,-1, Block::RED_MUSHROOM_BLOCK, 14],
+
+			[-2, 8, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[-2, 8, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[-2, 8,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 2, 8, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 2, 8, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 2, 8,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 8,-2, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 8,-2, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 8,-2, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 8, 2, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 8, 2, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 8, 2, Block::RED_MUSHROOM_BLOCK, 14],
+
+			[ 2, 7, 2, Block::RED_MUSHROOM_BLOCK, 14],
+			[-2, 7, 2, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 2, 7,-2, Block::RED_MUSHROOM_BLOCK, 14],
+			[-2, 7,-2, Block::RED_MUSHROOM_BLOCK, 14],
+			[-3, 7, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[-3, 7, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[-3, 7,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 3, 7, 0, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 3, 7, 1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 3, 7,-1, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 7,-3, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 7,-3, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 7,-3, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 0, 7, 3, Block::RED_MUSHROOM_BLOCK, 14],
+			[ 1, 7, 3, Block::RED_MUSHROOM_BLOCK, 14],
+			[-1, 7, 3, Block::RED_MUSHROOM_BLOCK, 14],
+
+			[0, 8, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 7, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 6, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 5, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 4, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 3, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 2, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 1, 0, Block::RED_MUSHROOM_BLOCK, 10],
+			[0, 0, 0, Block::RED_MUSHROOM_BLOCK, 10],
+		], [2 => true, 3 => true]);
+		$setter5->setBaseAmount(1);
+
+		$this->addPopulator($setter5);
+
+		$setter6 = new Setter([
+			[-1, 11, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 11, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 11,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 11, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 11, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 11,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 11, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 11, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 11,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+
+			[-2, 11, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-2, 11, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-2, 11,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 2, 11, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 2, 11, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 2, 11,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 11,-2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 11,-2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 11,-2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 11, 2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 11, 2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 11, 2, Block::BROWN_MUSHROOM_BLOCK, 14],
+
+			[ 2, 10, 2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-2, 10, 2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 2, 10,-2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-2, 10,-2, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-3, 10, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-3, 10, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-3, 10,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 3, 10, 0, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 3, 10, 1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 3, 10,-1, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 10,-3, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 10,-3, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 10,-3, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 0, 10, 3, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[ 1, 10, 3, Block::BROWN_MUSHROOM_BLOCK, 14],
+			[-1, 10, 3, Block::BROWN_MUSHROOM_BLOCK, 14],
+
+			[0, 10, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 9, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 8, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 7, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 6, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 5, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 4, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 3, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 2, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 1, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+			[0, 0, 0, Block::BROWN_MUSHROOM_BLOCK, 10],
+		], [2 => true, 3 => true]);
+		$setter6->setBaseAmount(1);
+
+		$this->addPopulator($setter6);
+
 		$this->setElevation(24, 110);
 
 		if($type === self::TYPE_BIRCH){
