@@ -21,13 +21,42 @@
 
 namespace pocketmine\level\generator\normal\biome;
 
-
+use pocketmine\block\Block;
+use pocketmine\level\generator\populator\Setter;
 
 class DesertBiome extends SandyBiome{
 
 	public function __construct(){
 		parent::__construct();
 		$this->setElevation(45, 100);
+
+		$setter1 = new Setter([
+			[ 0,  0, 0, Block::DEAD_BUSH, 0],
+			[ 0, -1, 0, Block::SAND, 0],
+			[ 0, -2, 0, Block::SANDSTONE, 0],
+			[ 0, -3, 0, Block::ORANGE_GLAZED_TERRACOTTA, 0],
+			[-1, -3, 0, Block::SANDSTONE, 0],
+			[ 1, -3, 0, Block::SANDSTONE, 0],
+			[ 0, -3,-1, Block::SANDSTONE, 0],
+			[ 0, -3, 1, Block::SANDSTONE, 0],
+			[ 0, -4, 0, Block::SANDSTONE, 0],
+		], [Block::SAND => true]);
+		$setter1->setBaseAmount(1);
+		$this->addPopulator($setter1);
+
+		$setter2 = new Setter([
+			[ 0,  0, 0, Block::DEAD_BUSH, 0],
+			[ 0, -1, 0, Block::SAND, 0],
+			[ 0, -2, 0, Block::SANDSTONE, 0],
+			[ 0, -3, 0, Block::BROWN_GLAZED_TERRACOTTA, 0],
+			[-1, -3, 0, Block::SANDSTONE, 0],
+			[ 1, -3, 0, Block::SANDSTONE, 0],
+			[ 0, -3,-1, Block::SANDSTONE, 0],
+			[ 0, -3, 1, Block::SANDSTONE, 0],
+			[ 0, -4, 0, Block::SANDSTONE, 0],
+		], [Block::SAND => true]);
+		$setter2->setBaseAmount(1);
+		$this->addPopulator($setter2);
 
 		$this->temperature = 2;
 		$this->rainfall = 0;

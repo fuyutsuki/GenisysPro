@@ -93,6 +93,19 @@ class SmallMountainsBiome extends GrassyBiome{
 
 		$this->addPopulator($setter);
 
+		$setter1 = new Setter([
+			[ 0, -1, 0, Block::WOOL, 8],
+			[ 0, -2, 0, Block::WOOL, 8],
+			[ 0, -3, 0, Block::BLACK_GLAZED_TERRACOTTA, 0],
+			[-1, -3, 0, Block::WOOL, 8],
+			[ 1, -3, 0, Block::WOOL, 8],
+			[ 0, -3,-1, Block::WOOL, 8],
+			[ 0, -3, 1, Block::WOOL, 8],
+			[ 0, -4, 0, Block::WOOL, 8],
+		], [237 => true]);
+		$setter1->setBaseAmount(1);
+		$this->addPopulator($setter1);
+
 		$this->setElevation(35, 90);
 	}
 

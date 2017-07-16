@@ -21,6 +21,10 @@
 
 namespace pocketmine\level\generator\normal\biome;
 
+use pocketmine\block\Block;
+use pocketmine\block\Sapling;
+use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\TallGrass;
 
 class IcePlainsBiome extends SnowyBiome{
@@ -33,7 +37,38 @@ class IcePlainsBiome extends SnowyBiome{
 
 		$this->addPopulator($tallGrass);
 
-		$this->setElevation(63, 74);
+		$this->setElevation(58, 62);
+
+		$trees2 = new Tree(Sapling::SPRUCE);
+		$trees2->setBaseAmount(2);
+		$this->addPopulator($trees2);
+
+		$setter = new Setter([
+			[ 0, 0, 0, Block::SNOW_LAYER, 0],
+			[ 0, -1, 0, Block::PACKED_ICE, 0],
+			[ 0, -2, 0, Block::CYAN_GLAZED_TERRACOTTA, 0],
+			[-1, -2, 0, Block::PACKED_ICE, 0],
+			[ 1, -2, 0, Block::PACKED_ICE, 0],
+			[ 0, -2,-1, Block::PACKED_ICE, 0],
+			[ 0, -2, 1, Block::PACKED_ICE, 0],
+			[ 0, -3, 0, Block::PACKED_ICE, 0],
+		], [2 => true, 3 => true]);
+		$setter->setBaseAmount(1);
+		$this->addPopulator($setter);
+
+		$setter1 = new Setter([
+			[ 0, 0, 0, Block::SNOW_LAYER, 0],
+			[ 0, -1, 0, Block::PACKED_ICE, 0],
+			[ 0, -2, 0, Block::LIGHT_BLUE_GLAZED_TERRACOTTA, 0],
+			[-1, -2, 0, Block::PACKED_ICE, 0],
+			[ 1, -2, 0, Block::PACKED_ICE, 0],
+			[ 0, -2,-1, Block::PACKED_ICE, 0],
+			[ 0, -2, 1, Block::PACKED_ICE, 0],
+			[ 0, -3, 0, Block::PACKED_ICE, 0],
+		], [2 => true, 3 => true]);
+		$setter1->setBaseAmount(1);
+
+		$this->addPopulator($setter1);
 
 		$this->temperature = 0.05;
 		$this->rainfall = 0.8;

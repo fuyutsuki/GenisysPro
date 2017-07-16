@@ -34,7 +34,7 @@ class SandyBiome extends GrassyBiome{
 		$cactus = new Cactus();
 		$cactus->setBaseAmount(6);
 		$deadBush = new DeadBush();
-		$deadBush->setBaseAmount(2);
+		$deadBush->setBaseAmount(1);
 
 		$this->addPopulator($cactus);
 		$this->addPopulator($deadBush);

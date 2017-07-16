@@ -29,6 +29,7 @@ use pocketmine\level\generator\populator\LilyPad;
 use pocketmine\level\generator\populator\Sugarcane;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\WaterPit;
+use pocketmine\level\generator\populator\Setter;
 
 use pocketmine\level\generator\populator\Tree;
 
@@ -58,6 +59,28 @@ class PlainBiome extends GrassyBiome{
 		$flower->addType([Block::RED_FLOWER, FlowerBlock::TYPE_OXEYE_DAISY]);
 		$trees1 = new Tree(Sapling::OAK);
 		$trees1->setBaseAmount(2);
+
+		$setter1 = new Setter([
+			[ 0, -1, 0, Block::WOOL, 13],
+			[ 0, -2, 0, Block::WOOL, 13],
+			[ 0, -3, 0, Block::GREEN_GLAZED_TERRACOTTA, 0],
+			[-1, -1, 0, Block::GRASS, 0],
+			[ 1, -1, 0, Block::GRASS, 0],
+			[ 0, -1,-1, Block::GRASS, 0],
+			[ 0, -1, 1, Block::GRASS, 0],
+			[-1, -2, 0, Block::DIRT, 0],
+			[ 1, -2, 0, Block::DIRT, 0],
+			[ 0, -2,-1, Block::DIRT, 0],
+			[ 0, -2, 1, Block::DIRT, 0],
+			[-1, -3, 0, Block::DIRT, 0],
+			[ 1, -3, 0, Block::DIRT, 0],
+			[ 0, -3,-1, Block::DIRT, 0],
+			[ 0, -3, 1, Block::DIRT, 0],
+			[ 0, -4, 0, Block::DIRT, 0],
+		], [2 => true]);
+		$setter1->setBaseAmount(1);
+		$this->addPopulator($setter1);
+
 
 		$this->addPopulator($trees1);
 		$this->addPopulator($sugarcane);
