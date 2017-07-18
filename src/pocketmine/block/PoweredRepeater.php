@@ -199,12 +199,14 @@ class PoweredRepeater extends RedstoneSource {
 	 * @return bool|void
 	 */
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($player instanceof Player){
-			$this->meta = ((int) $player->getDirection() + 5) % 4;
-		}
-		$this->getLevel()->setBlock($block, $this, true, false);
-		if($this->checkPower($this)){
-			$this->activate();
+		if ($this->canBeStack([BlockIDs::UNPOWERED_REPEATER_BLOCK, BlockIDs::POWERED_REPEATER_BLOCK])) {
+			if($player instanceof Player){
+				$this->meta = ((int) $player->getDirection() + 5) % 4;
+			}
+			$this->getLevel()->setBlock($block, $this, true, false);
+			if($this->checkPower($this)){
+				$this->activate();
+			}
 		}
 	}
 
