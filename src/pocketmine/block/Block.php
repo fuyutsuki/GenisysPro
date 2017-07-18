@@ -58,8 +58,8 @@ class Block extends Position implements BlockIds, Metadatable{
 	public static $hardness = null;
 	/** @var \SplFixedArray */
 	public static $transparent = null;
-	/** @var \SplFixedArray */
-	public static $diffusesSkyLight = null;
+    /** @var \SplFixedArray */
+    public static $diffusesSkyLight = null;
 
 	protected $id;
 	protected $meta = 0;
@@ -76,7 +76,7 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$solid = new \SplFixedArray(256);
 			self::$hardness = new \SplFixedArray(256);
 			self::$transparent = new \SplFixedArray(256);
-			self::$diffusesSkyLight = new \SplFixedArray(256);
+            self::$diffusesSkyLight = new \SplFixedArray(256);
 			self::$list[self::AIR] = Air::class;
 			self::$list[self::STONE] = Stone::class;
 			self::$list[self::GRASS] = Grass::class;
@@ -327,19 +327,32 @@ class Block extends Position implements BlockIds, Metadatable{
 						self::$fullList[($id << 4) | $data] = new $class($data);
 					}
 
+					self::$solid[$id] = $block->isSolid();
+					self::$transparent[$id] = $block->isTransparent();
+					self::$hardness[$id] = $block->getHardness();
+					self::$light[$id] = $block->getLightLevel();
+
+					if($block->isSolid()){
+						if($block->isTransparent()){
+							if($block instanceof Liquid or $block instanceof Ice){
+								self::$lightFilter[$id] = 2;
+							}else{
+								self::$lightFilter[$id] = 1;
+							}
+						}elseif($block instanceof SolidLight){
+							self::$lightFilter[$id] = 1;
+						}else{
+							self::$lightFilter[$id] = 15;
+						}
+					}else{
+						self::$lightFilter[$id] = 1;
+					}
 				}else{
-					$block = new UnknownBlock($id);
+					self::$lightFilter[$id] = 1;
 					for($data = 0; $data < 16; ++$data){
 						self::$fullList[($id << 4) | $data] = new Block($id, $data);
 					}
 				}
-				self::$solid[$id] = $block->isSolid();
-				self::$transparent[$id] = $block->isTransparent();
-				self::$hardness[$id] = $block->getHardness();
-				self::$light[$id] = $block->getLightLevel();
-				self::$lightFilter[$id] = $block->getLightFilter() + 1;
-				self::$diffusesSkyLight[$id] = $block->diffusesSkyLight();
-
 			}
 		}
 	}
@@ -526,23 +539,6 @@ class Block extends Position implements BlockIds, Metadatable{
 		return 0;
 	}
 
-	public function getLightFilter() : int{
- 		return 15;
- 	}
- 
- 	/**
- 	 * Returns whether this block will diffuse sky light passing through it vertically.
- 	 * Diffusion means that full-strength sky light passing through this block will not be reduced, but will start being filtered below the block.
- 	 * Examples of this behaviour include leaves and cobwebs.
- 	 *
- 	 * Light-diffusing blocks are included by the heightmap.
- 	 *
- 	 * @return bool
- 	 */
- 	public function diffusesSkyLight() : bool{
- 		return false;
- 	}
- 
 	/**
 	 * AKA: Block->isPlaceable
 	 *
