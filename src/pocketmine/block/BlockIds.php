@@ -338,4 +338,6 @@ interface BlockIds {
 	const OBSERVER = 251;
 
 	const INFO_RESERVED6 = 255;
+
+	const NETHER_WART_Blick_BLOCK = 214;
 }
