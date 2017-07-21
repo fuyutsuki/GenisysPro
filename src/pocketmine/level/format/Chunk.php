@@ -434,6 +434,7 @@ class Chunk{
 				}
 				$air = false;
 				$light = 15;
+				--$y;
 				for(; $y > 0; --$y){
 					$filter = Block::$lightFilter[$this->getBlockId($x, $y, $z)];
 					if(!$air && $filter === 1){
