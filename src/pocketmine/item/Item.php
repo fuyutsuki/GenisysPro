@@ -222,6 +222,7 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::RAW_CHICKEN] = RawChicken::class;
 			self::$list[self::COOKED_CHICKEN] = CookedChicken::class;
 			self::$list[self::GOLD_NUGGET] = GoldNugget::class;
+			self::$list[self::IRON_NUGGET] = IronNugget::class;
 			self::$list[self::EMERALD] = Emerald::class;
 			self::$list[self::ITEM_FRAME] = ItemFrame::class;
 			self::$list[self::FLOWER_POT] = FlowerPot::class;
