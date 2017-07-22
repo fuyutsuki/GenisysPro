@@ -318,9 +318,11 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::DRAGON_EGG] = DragonEgg::class;
 			self::$list[self::COMMAND_BLOCK] = CommandBlock::class;
 
-			self::$list[self::NETHER_WART_Blick_BLOCK] = NetherWartBlock::class;
-
-
+			self::$list[self::NETHER_WART_BLOCK_] = NetherWartBlock::class;
+			self::$list[self::RED_NETHER_BRICK] = RedNetherBrick::class;
+			self::$list[self::MAGMA_BLOCK] = MagmaBlock::class;
+			self::$list[self::BONE_BLOCK] = BoneBlock::class;
+			
 			foreach(self::$list as $id => $class){
 				if($class !== null){
 					/** @var Block $block */

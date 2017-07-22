@@ -24,9 +24,9 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class NetherWartBlock extends Solid {
+class MagmaBlock extends Solid {
 
-	protected $id = self::NETHER_WART_BLOCK_;
+	protected $id = self::MAGMA_BLOCK;
 
 	/**
 	 * NetherBrick constructor.
@@ -34,20 +34,23 @@ class NetherWartBlock extends Solid {
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
-
+	
+	public function getToolType(){
+		return Tool::TYPE_PICKAXE;
+	}
 
 	/**
 	 * @return string
 	 */
 	public function getName() : string{
-		return "Nether Wart Block";
+		return "Magma Block";
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getHardness(){
-		return 1;
+		return 0.5;
 	}
 
 	/**
@@ -56,8 +59,12 @@ class NetherWartBlock extends Solid {
 	 * @return array
 	 */
 	public function getDrops(Item $item) : array{
-		return [
-			[Item::NETHER_WART_BLOCK_, 0, 1]
-		];
+		if($item->isPickaxe() >= 1){
+			return [
+				[Item::MAGMA_BLOCK, 0, 1],
+			];
+		}else{
+			return [];
+		}
 	}
 }
