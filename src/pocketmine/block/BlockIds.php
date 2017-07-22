@@ -339,5 +339,8 @@ interface BlockIds {
 
 	const INFO_RESERVED6 = 255;
 
-	const NETHER_WART_Blick_BLOCK = 214;
+	const NETHER_WART_BLOCK_ = 214;
+	const RED_NETHER_BRICK= 215;
+	const MAGMA_BLOCK = 213;
+	const BONE_BLOCK = 216;
 }

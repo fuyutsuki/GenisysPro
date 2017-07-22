@@ -23,10 +23,11 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
+use pocketmine\Player;
 
-class NetherWartBlock extends Solid {
+class BoneBlock extends Solid {
 
-	protected $id = self::NETHER_WART_BLOCK_;
+	protected $id = self::BONE_BLOCK;
 
 	/**
 	 * NetherBrick constructor.
@@ -34,21 +35,40 @@ class NetherWartBlock extends Solid {
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
-
+	
+	public function getToolType(){
+		return Tool::TYPE_PICKAXE;
+	}
 
 	/**
 	 * @return string
 	 */
 	public function getName() : string{
-		return "Nether Wart Block";
+		return "Bone Block";
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getHardness(){
-		return 1;
+		return 2;
 	}
+
+
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+			$faces = [
+				0 => 0,
+				1 => 0,
+				2 => 0b1000,
+				3 => 0b1000,
+				4 => 0b0100,
+				5 => 0b0100,
+			];
+			$this->meta = ($this->meta & 0x03) | $faces[$face];
+		$this->getLevel()->setBlock($block, $this, true, true);
+		return true;
+	}
+
 
 	/**
 	 * @param Item $item
@@ -56,8 +76,12 @@ class NetherWartBlock extends Solid {
 	 * @return array
 	 */
 	public function getDrops(Item $item) : array{
-		return [
-			[Item::NETHER_WART_BLOCK_, 0, 1]
-		];
+		if($item->isPickaxe() >= 1){
+			return [
+				[Item::BONE_BLOCK, 0, 1],
+			];
+		}else{
+			return [];
+		}
 	}
 }
