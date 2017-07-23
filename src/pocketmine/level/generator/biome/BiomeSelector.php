@@ -55,7 +55,9 @@ class BiomeSelector{
 				return Biome::SWAMP;
 			}
 		}elseif($rainfall < 0.60){
-			if($temperature < 0.25){
+			if($temperature < 0.3){
+				return Biome::END;
+			}elseif($temperature < 0.45){
 				return Biome::ICE_PLAINS;
 			}elseif($temperature < 0.75){
 				return Biome::PLAINS;
@@ -65,9 +67,7 @@ class BiomeSelector{
 		}elseif($rainfall < 0.80){
 			if($temperature < 0.25){
 				return Biome::TAIGA;
-			}elseif($temperature < 0.95){
-				return Biome::END;
-			}elseif($temperature < 0.75){
+			}elseif($temperature < 0.85){
 				return Biome::FOREST;
 			}else{
 				return Biome::BIRCH_FOREST;

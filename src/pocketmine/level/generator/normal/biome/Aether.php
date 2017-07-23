@@ -30,7 +30,7 @@ class Aether extends GrassyBiome{
 
 	public function __construct(){
 		parent::__construct();
-		$this->setElevation(60, 256);
+		$this->setElevation(60, 128);
 
 		$array = [
 			Block::get(Block::CONCRETE_POWDER, 0),
@@ -45,9 +45,27 @@ class Aether extends GrassyBiome{
 		}
 		$this->setGroundCover($array);
 
-		$trees = new Tree([Block::QUARTZ_BLOCK, Block::CONCRETE, Sapling::OAK]);
+		$trees = new Tree([Block::QUARTZ_BLOCK, Block::BONE_BLOCK, Sapling::OAK]);
 		$trees->setBaseAmount(1);
 		$this->addPopulator($trees);
+
+		$setter1 = new Setter([
+			[0, -14, 0, 89, 0],
+			[0, -15, 0, 89, 0],[-1, -15, 0, 89, 0],[1, -15, 0, 89, 0],[0, -15, -1, 89, 0],[0, -15, 1, 89, 0],
+			[0, -16, 0, 89, 0],[-1, -16, 0, 89, 0],[1, -16, 0, 89, 0],[0, -16, -1, 89, 0],[0, -16, 1, 89, 0],
+			[0, -17, 0, 89, 0],
+		], [237 => true]);
+		$setter1->setBaseAmount(1);
+		$this->addPopulator($setter1);
+
+		$setter2 = new Setter([
+			[0, -21, 0, 89, 0],
+			[0, -22, 0, 89, 0],[-1, -22, 0, 89, 0],[1, -22, 0, 89, 0],[0, -22, -1, 89, 0],[0, -22, 1, 89, 0],
+			[0, -23, 0, 89, 0],[-1, -23, 0, 89, 0],[1, -23, 0, 89, 0],[0, -23, -1, 89, 0],[0, -23, 1, 89, 0],
+			[0, -24, 0, 89, 0],
+		], [237 => true]);
+		$setter2->setBaseAmount(1);
+		$this->addPopulator($setter2);
 
 		$this->temperature = 2;
 		$this->rainfall = 0;
