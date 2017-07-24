@@ -51,15 +51,13 @@ class Sponge extends Solid {
 	 * @param null $block
 	 */
 	public function absorbWater($block = null){
-		if(Server::getInstance()->absorbWater){
-			$range = $this->absorbRange / 2;
-			for($xx = -$range; $xx <= $range; $xx++){
-				for($yy = -$range; $yy <= $range; $yy++){
-					for($zz = -$range; $zz <= $range; $zz++){
-						$block = $this->getLevel()->getBlock(new Vector3($this->x + $xx, $this->y + $yy, $this->z + $zz));
-						if($block->getId() === Block::WATER) $this->getLevel()->setBlock($block, Block::get(Block::AIR), true, true);
-						if($block->getId() === Block::STILL_WATER) $this->getLevel()->setBlock($block, Block::get(Block::AIR), true, true);
-					}
+		$range = $this->absorbRange / 2;
+		for($xx = -$range; $xx <= $range; $xx++){
+			for($yy = -$range; $yy <= $range; $yy++){
+				for($zz = -$range; $zz <= $range; $zz++){
+					$block = $this->getLevel()->getBlock(new Vector3($this->x + $xx, $this->y + $yy, $this->z + $zz));
+					if($block->getId() === Block::WATER) $this->getLevel()->setBlock($block, Block::get(Block::AIR), true, true);
+					if($block->getId() === Block::STILL_WATER) $this->getLevel()->setBlock($block, Block::get(Block::AIR), true, true);
 				}
 			}
 		}

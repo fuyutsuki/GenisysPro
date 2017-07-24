@@ -76,8 +76,6 @@ server:
  advanced-command-selector: false
  #Définir si il faut activer ResourcePackManager
  enable-resource: false
- #This parameter turns on or off the absorption of water by a sponge //TODO: Translation for other languages
- absorb-water: false
 
 enchantment:
  #Choisissez si les anvil sont activées
