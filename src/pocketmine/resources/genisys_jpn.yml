@@ -14,7 +14,7 @@
 
 #ファイルのバージョン
 config:
- version: 27
+ version: 28
 
 level:
  #有効にすると天気を設定します（雨が降ると古い端末の動作が遅くなる場合があります）
@@ -55,6 +55,10 @@ nether:
  #ネザーの名前
  level-name: "nether"
 
+ender:
+ allow-ender: true
+ level-name: "ender"
+
 server:
  #有効にするとアイアンゴーレムのスポーンを許可します
  allow-iron-golem: false
@@ -77,7 +81,9 @@ server:
  advanced-command-selector: false
  #有効にするとResourcePackManagerを設定します
  enable-resource: false
- 
+ #この設定はスポンジブロックによる水の吸収の機能をオン または オフ の設定ができます。
+ absorb-water: false
+
 enchantment:
  #有効にすると金床を許可します
  enable-anvil: true

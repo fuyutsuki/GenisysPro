@@ -13,7 +13,7 @@
 
 #Version de ce fichier
 config:
- version: 27
+ version: 28
 
 level:
  #Réglez si la météo est activée (la pluie peut provoquer un retard sur les périphériques plus anciens)
@@ -54,6 +54,10 @@ nether:
  #Recommandé qu'il reste "nether"
  level-name: "nether"
 
+ender:
+ allow-ender: true
+ level-name: "ender"
+
 server:
  #Choisissez si le golem de génie est autorisé
  allow-iron-golem: false
@@ -76,6 +80,8 @@ server:
  advanced-command-selector: false
  #Définir si il faut activer ResourcePackManager
  enable-resource: false
+ #This parameter turns on or off the absorption of water by a sponge //TODO: Translation for other languages
+ absorb-water: false
 
 enchantment:
  #Choisissez si les anvil sont activées

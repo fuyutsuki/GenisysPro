@@ -36,7 +36,6 @@ use pocketmine\entity\Entity;
 use pocketmine\event\HandlerList;
 use pocketmine\event\level\LevelInitEvent;
 use pocketmine\event\level\LevelLoadEvent;
-use pocketmine\event\player\PlayerAddOpEvent;
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\Timings;
@@ -55,6 +54,7 @@ use pocketmine\level\format\io\region\Anvil;
 use pocketmine\level\format\io\region\McRegion;
 use pocketmine\level\format\io\region\PMAnvil;
 use pocketmine\level\generator\biome\Biome;
+use pocketmine\level\generator\ender\Ender;
 use pocketmine\level\generator\Flat;
 use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\hell\Nether;
@@ -173,7 +173,7 @@ class Server{
 
 	private $dispatchSignals = false;
 
-	/** @var \AttachableThreadedLogger */
+	/** @var MainLogger */
 	private $logger;
 
 	/** @var MemoryManager */
@@ -189,7 +189,7 @@ class Server{
 	/** @var CraftingManager */
 	private $craftingManager;
 
- private $resourceManager;
+	private $resourceManager;
 
 	/** @var ConsoleCommandSender */
 	private $consoleSender;
@@ -205,6 +205,8 @@ class Server{
 
 	/** @var EntityMetadataStore */
 	private $entityMetadata;
+
+	private $expCache;
 
 	/** @var PlayerMetadataStore */
 	private $playerMetadata;
@@ -268,7 +270,7 @@ class Server{
 	/** @var Level */
 	private $levelDefault = null;
 
-	private $aboutContent = "";
+	//private $aboutContent = "";
 
 	/** Advanced Config */
 	public $advancedConfig = null;
@@ -309,6 +311,10 @@ class Server{
 	public $countBookshelf = false;
 	public $allowInventoryCheats = false;
 	public $folderpluginloader = true;
+	public $loadIncompatibleAPI = true;
+	public $enderEnabled = true;
+	public $enderName = "ender";
+	public $enderLevel = null;
 
 	/**
 	 * @return string
@@ -1352,8 +1358,8 @@ class Server{
 	/**
 	 * @param string $name
 	 *
-	 * @return PluginIdentifiableCommand
-	 */
+	 * @return command\Command
+     */
 	public function getPluginCommand($name){
 		if(($command = $this->commandMap->getCommand($name)) instanceof PluginIdentifiableCommand){
 			return $command;
@@ -1536,6 +1542,8 @@ class Server{
 		$this->loadIncompatibleAPI = $this->getAdvancedProperty("developer.load-incompatible-api", true);
 		$this->netherEnabled = $this->getAdvancedProperty("nether.allow-nether", false);
 		$this->netherName = $this->getAdvancedProperty("nether.level-name", "nether");
+		$this->enderEnabled = $this->getAdvancedProperty("ender.allow-ender", false);
+		$this->enderName = $this->getAdvancedProperty("ender.level-name", "ender");
 		$this->weatherRandomDurationMin = $this->getAdvancedProperty("level.weather-random-duration-min", 6000);
 		$this->weatherRandomDurationMax = $this->getAdvancedProperty("level.weather-random-duration-max", 12000);
 		$this->lightningTime = $this->getAdvancedProperty("level.lightning-time", 200);
@@ -1644,7 +1652,7 @@ class Server{
 			$this->dataPath = realpath($dataPath) . DIRECTORY_SEPARATOR;
 			$this->pluginPath = realpath($pluginPath) . DIRECTORY_SEPARATOR;
 
-			$this->console = new CommandReader($logger);
+			$this->console = new CommandReader();
 
 			$version = new VersionString($this->getPocketMineVersion());
 			$this->version = $version;
@@ -1655,6 +1663,7 @@ class Server{
 			if(!file_exists($this->dataPath . "pocketmine.yml")){
 				if(file_exists($this->dataPath . "lang.txt")){
 					$langFile = new Config($configPath = $this->dataPath . "lang.txt", Config::ENUM, []);
+                    $wizardLang = null;
 					foreach ($langFile->getAll(true) as $langName) {
 						$wizardLang = $langName;
 						break;
@@ -1887,6 +1896,7 @@ class Server{
 			Generator::addGenerator(Nether::class, "nether");
 			Generator::addGenerator(Void::class, "void");
 			Generator::addGenerator(Normal2::class, "normal2");
+			Generator::addGenerator(Ender::class, "ender");
 
 			foreach((array) $this->getProperty("worlds", []) as $name => $worldSetting){
 				if($this->loadLevel($name) === false){
@@ -1935,13 +1945,19 @@ class Server{
 				return;
 			}
 
-		if($this->netherEnabled){
-			if(!$this->loadLevel($this->netherName)){
-				$this->logger->info("正在生成地狱 ".$this->netherName);
-				$this->generateLevel($this->netherName, time(), Generator::getGenerator("nether"));
+			if($this->netherEnabled){
+				if(!$this->loadLevel($this->netherName)){
+					$this->generateLevel($this->netherName, time(), Generator::getGenerator("nether"));
+				}
+				$this->netherLevel = $this->getLevelByName($this->netherName);
 			}
-			$this->netherLevel = $this->getLevelByName($this->netherName);
-		}
+
+			if($this->enderEnabled){
+				if(!$this->loadLevel($this->enderName)){
+					$this->generateLevel($this->enderName, time(), Generator::getGenerator("ender"));
+				}
+				$this->enderLevel = $this->getLevelByName($this->enderName);
+			}
 
 			if($this->getProperty("ticks-per.autosave", 6000) > 0){
 				$this->autoSaveTicks = (int) $this->getProperty("ticks-per.autosave", 6000);
