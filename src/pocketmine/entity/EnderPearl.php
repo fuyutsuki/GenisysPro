@@ -23,11 +23,12 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\level\Level;
+use pocketmine\level\sound\EndermanTeleportSound;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
-class EnderPearl extends Projectile{
+class EnderPearl extends Projectile {
 
 	const NETWORK_ID = 87;
 
@@ -40,6 +41,13 @@ class EnderPearl extends Projectile{
 
 	private $hasTeleportedShooter = false;
 
+	/**
+	 * EnderPearl constructor.
+	 *
+	 * @param Level       $level
+	 * @param CompoundTag $nbt
+	 * @param Entity|null $shootingEntity
+	 */
 	public function __construct(Level $level, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($level, $nbt, $shootingEntity);
 	}
@@ -48,7 +56,7 @@ class EnderPearl extends Projectile{
 		if(!$this->hasTeleportedShooter){
 			$this->hasTeleportedShooter = true;
 			if($this->shootingEntity instanceof Player and $this->y > 0){
-				$this->shootingEntity->attack(5, new EntityDamageEvent($this->shootingEntity, EntityDamageEvent::CAUSE_FALL, 5));
+				$this->getLevel()->addSound(new EndermanTeleportSound($this->getPosition()), array($this->shootingEntity));
 				$this->shootingEntity->teleport($this->getPosition());
 			}
 
@@ -56,6 +64,11 @@ class EnderPearl extends Projectile{
 		}
 	}
 
+	/**
+	 * @param $currentTick
+	 *
+	 * @return bool
+	 */
 	public function onUpdate($currentTick){
 		if($this->closed){
 			return false;
@@ -75,6 +88,9 @@ class EnderPearl extends Projectile{
 		return $hasUpdate;
 	}
 
+	/**
+	 * @param Player $player
+	 */
 	public function spawnTo(Player $player){
 		$pk = new AddEntityPacket();
 		$pk->type = EnderPearl::NETWORK_ID;

@@ -25,7 +25,7 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\MainLogger;
 
 
-class Position extends Vector3{
+class Position extends Vector3 {
 
 	/** @var Level */
 	public $level = null;
@@ -43,10 +43,32 @@ class Position extends Vector3{
 		$this->level = $level;
 	}
 
+	/**
+	 * @param Vector3    $pos
+	 * @param Level|null $level
+	 *
+	 * @return Position
+	 */
 	public static function fromObject(Vector3 $pos, Level $level = null){
 		return new Position($pos->x, $pos->y, $pos->z, $level);
 	}
 
+	/**
+	 * Return a Position instance
+	 * 
+	 * @return Position
+	 */
+	public function asPosition() : Position{
+		return new Position($this->x, $this->y, $this->z, $this->level);
+	}
+
+	/**
+	 * @param int|Vector3 $x
+	 * @param int         $y
+	 * @param int         $z
+	 *
+	 * @return Position
+	 */
 	public function add($x, $y = 0, $z = 0){
 		if($x instanceof Vector3){
 			return new Position($this->x + $x->x, $this->y + $x->y, $this->z + $x->z, $this->level);
@@ -112,6 +134,9 @@ class Position extends Vector3{
 		return Position::fromObject(parent::getSide($side, $step), $this->level);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString(){
 		return "Position(level=" . ($this->isValid() ? $this->getLevel()->getName() : "null") . ",x=" . $this->x . ",y=" . $this->y . ",z=" . $this->z . ")";
 	}
@@ -130,6 +155,14 @@ class Position extends Vector3{
 		return $this;
 	}
 
+	/**
+	 * @param Vector3 $pos
+	 * @param         $x
+	 * @param         $y
+	 * @param         $z
+	 *
+	 * @return $this
+	 */
 	public function fromObjectAdd(Vector3 $pos, $x, $y, $z){
 		if($pos instanceof Position){
 			$this->level = $pos->level;
