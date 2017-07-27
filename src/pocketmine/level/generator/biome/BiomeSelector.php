@@ -47,12 +47,12 @@ class BiomeSelector{
 	
 	public function lookup($temperature, $rainfall){
 		if($rainfall < 0.25){
-			if($temperature < 0.7){
+			if($temperature < 0.65){
 				return Biome::OCEAN;
-			}elseif($temperature < 0.85){
-				return Biome::RIVER;
-			}else{
+			}elseif($temperature < 0.75){
 				return Biome::SWAMP;
+			}else{
+				return Biome::RIVER;
 			}
 		}elseif($rainfall < 0.60){
 			if($temperature < 0.3){
