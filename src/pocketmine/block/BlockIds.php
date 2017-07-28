@@ -303,7 +303,11 @@ interface BlockIds {
 	const END_STONE_BRICKS = 206;
 	const FROSTED_ICE = 207;
 	const END_ROD = 208;
-
+	
+	const MAGMA_BLOCK = 213;
+	const NETHER_WART_BLOCK_ = 214;
+	const RED_NETHER_BRICK= 215;
+	const BONE_BLOCK = 216;
 	const SHULKER_BOX = 218;
 	const PURPLE_GLAZED_TERRACOTTA = 219;
 	const WHITE_GLAZED_TERRACOTTA = 220;
@@ -339,8 +343,5 @@ interface BlockIds {
 
 	const INFO_RESERVED6 = 255;
 
-	const NETHER_WART_BLOCK_ = 214;
-	const RED_NETHER_BRICK= 215;
-	const MAGMA_BLOCK = 213;
-	const BONE_BLOCK = 216;
+
 }
