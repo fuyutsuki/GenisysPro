@@ -687,7 +687,13 @@ class Block extends Position implements BlockIds, Metadatable{
 	 */
 	public function getBreakTime(Item $item, Player $player){
 		$base = $this->getHardness() * 1.5;
+		$pos = $player->getPosition();
+		$pos->y += 1;
+		$bid = $player->getLevel()->getBlock($pos)->getId();
 		if(!$player->onGround){
+			$base *= 5;
+		}
+		if($bid === 8 || $bid === 9){
 			$base *= 5;
 		}
 		if($this->canBeBrokenWith($item)){
