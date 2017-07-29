@@ -83,4 +83,13 @@ class LightBlueGlazedTerracotta extends Solid {
 		$this->getLevel()->setBlock($block, $this, true, true);
 		return true;
 	}
+	public function getDrops(Item $item) : array{
+		if($item->isPickaxe() >= Tool::TIER_WOODEN){
+			return [
+				[Item::LIGHT_BLUE_GLAZED_TERRACOTTA,0, 1]
+			];
+		}else{
+			return [];
+		}
+	}
 }

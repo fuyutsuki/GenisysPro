@@ -84,4 +84,13 @@ class BlackGlazedTerracotta extends Solid {
 
 		return true;
 	}
+	public function getDrops(Item $item) : array{
+		if($item->isPickaxe() >= Tool::TIER_WOODEN){
+			return [
+				[Item::BLACK_GLAZED_TERRACOTTA,0, 1]
+			];
+		}else{
+			return [];
+		}
+	}
 }
