@@ -23,6 +23,7 @@ namespace pocketmine\block;
 
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\Item;
+use pocketmine\item\Tool;
 
 
 class BrownMushroomBlock extends Solid {
@@ -39,11 +40,11 @@ class BrownMushroomBlock extends Solid {
 	public function __construct($meta = 14){
 		$this->meta = $meta;
 	}
-/*
+
 	public function getToolType(){
 		return Tool::TYPE_AXE;
 	}
-*/
+
 	/**
 	 * @return bool
 	 */
