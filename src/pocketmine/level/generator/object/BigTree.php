@@ -44,8 +44,21 @@ class BigTree extends Tree{
 	private $widthScale = 1;
 	private $branchSlope = 0.381;
 
+	public $type = 0;
+	public $trunkBlock = Block::LOG;
+	public $leafBlock = Block::LEAVES;
+	public $leafType = 0;
+
 	private $totalHeight;
 	private $baseHeight = 5;
+
+	public function __construct($log, $leaves, $leafType, $type, $baseHeight = 8){
+		$this->trunkBlock = $log;
+		$this->leafBlock = $leaves;
+		$this->leafType = $leafType;
+		$this->type = $type;
+		$this->baseHeight = $baseHeight;
+	}
 
 	public function canPlaceObject(ChunkManager $level, $x, $y, $z, Random $random){
 		if(!parent::canPlaceObject($level, $x, $y, $z, $random) or $level->getBlockIdAt($x, $y, $z) == Block::WATER or $level->getBlockIdAt($x, $y, $z) == Block::STILL_WATER){
@@ -81,7 +94,8 @@ class BigTree extends Tree{
 		while($trunk->valid()){
 			$trunk->next();
 			$pos = $trunk->current();
-			$level->setBlockIdAt($pos->x, $pos->y, $pos->z, Block::LOG);
+			$level->setBlockIdAt($pos->x, $pos->y, $pos->z, $this->trunkBlock);
+			$level->setBlockdataAt($pos->x, $pos->y, $pos->z, $this->type);
 		}
 		$this->generateBranches($level, $x, $y, $z, $leaves);
 	}
@@ -149,7 +163,8 @@ class BigTree extends Tree{
 				$sizeZ = abs($z - $zz) + 0.5;
 				if(($sizeX * $sizeX + $sizeZ * $sizeZ) <= ($size * $size)){
 					if(isset($this->overridable[$level->getBlockIdAt($xx, $y, $zz)])){
-						$level->setBlockIdAt($xx, $y, $zz, Block::LEAVES);
+						$level->setBlockIdAt($xx, $y, $zz, $this->leafBlock);
+						$level->setBlockDataAt($xx, $y, $zz, $this->leafType);						
 					}
 				}
 			}
@@ -178,7 +193,8 @@ class BigTree extends Tree{
 				while($branch->valid()){
 					$branch->next();
 					$pos = $branch->current();
-					$level->setBlockIdAt((int) $pos->x, (int) $pos->y, (int) $pos->z, Block::LOG);
+					$level->setBlockIdAt((int) $pos->x, (int) $pos->y, (int) $pos->z, $this->trunkBlock);
+					$level->setBlockDataAt((int) $pos->x, (int) $pos->y, (int) $pos->z, $this->type);
 					$level->updateBlockLight((int) $pos->x, (int) $pos->y, (int) $pos->z);
 				}
 			}

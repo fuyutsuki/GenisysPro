@@ -24,6 +24,7 @@ namespace pocketmine\level\generator\normal\biome;
 use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\populator\BigTree;
 use pocketmine\level\generator\populator\Setter;
 use pocketmine\block\Block;
 
@@ -39,21 +40,27 @@ class ForestBiome extends GrassyBiome{
 
 		$this->type = $type;
 
-		$trees1 = new Tree(Sapling::OAK);
-		$trees1->setBaseAmount(5);
-		$this->addPopulator($trees1);
+		$trees1_1 = new BigTree(Sapling::OAK, Sapling::OAK);
+		$trees1_1->setBaseAmount(1);
+		$this->addPopulator($trees1_1);
+		$trees1_2 = new Tree(Sapling::OAK);
+		$trees1_2->setBaseAmount(3);
+		$this->addPopulator($trees1_2);
 		$trees2 = new Tree(Sapling::SPRUCE);
 		$trees2->setBaseAmount(2);
 		$this->addPopulator($trees2);
-		$trees3 = new Tree(Sapling::BIRCH);
-		$trees3->setBaseAmount(2);
-		$this->addPopulator($trees3);
-		$trees4 = new Tree(Sapling::JUNGLE);
-		$trees4->setBaseAmount(2);
-		$this->addPopulator($trees4);
-		$trees5 = new Tree(Sapling::DARK_OAK);
-		$trees5->setBaseAmount(1);
-		$this->addPopulator($trees5);
+		$trees3_1 = new BigTree(Sapling::BIRCH, Sapling::BIRCH);
+		$trees3_1->setBaseAmount(1);
+		$this->addPopulator($trees3_1);
+		$trees3_2 = new Tree(Sapling::BIRCH);
+		$trees3_2->setBaseAmount(1);
+		$this->addPopulator($trees3_2);
+		$trees4_1 = new BigTree(Sapling::JUNGLE, Sapling::JUNGLE);
+		$trees4_1->setBaseAmount(1);
+		$this->addPopulator($trees4_1);
+		$trees4_2 = new Tree(Sapling::JUNGLE);
+		$trees4_2->setBaseAmount(1);
+		$this->addPopulator($trees4_2);
 
 		$tallGrass = new TallGrass();
 		$tallGrass->setBaseAmount(3);

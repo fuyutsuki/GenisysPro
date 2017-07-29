@@ -22,22 +22,25 @@
 namespace pocketmine\level\generator\populator;
 
 use pocketmine\block\Block;
+use pocketmine\block\Leaves;
+use pocketmine\block\Wood;
 use pocketmine\block\Sapling;
 use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\object\Tree as ObjectTree;
-use pocketmine\level\generator\object\BigTree;
+use pocketmine\level\generator\object\BigTree as ObjectTree;
 use pocketmine\utils\Random;
 
-class Tree extends Populator{
+class BigTree extends Populator{
 	/** @var ChunkManager */
 	private $level;
 	private $randomAmount;
 	private $baseAmount;
 
 	private $type;
+	private $leaf;
 
-	public function __construct($type = Sapling::OAK){
+	public function __construct($type = Sapling::OAK, $leaf = Leaves::OAK){
 		$this->type = $type;
+		$this->leaf = $leaf;
 	}
 
 	public function setRandomAmount($amount){
@@ -58,7 +61,12 @@ class Tree extends Populator{
 			if($y === -1){
 				continue;
 			}
-			ObjectTree::growTree($this->level, $x, $y, $z, $random, $this->type);
+			//ObjectTree::growTree($this->level, $x, $y, $z, $random, $this->type);
+			//$log, $leaves, $leafType, $type, $treeHeight = 8
+			$tree = new ObjectTree(Block::LOG, Block::LEAVES, $this->leaf, $this->type, mt_rand(5, 7));
+			if($tree->canPlaceObject($this->level, $x, $y, $z, $random)){
+				$tree->placeObject($this->level, $x, $y, $z, $random);
+			}
 		}
 	}
 
