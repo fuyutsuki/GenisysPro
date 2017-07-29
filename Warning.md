@@ -1,4 +1,5 @@
 # 本家反映時に要注意のファイル  
+- Player.php
 - Block.php  
 - Cobweb.php  
 - Ice.php  
