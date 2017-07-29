@@ -685,8 +685,11 @@ class Block extends Position implements BlockIds, Metadatable{
 	 *
 	 * @return float
 	 */
-	public function getBreakTime(Item $item){
+	public function getBreakTime(Item $item, Player $player){
 		$base = $this->getHardness() * 1.5;
+		if(!$player->onGround){
+			$base *= 5;
+		}
 		if($this->canBeBrokenWith($item)){
 			if($this->getToolType() === Tool::TYPE_SHEARS and $item->isShears()){
 				$base /= 15;
@@ -725,7 +728,13 @@ class Block extends Position implements BlockIds, Metadatable{
 	}
 
 	public function canBeBrokenWith(Item $item){
-		return $this->getHardness() !== -1;
+		if($this->getHardness() === -1){
+			return false;
+		}
+		if($this->getToolType() === Tool::TYPE_NONE || $this->getDrops($item) !== [] || $this instanceof Leaves){
+			return true;
+		}
+		return false;
 	}
 
 	/**
