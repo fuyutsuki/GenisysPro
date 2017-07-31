@@ -22,6 +22,7 @@
 namespace pocketmine\block;
 
 
+use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
 class HardenedClay extends Solid {
@@ -54,5 +55,15 @@ class HardenedClay extends Solid {
 	 */
 	public function getHardness(){
 		return 1.25;
+	}
+
+	public function getDrops(Item $item) : array{
+		if($item->isPickaxe() >= 1){
+			return [
+				[Item::HARDENED_CLAY,0,1],
+			];
+		}else{
+			return [];
+		}
 	}
 }
