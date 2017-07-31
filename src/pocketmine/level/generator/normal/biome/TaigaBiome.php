@@ -27,6 +27,7 @@ use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\populator\Rock;
 use pocketmine\block\Block;
 
 class TaigaBiome extends GrassyBiome{
@@ -64,6 +65,10 @@ class TaigaBiome extends GrassyBiome{
 		
 		//$tallGrass = new TallGrass();
 		//$tallGrass->setBaseAmount(5);
+
+		$ice = new Rock(Block::PACKED_ICE, 0, 3, 5, true);
+		$ice->setBaseAmount(0);
+		$this->addPopulator($ice);
 
 		$setter = new Setter([[0, 0, 0, 38, 1]], [237 => true, 1 => true]);
 		$setter->setBaseAmount(5);

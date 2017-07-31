@@ -26,6 +26,7 @@ use pocketmine\block\Sapling;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\TallGrass;
+use pocketmine\level\generator\populator\Rock;
 
 class IcePlainsBiome extends SnowyBiome{
 
@@ -34,10 +35,13 @@ class IcePlainsBiome extends SnowyBiome{
 
 		$tallGrass = new TallGrass();
 		$tallGrass->setBaseAmount(5);
-
 		$this->addPopulator($tallGrass);
 
-		$this->setElevation(58, 62);
+		$ice = new Rock(Block::PACKED_ICE, 0, 6, 14, false);
+		$ice->setBaseAmount(0);
+		$this->addPopulator($ice);
+
+		$this->setElevation(40, 62);
 
 		$trees2 = new Tree(Sapling::SPRUCE);
 		$trees2->setBaseAmount(2);

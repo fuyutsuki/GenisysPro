@@ -242,7 +242,11 @@ class Normal extends Generator{
 						$chunk->setBlockId($x, $y, $z, Block::STONE);
 						$solidLand = true;
 					}elseif($y <= $this->waterHeight/* && $solidLand == false*/){
-						$chunk->setBlockId($x, $y, $z, Block::STILL_WATER);
+						if($biome->getId() == Biome::ICE_PLAINS && $y === $this->waterHeight){
+							$chunk->setBlockId($x, $y, $z, Block::ICE);
+						}else{
+							$chunk->setBlockId($x, $y, $z, Block::STILL_WATER);
+						}
 					}
 				}
 			}

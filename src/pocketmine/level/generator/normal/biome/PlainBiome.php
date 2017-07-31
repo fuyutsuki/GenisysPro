@@ -30,7 +30,8 @@ use pocketmine\level\generator\populator\Sugarcane;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\WaterPit;
 use pocketmine\level\generator\populator\Setter;
-
+use pocketmine\level\generator\populator\Rock;
+use pocketmine\level\generator\populator\BigTree;
 use pocketmine\level\generator\populator\Tree;
 
 class PlainBiome extends GrassyBiome{
@@ -59,6 +60,10 @@ class PlainBiome extends GrassyBiome{
 		$flower->addType([Block::RED_FLOWER, FlowerBlock::TYPE_OXEYE_DAISY]);
 		$trees1 = new Tree(Sapling::OAK);
 		$trees1->setBaseAmount(2);
+		$trees2 = new BigTree(Sapling::OAK, Sapling::OAK);
+		$trees2->setBaseAmount(0);
+		$rock = new Rock();
+		$rock->setBaseAmount(0);
 
 		$setter1 = new Setter([
 			[ 0, -1, 0, Block::WOOL, 13],
@@ -81,8 +86,9 @@ class PlainBiome extends GrassyBiome{
 		$setter1->setBaseAmount(1);
 		$this->addPopulator($setter1);
 
-
+		$this->addPopulator($rock);
 		$this->addPopulator($trees1);
+		$this->addPopulator($trees2);
 		$this->addPopulator($sugarcane);
 		$this->addPopulator($tallGrass);
 		$this->addPopulator($flower);
