@@ -26,6 +26,7 @@ use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\level\generator\populator\BigTree;
 use pocketmine\level\generator\populator\Setter;
+use pocketmine\level\generator\populator\Honeycomb;
 use pocketmine\block\Block;
 
 class ForestBiome extends GrassyBiome{
@@ -76,7 +77,7 @@ class ForestBiome extends GrassyBiome{
 		$this->addPopulator($setter2);
 
 		$setter3 = new Setter([
-			[ 0, 1, 0, 234, 0],
+			[ 0, 1, 0, Block::RED_GLAZED_TERRACOTTA, 0],
 			[ 0, 0, 1, Block::LEAVES, Sapling::JUNGLE],
 			[-1, 0, 0, Block::LEAVES, Sapling::JUNGLE], 
 			[ 0, 0, 0, Block::LOG, Sapling::JUNGLE], 
@@ -87,7 +88,7 @@ class ForestBiome extends GrassyBiome{
 		$this->addPopulator($setter3);
 		
 		$setter4 = new Setter([
-			[ 0, 2, 0, 224, 0],
+			[ 0, 2, 0, Block::LIME_GLAZED_TERRACOTTA, 0],
 			[ 0, 1, 1, Block::LEAVES, Sapling::JUNGLE],
 			[-1, 1, 0, Block::LEAVES, Sapling::JUNGLE], 
 			[ 0, 1, 0, Block::LOG, Sapling::JUNGLE], 
@@ -209,6 +210,11 @@ class ForestBiome extends GrassyBiome{
 		$setter6->setBaseAmount(1);
 
 		$this->addPopulator($setter6);
+
+		$comb = new Honeycomb();
+		$comb->setBaseAmount(0);
+
+		$this->addPopulator($comb);
 
 		$this->setElevation(24, 110);
 
