@@ -48,7 +48,7 @@ class Rock{
 	public function set($level, $x, $y, $z, $count){
 		$id = $level->getBlockIdAt($x, $y, $z);
 		$data  = $level->getBlockDataAt($x, $y, $z);
-		if($count > $this->size && $id !== 0){
+		if($y <= 1 || ($count > $this->size && $id !== 0)){
 			return false;
 		}
 		if($id !== $this->id || $data !== $this->data){
