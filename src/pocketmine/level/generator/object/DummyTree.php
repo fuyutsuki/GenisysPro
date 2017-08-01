@@ -32,7 +32,7 @@ class DummyTree extends SpruceTree{
 	public function __construct($trunkBlock, $leafBlock, $type = Wood::SPRUCE, $data = 0){
 		$this->trunkBlock = $trunkBlock;
 		$this->leafBlock = $leafBlock;
-		$this->type = $data;
+		$this->type = $type;
 		$this->data = $data;
 		$this->treeHeight = 10;
 	}
@@ -79,4 +79,16 @@ class DummyTree extends SpruceTree{
 		}
 	}
 
+	protected function placeTrunk(ChunkManager $level, $x, $y, $z, Random $random, $trunkHeight){
+		// The base dirt block
+		if(!$this instanceof DummyTree) $level->setBlockIdAt($x, $y - 1, $z, Block::DIRT);
+
+		for($yy = 0; $yy < $trunkHeight; ++$yy){
+			$blockId = $level->getBlockIdAt($x, $y + $yy, $z);
+			if(isset($this->overridable[$blockId])){
+				$level->setBlockIdAt($x, $y + $yy, $z, $this->trunkBlock);
+				$level->setBlockDataAt($x, $y + $yy, $z, $this->type);
+			}
+		}
+	}
 }

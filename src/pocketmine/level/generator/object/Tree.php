@@ -45,7 +45,7 @@ abstract class Tree{
 
 	public static function growTree(ChunkManager $level, $x, $y, $z, Random $random, $type = 0, bool $noBigTree = true){
 		if(is_array($type)){
-			$tree = new DummyTree($type[0], $type[1], $type[2]);
+			$tree = new DummyTree($type[0], $type[1], $type[2], $type[2]);
 		}else{
 			switch($type){
 				case Sapling::SPRUCE:

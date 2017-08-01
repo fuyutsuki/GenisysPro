@@ -50,13 +50,13 @@ class ForestBiome extends GrassyBiome{
 		$trees2->setBaseAmount(2);
 		$this->addPopulator($trees2);
 		$trees3_1 = new BigTree(Sapling::BIRCH, Sapling::BIRCH);
-		$trees3_1->setBaseAmount(1);
+		$trees3_1->setBaseAmount(0);
 		$this->addPopulator($trees3_1);
 		$trees3_2 = new Tree(Sapling::BIRCH);
 		$trees3_2->setBaseAmount(1);
 		$this->addPopulator($trees3_2);
 		$trees4_1 = new BigTree(Sapling::JUNGLE, Sapling::JUNGLE);
-		$trees4_1->setBaseAmount(1);
+		$trees4_1->setBaseAmount(0);
 		$this->addPopulator($trees4_1);
 		$trees4_2 = new Tree(Sapling::JUNGLE);
 		$trees4_2->setBaseAmount(1);

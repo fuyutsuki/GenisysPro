@@ -26,6 +26,7 @@ use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\block\Block;
+use pocketmine\block\Wood2;
 
 class SmallMountainsBiome extends GrassyBiome{
 
@@ -52,7 +53,7 @@ class SmallMountainsBiome extends GrassyBiome{
 		$trees->setBaseAmount(2);
 		$this->addPopulator($trees);
 
-		$trees2 = new Tree([Block::COAL_BLOCK, Block::COAL_ORE, Sapling::OAK]);
+		$trees2 = new Tree([Block::WOOD2, Block::COAL_ORE, Wood2::DARK_OAK]);
 		$trees2->setBaseAmount(1);
 		$this->addPopulator($trees2);
 
