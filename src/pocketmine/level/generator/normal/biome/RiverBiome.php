@@ -39,7 +39,7 @@ class RiverBiome extends WateryBiome{
 		$this->addPopulator($sugarcane);
 		$this->addPopulator($tallGrass);
 
-		$this->setElevation(5, 22);
+		$this->setElevation(5, 70);
 
 		$this->temperature = 0.5;
 		$this->rainfall = 0.7;
