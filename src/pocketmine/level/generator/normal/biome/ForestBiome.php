@@ -27,6 +27,7 @@ use pocketmine\level\generator\populator\Tree;
 use pocketmine\level\generator\populator\BigTree;
 use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Honeycomb;
+use pocketmine\level\generator\populator\Vine;
 use pocketmine\block\Block;
 
 class ForestBiome extends GrassyBiome{
@@ -215,6 +216,11 @@ class ForestBiome extends GrassyBiome{
 		$comb->setBaseAmount(0);
 
 		$this->addPopulator($comb);
+
+		$vine = new Vine();
+		$vine->setBaseAmount(7);
+
+		$this->addPopulator($vine);
 
 		$this->setElevation(24, 110);
 
