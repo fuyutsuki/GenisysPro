@@ -22,6 +22,7 @@
 namespace pocketmine\level\generator\object;
 
 use pocketmine\block\Block;
+use pocketmine\block\Sapling;
 use pocketmine\level\ChunkManager;
 use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
@@ -196,6 +197,9 @@ class BigTree extends Tree{
 					$level->setBlockIdAt((int) $pos->x, (int) $pos->y, (int) $pos->z, $this->trunkBlock);
 					$level->setBlockDataAt((int) $pos->x, (int) $pos->y, (int) $pos->z, $this->type);
 					$level->updateBlockLight((int) $pos->x, (int) $pos->y, (int) $pos->z);
+					if($this->type === Sapling::JUNGLE && mt_rand(0, 3) === 1){
+						$this->setCocoa($level, (int) $pos->x, (int) $pos->y, (int) $pos->z);
+					}
 				}
 			}
 		}
@@ -213,5 +217,59 @@ class BigTree extends Tree{
 			$count++;
 		}
 		return -1;
+	}
+
+	protected function setCocoa(ChunkManager $level, $x, $y, $z){
+		$id = $level->getBlockIdAt($x, $y, $z);
+		$data = $level->getBlockDataAt($x, $y, $z);
+		$s = (mt_rand(0, 1)*2)-1;
+		if(mt_rand(0, 1)){
+			$sx = $x + $s;
+			$sz = $z;
+		}else{
+			$sx = $x;
+			$sz = $z + $s;
+		}
+		if($level->getBlockIdAt($sx, $y, $sz) !== 0){
+			return false;
+		}
+		$face = $this->getFace($sx, $y, $sz, $x, $y, $z);
+		if($face !== 0 and $face !== 1){
+			$faces = [
+				2 => 8,
+				3 => 10,
+				4 => 11,
+				5 => 9,
+			];
+			$meta = $faces[$face];
+			$level->setBlockIdAt($sx, $y, $sz, Block::COCOA_BLOCK);
+			$level->setBlockDataAt($sx, $y, $sz, $meta);
+			return true;
+		}
+		return false;	
+	}
+
+	protected function getFace($tx, $ty, $tz, $nx, $ny, $nz){
+		switch (true) {
+			case $ty < $ny:
+				return 0;
+			break;
+			case $ty > $ny:
+				return 1;
+			break;
+			case $tz < $nz:
+				return 2;
+			break;
+			case $tz > $nz:
+				return 3;
+			break;
+			case $tx < $nx:
+				return 4;
+			break;
+			case $tx > $nx:
+				return 5;
+			break;
+		}
+		return 0;
 	}
 }

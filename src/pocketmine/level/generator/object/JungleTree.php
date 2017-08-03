@@ -48,7 +48,7 @@ class JungleTree extends Tree{
 				$level->setBlockDataAt($x, $y + $yy, $z, $this->type);
 			}
 		}
-		if(mt_rand(0, 3) === 1){
+		if(mt_rand(0, 1) === 1){
 			$this->setCocoa($level, $x, $y + $yy-3, $z);
 		}
 	}
@@ -67,10 +67,10 @@ class JungleTree extends Tree{
 		$face = $this->getFace($sx, $y, $sz, $x, $y, $z);
 		if($face !== 0 and $face !== 1){
 			$faces = [
-				2 => 0,
-				3 => 2,
-				4 => 3,
-				5 => 1,
+				2 => 8,
+				3 => 10,
+				4 => 11,
+				5 => 9,
 			];
 			$meta = $faces[$face];
 			$level->setBlockIdAt($sx, $y, $sz, Block::COCOA_BLOCK);
