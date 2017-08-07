@@ -259,6 +259,11 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::PRISMARINE_CRYSTALS] = PrismarineCrystals::class;
 			self::$list[self::PRISMARINE_SHARD] = PrismarineShard::class;
 			self::$list[self::FIRE_CHARGE] = FireCharge::class;
+			
+			self::$list[self::HORCE_ARMOR_LEATHER] = HorseArmerLearther::class;
+			self::$list[self::HORCE_ARMOR_IRON] = HorseArmerIron::class;
+			self::$list[self::HORCE_ARMOR_GOLD] = HorseArmerGold::class;
+			self::$list[self::HORCE_ARMOR_DIAMOND] = HorseArmerDiamond::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){
@@ -781,6 +786,7 @@ class Item implements ItemIds, \JsonSerializable{
 			$tag->display->Lore[$count++] = new StringTag("", $line);
 		}
 		$this->setNamedTag($tag);
+		return $this;
 	}
 		
 
