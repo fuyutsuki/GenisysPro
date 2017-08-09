@@ -131,7 +131,7 @@ class Normal extends Generator{
 		$this->random->setSeed($this->level->getSeed());
 		$this->noiseBase = new Simplex($this->random, 4, 1 / 4, 1 / 32);
 		$this->random->setSeed($this->level->getSeed());
-		$this->selector = new BiomeSelector($this->random, Biome::getBiome(Biome::OCEAN));
+		$this->selector = new BiomeSelector($this->random, Biome::getBiome(Biome::OCEAN), true);
 
 		$this->selector->addBiome(Biome::getBiome(Biome::END));
 		$this->selector->addBiome(Biome::getBiome(Biome::OCEAN));

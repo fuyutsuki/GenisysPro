@@ -39,49 +39,57 @@ class BiomeSelector{
 
 	private $map = [];
 
-	public function __construct(Random $random, Biome $fallback){
+	private $type = false;
+
+	public function __construct(Random $random, Biome $fallback, $type = false){
 		$this->fallback = $fallback;
 		$this->temperature = new Simplex($random, 2, 1 / 16, 1 / 1536);
 		$this->rainfall = new Simplex($random, 2, 1 / 16, 1 / 1536);
+		$this->type = $type;
 	}
 	
 	public function lookup($temperature, $rainfall){
-		if($rainfall < 0.25){
-			if($temperature < 0.65){
-				return Biome::OCEAN;
-			}elseif($temperature < 0.75){
-				return Biome::SWAMP;
+		if($this->type){
+
+			if($rainfall < 0.25){
+				if($temperature < 0.65){
+					return Biome::OCEAN;
+				}elseif($temperature < 0.75){
+					return Biome::SWAMP;
+				}else{
+					return Biome::RIVER;
+				}
+			}elseif($rainfall < 0.60){
+				if($temperature < 0.3){
+					return Biome::END;
+				}elseif($temperature < 0.45){
+					return Biome::ICE_PLAINS;
+				}elseif($temperature < 0.75){
+					return Biome::PLAINS;
+				}else{
+					return Biome::DESERT;
+				}
+			}elseif($rainfall < 0.80){
+				if($temperature < 0.25){
+					return Biome::TAIGA;
+				}elseif($temperature < 0.85){
+					return Biome::FOREST;
+				}else{
+					return Biome::BIRCH_FOREST;
+				}
 			}else{
-				return Biome::RIVER;
-			}
-		}elseif($rainfall < 0.60){
-			if($temperature < 0.3){
-				return Biome::END;
-			}elseif($temperature < 0.45){
-				return Biome::ICE_PLAINS;
-			}elseif($temperature < 0.75){
-				return Biome::PLAINS;
-			}else{
-				return Biome::DESERT;
-			}
-		}elseif($rainfall < 0.80){
-			if($temperature < 0.25){
-				return Biome::TAIGA;
-			}elseif($temperature < 0.85){
-				return Biome::FOREST;
-			}else{
-				return Biome::BIRCH_FOREST;
+				if($temperature < 0.25){
+					return Biome::MOUNTAINS;
+				}elseif($temperature < 0.70){
+					return Biome::SMALL_MOUNTAINS;
+				}elseif($temperature <= 2.0){
+					return Biome::MESA;
+				}else{
+					return Biome::RIVER;
+				}
 			}
 		}else{
-			if($temperature < 0.25){
-				return Biome::MOUNTAINS;
-			}elseif($temperature < 0.70){
-				return Biome::SMALL_MOUNTAINS;
-			}elseif($temperature <= 2.0){
-				return Biome::MESA;
-			}else{
-				return Biome::RIVER;
-			}
+			return Biome::PLAINS;
 		}
 	}
 
