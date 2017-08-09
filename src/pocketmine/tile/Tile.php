@@ -53,6 +53,7 @@ abstract class Tile extends Position {
 	const ENDER_CHEST = "EnderChest";
 	const BED = "Bed";
 	const DAY_LIGHT_DETECTOR = "DLDetector";
+	const SHULKER_BOX="ShulkerBox";
 
 	public static $tileCount = 1;
 
@@ -95,6 +96,7 @@ abstract class Tile extends Position {
 		self::registerTile(MobSpawner::class);
 		self::registerTile(Sign::class);
 		self::registerTile(Skull::class);
+		self::registerTile(ShulkerBox::class);
 	}
 
 	/**

@@ -1,30 +1,37 @@
 <?php
-
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ *  _____            _               _____
+ * / ____|          (_)             |  __ \
+ *| |  __  ___ _ __  _ ___ _   _ ___| |__) | __ ___
+ *| | |_ |/ _ \ '_ \| / __| | | / __|  ___/ '__/ _ \
+ *| |__| |  __/ | | | \__ \ |_| \__ \ |   | | | (_) |
+ * \_____|\___|_| |_|_|___/\__, |___/_|   |_|  \___/
+ *                         __/ |
+ *                        |___/
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- * 
+ * @author GenisysPro
+ * @link https://github.com/GenisysPro/GenisysPro
+ *
  *
 */
-
 namespace pocketmine\block;
-
-
+use pocketmine\item\Item;
 use pocketmine\item\Tool;
-
-class ShulkerBox extends Solid {
+use pocketmine\math\AxisAlignedBB;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\Player;
+use pocketmine\tile\ShulkerBox as TileShulkerBox;
+use pocketmine\tile\Tile;
+class ShulkerBox extends Transparent {
 	const WHITE = 0;
 	const ORANGE = 1;
 	const MAGENTA = 2;
@@ -41,9 +48,7 @@ class ShulkerBox extends Solid {
 	const GREEN = 13;
 	const RED = 14;
 	const BLACK = 15;
-
 	protected $id = self::SHULKER_BOX;
-
 	/**
 	 * ShulkerBox constructor.
 	 *
@@ -52,27 +57,87 @@ class ShulkerBox extends Solid {
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
-
 	/**
-	 * @return float
+	 * @return bool
+	 */
+	public function canBeActivated() : bool{
+		return true;
+	}
+	/**
+	 * @return int
+	 */
+	public function getResistance(){
+		return 30;
+	}
+	/**
+	 * @return int
 	 */
 	public function getHardness(){
-		return 6.0;
+		return 6;
 	}
-
 	/**
 	 * @return int
 	 */
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
 	}
-
-	public function getResistance(){
-		return 30;
+	/**
+	 * @return AxisAlignedBB
+	 */
+	protected function recalculateBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x + 0.0625,
+			$this->y,
+			$this->z + 0.0625,
+			$this->x + 0.9375,
+			$this->y + 0.9475,
+			$this->z + 0.9375
+		);
 	}
 	/**
-	 * @return string
+	 * @param Item        $item
+	 * @param Block       $block
+	 * @param Block       $target
+	 * @param int         $face
+	 * @param float       $fx
+	 * @param float       $fy
+	 * @param float       $fz
+	 * @param Player|null $player
+	 *
+	 * @return bool
 	 */
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		$this->getLevel()->setBlock($block, $this, true, true);
+		$nbt = new CompoundTag("", [
+			new StringTag("id", Tile::SHULKER_BOX),
+			new ByteTag("color", $item->getDamage() & 0x0f),
+			new IntTag("x", $this->x),
+			new IntTag("y", $this->y),
+			new IntTag("z", $this->z)
+		]);
+		if($item->hasCustomName()){
+			$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
+		}
+		Tile::createTile("ShulkerBox", $this->getLevel(), $nbt);
+		return true;
+	}
+	/**
+	 * @param Item $item
+	 *
+	 * @return array
+	 */
+	public function getDrops(Item $item) : array{
+ 		$tile = $this->getLevel()->getTile($this);
+ 		if($tile instanceof TileShulkerBox){
+ 			return [
+ 				[Item::SHULKER_BOX, $tile->getColor(), 1]
+ 			];
+ 		}else{
+ 			return [
+ 				[Item::SHULKER_BOX, 10, 1] // Purple
+ 			];
+ 		}
+ 	}
 	public function getName() : string{
 		static $names = [
 			0 => "White Shulker Box",
@@ -94,6 +159,4 @@ class ShulkerBox extends Solid {
 		];
 		return $names[$this->meta & 0x0f];
 	}
-
-
 }
