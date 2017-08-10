@@ -36,10 +36,8 @@ use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
-class FallingSand extends Entity{
+class FallingSand extends Entity {
 	const NETWORK_ID = 66;
-
-	const DATA_BLOCK_INFO = 20;
 
 	public $width = 0.98;
 	public $length = 0.98;
@@ -70,19 +68,35 @@ class FallingSand extends Entity{
 			return;
 		}
 
-		$this->setDataProperty(self::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getBlock() | ($this->getDamage() << 8));
+		$this->setDataProperty(self::DATA_VARIANT, self::DATA_TYPE_INT, $this->getBlock() | ($this->getDamage() << 8));
 	}
 
+	/**
+	 * @param Entity $entity
+	 *
+	 * @return bool
+	 */
 	public function canCollideWith(Entity $entity){
 		return false;
 	}
 
+	/**
+	 * @param float             $damage
+	 * @param EntityDamageEvent $source
+	 *
+	 * @return bool|void
+	 */
 	public function attack($damage, EntityDamageEvent $source){
 		if($source->getCause() === EntityDamageEvent::CAUSE_VOID){
 			parent::attack($damage, $source);
 		}
 	}
 
+	/**
+	 * @param $currentTick
+	 *
+	 * @return bool
+	 */
 	public function onUpdate($currentTick){
 
 		if($this->closed){
@@ -168,10 +182,16 @@ class FallingSand extends Entity{
 		return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getBlock(){
 		return $this->blockId;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getDamage(){
 		return $this->damage;
 	}
@@ -181,6 +201,9 @@ class FallingSand extends Entity{
 		$this->namedtag->Data = new ByteTag("Data", $this->damage);
 	}
 
+	/**
+	 * @param Player $player
+	 */
 	public function spawnTo(Player $player){
 		$pk = new AddEntityPacket();
 		$pk->type = FallingSand::NETWORK_ID;

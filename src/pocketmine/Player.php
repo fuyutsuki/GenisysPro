@@ -741,7 +741,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$data = new \stdClass();
 		$count = 0;
 		foreach($this->server->getCommandMap()->getCommands() as $command){
-			if($this->hasPermission($command->getPermission()) or $command->getPermission() == null) {
+			if($this->hasPermission($command->getPermission()) or $command->getPermission() !== null) {
 				if (($cmdData = $command->generateCustomCommandData($this)) !== null){
 					++$count;
 					$data->{$command->getName()}->versions[0] = $cmdData;
@@ -1115,9 +1115,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->z = $pos->z;
 			$this->dataPacket($pk);
 		}
-
+	if($this->inventory->sendContents($this) !== null){
 		$this->inventory->sendContents($this);
 		$this->inventory->sendArmorContents($this);
+		}else{
+			//$this->close();
+		}
+		//$this->inventory->sendContents($this);
+		//$this->inventory->sendArmorContents($this);
 	}
 
 	/**
@@ -2945,6 +2950,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$this->sendData($this);
 
 						$this->sendSettings();
+						
 						$this->inventory->sendContents($this);
 						$this->inventory->sendArmorContents($this);
 
