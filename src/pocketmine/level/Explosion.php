@@ -39,9 +39,10 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\network\protocol\ExplodePacket;
+use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\utils\Random;
 
-class Explosion{
+class Explosion {
 
 	private $rays = 16; //Rays
 	public $level;
@@ -56,6 +57,14 @@ class Explosion{
 	private $what;
 	private $dropItem;
 
+	/**
+	 * Explosion constructor.
+	 *
+	 * @param Position $center
+	 * @param          $size
+	 * @param null     $what
+	 * @param bool     $dropItem
+	 */
 	public function __construct(Position $center, $size, $what = null, bool $dropItem = true){
 		$this->level = $center->getLevel();
 		$this->source = $center;
@@ -118,6 +127,9 @@ class Explosion{
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function explodeB() : bool{
 		$send = [];
 		$updateBlocks = [];
@@ -227,6 +239,7 @@ class Explosion{
 		$this->level->addChunkPacket($source->x >> 4, $source->z >> 4, $pk);
 
 		$this->level->addParticle(new HugeExplodeSeedParticle($source));
+		$this->level->broadcastLevelSoundEvent($source, LevelSoundEventPacket::SOUND_EXPLODE);
 
 		return true;
 	}

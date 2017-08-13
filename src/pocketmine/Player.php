@@ -741,7 +741,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$data = new \stdClass();
 		$count = 0;
 		foreach($this->server->getCommandMap()->getCommands() as $command){
-			if($this->hasPermission($command->getPermission()) or $command->getPermission() !== null) {
+			if($this->hasPermission($command->getPermission()) or $command->getPermission() == null) {
 				if (($cmdData = $command->generateCustomCommandData($this)) !== null){
 					++$count;
 					$data->{$command->getName()}->versions[0] = $cmdData;
@@ -1115,14 +1115,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->z = $pos->z;
 			$this->dataPacket($pk);
 		}
-	if($this->inventory->sendContents($this) !== null){
-		$this->inventory->sendContents($this);
-		$this->inventory->sendArmorContents($this);
-		}else{
-			//$this->close();
+		if($this->inventory->sendContents($this) !== null){
+			$this->inventory->sendContents($this);
+			$this->inventory->sendArmorContents($this);
 		}
-		//$this->inventory->sendContents($this);
-		//$this->inventory->sendArmorContents($this);
 	}
 
 	/**
@@ -3247,7 +3243,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$commandText = $packet->command;
 				if($packet->inputJson !== null){
 					foreach($packet->inputJson as $arg){ //command ordering will be an issue
-						$commandText .= " " . $arg;
+						if(is_string($arg)) //anti bot
+							$commandText .= " " . $arg;
 					}
 				}
 				$this->server->getPluginManager()->callEvent($ev = new PlayerCommandPreprocessEvent($this, "/" . $commandText));
