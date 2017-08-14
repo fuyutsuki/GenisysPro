@@ -50,7 +50,7 @@ class SayCommand extends VanillaCommand{
 			return false;
 		}
 
-		$sender->getServer()->broadcastMessage(new TranslationContainer(TextFormat::LIGHT_PURPLE . "%chat.type.announcement", [$sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName()), TextFormat::LIGHT_PURPLE . implode(" ", $args)]));
+		$sender->getServer()->broadcastMessage(new TranslationContainer(TextFormat::WHITE . "%chat.type.announcement",[($sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName())).TextFormat::GRAY .'>'.TextFormat::AQUA .'全体'.TextFormat::GRAY .'>', TextFormat::WHITE . implode(" ", $args),TextFormat::GRAY .'>',TextFormat::AQUA .'全体']));
 		return true;
 	}
 }
