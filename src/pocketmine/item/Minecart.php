@@ -22,6 +22,7 @@
 namespace pocketmine\item;
 
 use pocketmine\block\Block;
+use pocketmine\block\BlockIds;
 use pocketmine\entity\Minecart as MinecartEntity;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
@@ -68,36 +69,37 @@ class Minecart extends Item {
 	 * @return bool
 	 */
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
-		$minecart = new MinecartEntity($player->getLevel(), new CompoundTag("", [
-			"Pos" => new ListTag("Pos", [
-				new DoubleTag("", $block->getX()),
-				new DoubleTag("", $block->getY() + 0.8),
-				new DoubleTag("", $block->getZ())
-			]),
-			"Motion" => new ListTag("Motion", [
-				new DoubleTag("", 0),
-				new DoubleTag("", 0),
-				new DoubleTag("", 0)
-			]),
-			"Rotation" => new ListTag("Rotation", [
-				new FloatTag("", 0),
-				new FloatTag("", 0)
-			]),
-		]));
-		$minecart->spawnToAll();
+		if($target->getId()==27 or $target->getId()==28 or $target->getId()==66 or $target->getId()==126){
+			$minecart = new MinecartEntity($player->getLevel(), new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $block->getX()),
+					new DoubleTag("", $block->getY() + 0.8),
+					new DoubleTag("", $block->getZ())
+				]),
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
+				]),
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", 0),
+					new FloatTag("", 0)
+				]),
+			]));
+			$minecart->spawnToAll();
 
-		if($player->isSurvival()){
-			$item = $player->getInventory()->getItemInHand();
-			$count = $item->getCount();
-			if(--$count <= 0){
-				$player->getInventory()->setItemInHand(Item::get(Item::AIR));
-				return true;
+			if($player->isSurvival()){
+				$item = $player->getInventory()->getItemInHand();
+				$count = $item->getCount();
+				if(--$count <= 0){
+					$player->getInventory()->setItemInHand(Item::get(Item::AIR));
+					return true;
+				}
+
+				$item->setCount($count);
+				$player->getInventory()->setItemInHand($item);
 			}
-
-			$item->setCount($count);
-			$player->getInventory()->setItemInHand($item);
+			return true;
 		}
-
-		return true;
 	}
 }
