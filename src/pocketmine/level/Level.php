@@ -1892,7 +1892,7 @@ class Level implements ChunkManager, Metadatable{
 				return false;
 			}
 						
-			$this->addSound(new BlockPlaceSound($hand));
+			//$this->addSound(new BlockPlaceSound($hand));
 		}
 
 		if($hand->place($item, $block, $target, $face, $fx, $fy, $fz, $player) === false){
@@ -1903,7 +1903,9 @@ class Level implements ChunkManager, Metadatable{
         if($item->getCount() <= 0){
 			$item = Item::get(Item::AIR, 0, 0);
 		}
-
+		if($player !== null){
+			$this->addSound(new BlockPlaceSound($hand));
+		}
 		return true;
 	}
 
