@@ -21,6 +21,9 @@
 
 namespace pocketmine\block;
 
+use pocketmine\level\Level;
+use pocketmine\math\Vector3;
+
 class ActivatorRail extends PoweredRail {
 
 	protected $id = self::ACTIVATOR_RAIL;
@@ -39,5 +42,16 @@ class ActivatorRail extends PoweredRail {
 	 */
 	public function getName() : string{
 		return "Activator Rail";
+	}
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+				$this->getLevel()->useBreakOn($this);
+
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+
+		return false;
 	}
 }

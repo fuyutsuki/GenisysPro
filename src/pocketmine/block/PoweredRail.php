@@ -24,6 +24,7 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
+use pocketmine\level\Level;
 
 class PoweredRail extends Rail {
 
@@ -225,5 +226,17 @@ class PoweredRail extends Rail {
 	 */
 	public function canPassThrough(){
 		return true;
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+				$this->getLevel()->useBreakOn($this);
+
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+
+		return false;
 	}
 }

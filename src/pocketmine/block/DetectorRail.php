@@ -21,6 +21,9 @@
 
 namespace pocketmine\block;
 
+use pocketmine\level\Level;
+use pocketmine\math\Vector3;
+
 class DetectorRail extends PoweredRail {
 
 	protected $id = self::DETECTOR_RAIL;
@@ -39,5 +42,17 @@ class DetectorRail extends PoweredRail {
 	 */
 	public function getName() : string{
 		return "Detector Rail";
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+				$this->getLevel()->useBreakOn($this);
+
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+
+		return false;
 	}
 }
