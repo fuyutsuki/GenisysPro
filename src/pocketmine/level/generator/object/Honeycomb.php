@@ -56,7 +56,7 @@ class Honeycomb{
 				case 5:
 					switch ($h) {
 						case 2:
-							$level->setBlockIdAt($x, $y-$h, $z, Block::EMERALD_BLOCK);
+							$level->setBlockIdAt($x, $y-$h, $z, Block::EMERALD_ORE);
 							$level->setBlockDataAt($x, $y-$h, $z, 1);
 							for ($xx = -1;$xx < 2; $xx++) { 
 								for ($zz = -1;$zz < 2; $zz++) { 

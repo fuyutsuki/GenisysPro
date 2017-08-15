@@ -33,6 +33,7 @@ use pocketmine\level\generator\populator\Setter;
 use pocketmine\level\generator\populator\Rock;
 use pocketmine\level\generator\populator\BigTree;
 use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\populator\Cave2;
 
 class PlainBiome extends GrassyBiome{
 
@@ -84,6 +85,12 @@ class PlainBiome extends GrassyBiome{
 			[ 0, -4, 0, Block::DIRT, 0],
 		], [2 => true]);
 		$setter1->setBaseAmount(1);
+
+		$cave = new Cave2(45);
+		$cave->setBaseAmount(0);
+
+		$this->addPopulator($cave);
+
 		$this->addPopulator($setter1);
 
 		$this->addPopulator($rock);
