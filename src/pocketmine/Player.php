@@ -3083,6 +3083,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						if($this->linkedEntity === $target){
 							$target->setLinked(0, $this);
 						}
+						$target->level->dropItem($target,Item::get(Item::MINECART));
+						$target->kill();
 						$target->close();
 					}elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
 						$this->setLinked(0, $target);
