@@ -11,6 +11,7 @@ use pocketmine\block\Block;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\level\particle\DestroyBlockParticle;
+use pocketmine\level\Level;
 use pocketmine\network\protocol\AddPaintingPacket;
 use pocketmine\Player;
 
@@ -20,7 +21,7 @@ class Painting extends Hanging{
 	private $motive;
 
 	public function initEntity(){
-		$this->setMaxHealth(1);
+		$this->setMaxHealth(3);
 		parent::initEntity();
 
 		if(isset($this->namedtag->Motive)){
@@ -32,6 +33,7 @@ class Painting extends Hanging{
 		parent::attack($damage, $source);
 		if($source->isCancelled()) return false;
 		$this->level->addParticle(new DestroyBlockParticle($this->add(0.5), Block::get(Block::LADDER)));
+		$this->level->dropItem($this,ItemItem::get(ItemItem::PAINTING));
 		$this->kill();
 		return true;
 	}
