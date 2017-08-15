@@ -23,7 +23,7 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
-use pocketmine\math\AxisAlignedBB;
+//use pocketmine\math\AxisAlignedBB;
 
 class Farmland extends Solid {
 
@@ -62,6 +62,7 @@ class Farmland extends Solid {
 	/**
 	 * @return AxisAlignedBB
 	 */
+	 /*
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x,
@@ -72,7 +73,7 @@ class Farmland extends Solid {
 			$this->z + 1
 		);
 	}
-
+	*/
 	/**
 	 * @param Item $item
 	 *
@@ -82,5 +83,13 @@ class Farmland extends Solid {
 		return [
 			[Item::DIRT, 0, 1],
 		];
+	}
+
+	public function getLightFilter() : int{
+		return 0;
+	}
+	
+	   public function isTransparent(){
+		return true;
 	}
 }
