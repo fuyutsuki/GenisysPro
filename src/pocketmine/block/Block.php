@@ -723,6 +723,29 @@ class Block extends Position implements BlockIds, Metadatable{
 						break;
 				}
 			}
+		}elseif($this->getToolType() === Tool::TYPE_PICKAXE and ($tier = $item->isPickaxe()) !== false){
+			switch($tier){
+				case Tool::TIER_WOODEN:
+					$base /= 2;
+					$base *= 3.33;
+					break;
+				case Tool::TIER_STONE:
+					$base /= 4;
+					$base *= 3.33;
+					break;
+				case Tool::TIER_IRON:
+					$base /= 6;
+					$base *= 3.33;
+					break;
+				case Tool::TIER_DIAMOND:
+					$base /= 8;
+					$base *= 3.33;
+					break;
+				case Tool::TIER_GOLD:
+					$base /= 12;
+					$base *= 3.33;
+					break;
+			}
 		}else{
 			$base *= 3.33;
 		}
