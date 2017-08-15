@@ -75,4 +75,8 @@ class Water extends Liquid {
 
 		return $ret;
 	}
+
+	public function getLightFilter() : int{
+		return 2;
+	}
 }
