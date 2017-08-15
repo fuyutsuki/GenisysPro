@@ -72,6 +72,9 @@ class Dirt extends Solid {
 	 */
 	public function onActivate(Item $item, Player $player = null){
 		if($item->isHoe()){
+			if(!$player instanceof Player || $player->getLevel()->getBlockIdAt($this->x, $this->y+1, $this->z) !== Block::AIR){
+				return false;
+			}
 			$item->useOn($this, 2);
 			$this->getLevel()->setBlock($this, Block::get(Item::FARMLAND, 0), true);
 
