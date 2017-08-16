@@ -54,7 +54,7 @@ class Cave2 extends Populator{
 			$x = $random->nextRange($chunkX << 4, ($chunkX << 4) + 15);
 			$z = $random->nextRange($chunkZ << 4, ($chunkZ << 4) + 15);
 			$y = $this->getHighestWorkableBlock($x, $z);
-			if($y === -1 || mt_rand(0, 10) !== 1){
+			if($y === -1 || mt_rand(0, 8) !== 1){
 				continue;
 			}
 			//ObjectTree::growTree($this->level, $x, $y, $z, $random, $this->type);
@@ -84,7 +84,7 @@ class CreateCave{
 
 		$this->lavas = [];
 		$this->level = $level;
-		$this->setCave($x, $y, $z, $level, $loop, $block);
+		$this->setCave($x, $y, $z, $level, $loop, $block, mt_rand(6, 12)/3);
 	}
 
 	public function setLava(){
@@ -123,20 +123,25 @@ class CreateCave{
 		$this->lavas = [];
 	}
 
-	public function setCave($x, $y, $z, $level, $loop, $block){
+	public function setCave($x, $y, $z, $level, $loop, $block, $r){
 
 		if($loop >= 0){
-
-			$this->delBall($x, $y, $z, $level, mt_rand(1, 9)/3, $block, $x, $y, $z);
+			$r += mt_rand(-3, 3)/3;
+			if($r < 1.5){
+				$r = 1.5;
+			}else if($r > 4){
+				$r = 4;
+			}
+			$this->delBall($x, $y, $z, $level, $r, $block, $x, $y, $z);
 			$vx = ((mt_rand()%2)*2-1)*mt_rand(1, 4);
-			$vy = mt_rand(-1, 0)*mt_rand(2, 3);
+			$vy = (-0.5-mt_rand(1, 2)/3)*mt_rand(1, 2);
 			$vz = ((mt_rand()%2)*2-1)*mt_rand(1, 4);
 
 			if($level->getBlockIdAt($x+$vx*2, $y+$vy*2, $z+$vz*2) != 0){
-				$this->setCave($x+$vx, $y+$vy, $z+$vz, $level, $loop-1, $block);
+				$this->setCave($x+$vx, $y+$vy, $z+$vz, $level, $loop-1, $block, $r);
 			}
 			else{
-				$this->setCave($x, $y, $z, $level, $loop-2, $block);
+				$this->setCave($x, $y, $z, $level, $loop-2, $block, $r);
 			}
 
 			if(mt_rand(1, 5) == 1){
@@ -145,7 +150,7 @@ class CreateCave{
 				$vz = ((mt_rand()%2)*2-1)*3;
 
 				if($level->getBlockIdAt($x+$vx*2, $y+$vy*2, $z+$vz*2) != 0){
-					$this->setCave($x+$vx, $y+$vy, $z+$vz, $level, $loop-2, $block);
+					$this->setCave($x+$vx, $y+$vy, $z+$vz, $level, $loop-2, $block, $r);
 				}
 			}
 
@@ -158,7 +163,7 @@ class CreateCave{
 	public function delBall($x, $y, $z, $level, $r, $block, $sx, $sy, $sz){
 		$id = $level->getBlockIdAt($x, $y, $z);
 
-		if($id != 0 && $id != 7 && $id != 4 && $y > 0){
+		if($id != 0 && $id != 7 && $id != 4 && $y > 2){
 			if($id === 8 || $id === 9){
 				$level->setBlockIdAt($x, $y, $z, 4);
 			}else{
