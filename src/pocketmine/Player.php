@@ -1115,10 +1115,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->z = $pos->z;
 			$this->dataPacket($pk);
 		}
-		if($this->inventory->sendContents($this) !== null){
-			$this->inventory->sendContents($this);
-			$this->inventory->sendArmorContents($this);
-		}
+		$this->inventory->sendContents($this);
+		$this->inventory->sendArmorContents($this);
 	}
 
 	/**
