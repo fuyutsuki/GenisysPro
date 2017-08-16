@@ -53,6 +53,9 @@ class MagmaBlock extends Solid {
 		return 0.5;
 	}
 
+	public function getLightLevel(){
+		return 3;
+	}
 	/**
 	 * @param Item $item
 	 *

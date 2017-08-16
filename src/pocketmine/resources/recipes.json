@@ -20890,5 +20890,225 @@
             "count": 1,
             "nbt": ""
         }
+    },
+    {
+        "type": 1,
+        "width": 2,
+        "height": 2,
+        "input": [
+            {
+                "id": 378,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 378,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 378,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 378,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "output": [
+            {
+                "id": 213,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "uuid": ""
+    },
+    {
+        "type": 1,
+        "width": 2,
+        "height": 2,
+        "input": [
+            {
+                "id": 405,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 405,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "output": [
+            {
+                "id": 215,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "uuid": ""
+    },
+    {
+        "type": 1,
+        "width": 3,
+        "height": 3,
+        "input": [
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 372,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "output": [
+            {
+                "id": 214,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "uuid": ""
+    },
+    {
+        "type": 1,
+        "width": 3,
+        "height": 3,
+        "input": [
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 351,
+                "damage": 15,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "output": [
+            {
+                "id": 216,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "uuid": ""
     }
 ]
