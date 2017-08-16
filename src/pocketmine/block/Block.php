@@ -963,4 +963,16 @@ class Block extends Position implements BlockIds, Metadatable{
 		}
 		return true;
 	}
+
+	/**
+	 *レールが置けるかどうか
+	 *
+	 *@return bool
+	 */
+	public function canPlaceRail(block $block) : bool{
+		if($block->isTransparent()){
+			return false;
+		}
+		return true;
+	}
 }

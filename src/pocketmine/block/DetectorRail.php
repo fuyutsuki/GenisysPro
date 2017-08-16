@@ -46,13 +46,11 @@ class DetectorRail extends PoweredRail {
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+			if($this->getSide(Vector3::SIDE_DOWN)->getId()===0){
 				$this->getLevel()->useBreakOn($this);
-
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-
 		return false;
 	}
 }
