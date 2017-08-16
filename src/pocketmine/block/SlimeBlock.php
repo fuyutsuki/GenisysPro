@@ -22,7 +22,7 @@
 namespace pocketmine\block;
 
 
-class SlimeBlock extends Solid {
+class SlimeBlock extends Transparent {
 
 	protected $id = self::SLIME_BLOCK;
 
@@ -54,5 +54,9 @@ class SlimeBlock extends Solid {
 	 */
 	public function getName() : string{
 		return "Slime Block";
+	}
+
+	public function canPlaceRail(block $block) : bool{
+		return true;
 	}
 }

@@ -27,7 +27,7 @@ use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\Server;
 
-class CocoaBlock extends Solid {
+class CocoaBlock extends Transparent {
 
 	protected $id = self::COCOA_BLOCK;
 
