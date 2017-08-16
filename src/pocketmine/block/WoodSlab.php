@@ -166,4 +166,10 @@ class WoodSlab extends Transparent {
 			[$this->id, $this->meta & 0x07, 1],
 		];
 	}
+	public function canPlaceRail(block $block) : bool{
+		if(($block->meta & 0x08) > 0){
+			return true;
+		}
+		return false;
+	}
 }
