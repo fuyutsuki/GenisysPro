@@ -1,6 +1,11 @@
 GenisysPro
 ===================
 
+このsrcはEard鯖用にチューニングしているため、一部仕様変更が行われています．　
+* 地形生成の大幅な改変
+* Eard鯖のチャットの仕様に合わせたesayコマンドの追加
+
+
 ![GenisysPro](http://i.imgur.com/R8gExma.jpg)
 
 [![Build Status](https://travis-ci.org/GenisysPro/GenisysPro.svg?branch=master)](https://travis-ci.org/GenisysPro/GenisysPro)
