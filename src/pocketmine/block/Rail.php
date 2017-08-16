@@ -153,11 +153,9 @@ class Rail extends Flowable {
 	 */
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$downBlock = $this->getSide(Vector3::SIDE_DOWN);
-
-		if($downBlock instanceof Rail or !$this->isBlock($downBlock)){//判断是否可以放置
+		if($downBlock instanceof Rail or !$this->isBlock($downBlock) or !$downBlock->canPlaceRail($downBlock)){//判断是否可以放置
 			return false;
 		}
-
 		$arrayXZ = [[1, 0], [0, 1], [-1, 0], [0, -1]];
 		$arrayY = [0, 1, -1];
 
@@ -272,13 +270,11 @@ class Rail extends Flowable {
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+			if($this->getSide(Vector3::SIDE_DOWN)->getId()===0){
 				$this->getLevel()->useBreakOn($this);
-
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-
 		return false;
 	}
 }

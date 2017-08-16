@@ -63,4 +63,7 @@ class Glass extends Transparent {
 			return [];
 		}
 	}
+	public function canPlaceRail(block $block) : bool{
+		return true;
+	}
 }

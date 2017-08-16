@@ -203,4 +203,11 @@ class Slab extends Transparent {
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
 	}
+
+	public function canPlaceRail(block $block) : bool{
+		if(($block->meta & 0x08) > 0){
+			return true;
+		}
+		return false;
+	}
 }

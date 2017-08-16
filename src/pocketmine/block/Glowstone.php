@@ -86,4 +86,8 @@ class Glowstone extends Transparent implements SolidLight {
 			];
 		}
 	}
+
+	public function canPlaceRail(block $block) : bool{
+		return true;
+	}
 }
