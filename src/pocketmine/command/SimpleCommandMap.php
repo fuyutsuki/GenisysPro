@@ -57,6 +57,7 @@ use pocketmine\command\defaults\SaveCommand;
 use pocketmine\command\defaults\SaveOffCommand;
 use pocketmine\command\defaults\SaveOnCommand;
 use pocketmine\command\defaults\SayCommand;
+use pocketmine\command\defaults\SayEardCommand;
 use pocketmine\command\defaults\SeedCommand;
 use pocketmine\command\defaults\SetBlockCommand;
 use pocketmine\command\defaults\SetWorldSpawnCommand;
@@ -143,6 +144,7 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new PardonCommand("pardon"));
 		$this->register("pocketmine", new PardonIpCommand("pardon-ip"));
 		$this->register("pocketmine", new SayCommand("say"));
+		$this->register("pocketmine", new SayEardCommand("esay"));
 		$this->register("pocketmine", new MeCommand("me"));
 		$this->register("pocketmine", new ListCommand("list"));
 		$this->register("pocketmine", new DifficultyCommand("difficulty"));

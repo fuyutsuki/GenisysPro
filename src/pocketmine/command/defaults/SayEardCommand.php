@@ -27,13 +27,8 @@ use pocketmine\event\TranslationContainer;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-class SayCommand extends VanillaCommand {
+class SayEardCommand extends VanillaCommand{
 
-	/**
-	 * SayCommand constructor.
-	 *
-	 * @param $name
-	 */
 	public function __construct($name){
 		parent::__construct(
 			$name,
@@ -44,13 +39,6 @@ class SayCommand extends VanillaCommand {
 		$this->setPermission("pocketmine.command.say");
 	}
 
-	/**
-	 * @param CommandSender $sender
-	 * @param string        $currentAlias
-	 * @param array         $args
-	 *
-	 * @return bool
-	 */
 	public function execute(CommandSender $sender, $currentAlias, array $args){
 		if(!$this->testPermission($sender)){
 			return true;
@@ -62,7 +50,7 @@ class SayCommand extends VanillaCommand {
 			return false;
 		}
 
-		$sender->getServer()->broadcastMessage(new TranslationContainer(TextFormat::LIGHT_PURPLE . "%chat.type.announcement", [$sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName()), TextFormat::LIGHT_PURPLE . implode(" ", $args)]));
+		$sender->getServer()->broadcastMessage(new TranslationContainer(($sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName())).TextFormat::GRAY .' > '.TextFormat::AQUA .'全体'.TextFormat::GRAY .' > '. TextFormat::WHITE . implode(" ", $args)));
 		return true;
 	}
 }
