@@ -26,7 +26,7 @@ use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
-use pocketmine\math\AxisAlignedBB;
+//use pocketmine\math\AxisAlignedBB;
 
 
 class GrassPath extends Transparent {
@@ -57,6 +57,7 @@ class GrassPath extends Transparent {
 	/**
 	 * @return AxisAlignedBB
 	 */
+	 /*
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x,
@@ -67,7 +68,7 @@ class GrassPath extends Transparent {
 			$this->z + 1
 		);
 	}
-
+	*/
 	/**
 	 * @param int $type
 	 *
