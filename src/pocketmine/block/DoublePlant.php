@@ -86,7 +86,7 @@ class DoublePlant extends Flowable{
 	}
 
 	public function onUpdate($type){
-		/*
+		
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true && !$this->getSide(0) instanceof DoublePlant){ //Replace with common break method
 				$this->getLevel()->setBlock($this, new Air(), false, false);
@@ -95,7 +95,7 @@ class DoublePlant extends Flowable{
 			}
 		}
 		return false;
-		*/
+		
 	}
 
 	public function onBreak(Item $item){
@@ -107,22 +107,18 @@ class DoublePlant extends Flowable{
 	}
 
 	public function getDrops(Item $item): array{
-		if(($this->meta & self::BITFLAG_TOP) === 0){
-			if(!$item->isShears() and ($this->meta === 2 or $this->meta === 3)){ //grass or fern
-				if(mt_rand(0, 24) === 0){
-					return [
-						[Item::SEEDS, 0, 1],
-					];
-				}else{
-					return [];
-				}
+		if(!$item->isShears() and ($this->meta === 2 or $this->meta === 3 or $this->meta === (2 | self::BITFLAG_TOP) or $this->meta === (3 | self::BITFLAG_TOP))){ //grass or fern
+			if(mt_rand(0, 24) === 0){
+				return [
+					[Item::SEEDS, 0, 1],
+				];
+			}else{
+				return [];
 			}
-
+		}else{
 			return [
 				[$this->id, $this->meta & 0x07, 1],
 			];
-		}else{
-			return [];
 		}
 	}
 
