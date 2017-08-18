@@ -24,12 +24,16 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
+
 
 class TallGrass extends Flowable {
 
 	const NORMAL = 1;
 	const FERN = 2;
+
+	const BITFLAG_TOP = 0x08;
 
 	protected $id = self::TALL_GRASS;
 
@@ -46,6 +50,13 @@ class TallGrass extends Flowable {
 	 * @return bool
 	 */
 	public function canBeReplaced(){
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	 public function canBeActivated() : bool{
 		return true;
 	}
 
@@ -90,12 +101,10 @@ class TallGrass extends Flowable {
 	 */
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $this->getSide(0);
-		if($down->getId() === self::GRASS){
+		if($down->getId() === Block::GRASS or $down->getId()=== Block::DIRT or $down->getId() === Block::PODZOL){
 			$this->getLevel()->setBlock($block, $this, true);
-
 			return true;
 		}
-
 		return false;
 	}
 
@@ -114,6 +123,24 @@ class TallGrass extends Flowable {
 			}
 		}
 
+		return false;
+	}
+
+
+	/**
+	 * @param Item        $item
+	 * @param Player|null $player
+	 *
+	 * @return bool
+	 */
+	public function onActivate(Item $item, Player $player = null){
+		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F and $this->getLevel()->getBlock($this->getSide(Vector3::SIDE_UP))->getId() === 0){
+			$damage=($this->meta)+1;
+			$item->count--;
+			$this->getLevel()->setBlock($this,Block::get(Item::DOUBLE_PLANT,$damage), true);
+			$this->getLevel()->setBlock($this->getSide(Vector3::SIDE_UP), Block::get(Item::DOUBLE_PLANT, $damage | self::BITFLAG_TOP), true);
+			return true;
+		}
 		return false;
 	}
 
