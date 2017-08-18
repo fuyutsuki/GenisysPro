@@ -56,7 +56,7 @@ class TallGrass extends Flowable {
 	/**
 	 * @return bool
 	 */
-	 public function canBeActivated() : bool{
+	public function canBeActivated() : bool{
 		return true;
 	}
 
