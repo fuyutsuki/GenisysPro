@@ -43,6 +43,13 @@ class DoublePlant extends Flowable{
 		return false;
 	}
 
+	/**
+	 * @return bool
+	 */
+	 public function canBeActivated() : bool{
+		return true;
+	}
+
 	public function getName(){
 		static $names = [
 			0 => "Sunflower",
@@ -103,6 +110,18 @@ class DoublePlant extends Flowable{
 			return $this->getLevel()->setBlock($this->getSide(($this->meta & self::BITFLAG_TOP) !== 0 ? Vector3::SIDE_DOWN : Vector3::SIDE_UP), Block::get(Block::AIR));
 		}
 
+		return false;
+	}
+
+	public function onActivate(Item $item, Player $player = null){
+		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){
+			if($this->meta === 2 or $this->meta === 3 or $this->meta === (2 | self::BITFLAG_TOP) or $this->meta === (3 | self::BITFLAG_TOP)){
+				return false;
+			}
+			$item->count--;
+			$this->level->dropItem($this,Item::get($this->id, $this->meta & 0x07));
+			return true;
+		}
 		return false;
 	}
 
