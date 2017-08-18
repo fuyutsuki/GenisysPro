@@ -3,7 +3,10 @@ GenisysPro
 
 このsrcはEard鯖用にチューニングしているため、一部仕様変更が行われています．　
 * 地形生成の大幅な改変
-* Eard鯖のチャットの仕様に合わせたesayコマンドの追加
+* Eard鯖のチャットの仕様に合わせたesayコマンドの追加  
+
+
+また、バグ修正に関してもEard鯖で使用しないものに関しては後回しになっています 
 
 
 ![GenisysPro](http://i.imgur.com/R8gExma.jpg)
