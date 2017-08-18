@@ -37,7 +37,10 @@ class DoublePlant extends Flowable{
 	}
 
 	public function canBeReplaced(){
-		return $this->meta === 2 or $this->meta === 3 or $this->meta === 2 | self::BITFLAG_TOP or $this->meta === 3 | self::BITFLAG_TOP; //grass or fern
+		if ($this->meta === 2 or $this->meta === 3 or $this->meta === (2 | self::BITFLAG_TOP) or $this->meta === (3 | self::BITFLAG_TOP)){
+			return true;
+		}
+		return false;
 	}
 
 	public function getName(){
