@@ -46,12 +46,6 @@ class SnowLayer extends Flowable {
 		return "Snow Layer";
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function canBeReplaced(){
-		return true;
-	}
 
 	/**
 	 * @return float
@@ -84,7 +78,14 @@ class SnowLayer extends Flowable {
 		$down = $this->getSide(0);
 		if($down->isSolid()){
 			$this->getLevel()->setBlock($block, $this, true);
-
+			return true;
+		}
+		if($target->getId()===self::SNOW_LAYER){
+			if($target->getDamage()<7){
+				$this->getLevel()->setBlock($target, Block::get(Item::SNOW_LAYER,($target->getDamage())+1), true);
+			}else{
+				$this->getLevel()->setBlock($block, $this, true);
+			}
 			return true;
 		}
 
