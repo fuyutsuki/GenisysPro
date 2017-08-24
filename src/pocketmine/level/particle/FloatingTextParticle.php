@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____
@@ -18,23 +17,19 @@
  *
  *
 */
-
 namespace pocketmine\level\particle;
-
 use pocketmine\entity\Entity;
-use pocketmine\entity\Item as ItemEntity;
+use pocketmine\item\Item;
 use pocketmine\math\Vector3;
-use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
-
-class FloatingTextParticle extends Particle{
+use pocketmine\utils\UUID;
+class FloatingTextParticle extends Particle {
 	//TODO: HACK!
-
 	protected $text;
 	protected $title;
 	protected $entityId;
 	protected $invisible = false;
-
 	/**
 	 * @param Vector3 $pos
 	 * @param int     $text
@@ -45,55 +40,63 @@ class FloatingTextParticle extends Particle{
 		$this->text = $text;
 		$this->title = $title;
 	}
-
+	/**
+	 * @return int
+	 */
 	public function getText(){
 		return $this->text;
 	}
-
+	/**
+	 * @return string
+	 */
 	public function getTitle(){
 		return $this->title;
 	}
-
+	/**
+	 * @param $text
+	 */
 	public function setText($text){
 		$this->text = $text;
 	}
-
+	/**
+	 * @param $title
+	 */
 	public function setTitle($title){
 		$this->title = $title;
 	}
+	/**
+	 * @return bool
+	 */
 	public function isInvisible(){
 		return $this->invisible;
 	}
-
+	/**
+	 * @param bool $value
+	 */
 	public function setInvisible($value = true){
 		$this->invisible = (bool) $value;
 	}
-
+	/**
+	 * @return array
+	 */
 	public function encode(){
 		$p = [];
-
 		if($this->entityId === null){
 			$this->entityId = Entity::$entityCount++;
 		}else{
 			$pk0 = new RemoveEntityPacket();
 			$pk0->eid = $this->entityId;
-
 			$p[] = $pk0;
 		}
-
 		if(!$this->invisible){
-
-			$pk = new AddEntityPacket();
+			$pk = new AddPlayerPacket();
+			$pk->uuid = UUID::fromRandom();
+			$pk->username = $this->title;
 			$pk->eid = $this->entityId;
-			$pk->type = ItemEntity::NETWORK_ID;
 			$pk->x = $this->x;
-			$pk->y = $this->y - 0.75;
+			$pk->y = $this->y - 0.50;
 			$pk->z = $this->z;
-			$pk->speedX = 0;
-			$pk->speedY = 0;
-			$pk->speedZ = 0;
-			$pk->yaw = 0;
-			$pk->pitch = 0;
+			$pk->item = Item::get(Item::AIR);
 			$flags = (
 				(1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG) |
 				(1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG) |
@@ -102,11 +105,10 @@ class FloatingTextParticle extends Particle{
 			$pk->metadata = [
 				Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
 				Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . ($this->text !== "" ? "\n" . $this->text : "")],
+				Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0],
 			];
-
 			$p[] = $pk;
 		}
-
 		return $p;
 	}
 }
