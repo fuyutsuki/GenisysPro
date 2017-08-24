@@ -25,7 +25,7 @@ namespace pocketmine\network\protocol;
 
 
 class AnimatePacket extends DataPacket {
-	const NETWORK_ID = ProtocolInfo::ANIMATE_PACKET;
+	const NETWORK_ID = Info::ANIMATE_PACKET;
 	public $action;
 	public $eid;
 	public $float;
