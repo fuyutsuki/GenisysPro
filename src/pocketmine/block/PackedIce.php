@@ -50,6 +50,10 @@ class PackedIce extends Solid {
 		return 0.5;
 	}
 
+	public function getFrictionFactor() : float{
+		return 0.98;
+	}
+
 	/**
 	 * @return int
 	 */
