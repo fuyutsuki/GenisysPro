@@ -6,7 +6,7 @@ GenisysPro
 * Eard鯖のチャットの仕様に合わせたesayコマンドの追加  
 
 
-また、バグ修正に関してもEard鯖で使用しないものに関しては後回しになっています 
+また、バグ修正に関してもEard鯖で使用しないものに関しては後回しになっています. 
 
 
 ![GenisysPro](http://i.imgur.com/R8gExma.jpg)
