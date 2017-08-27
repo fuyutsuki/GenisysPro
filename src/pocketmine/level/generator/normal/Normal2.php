@@ -61,7 +61,7 @@ class Normal2 extends Normal{
 	private $seaHeight = 62;
 	private $seaFloorHeight = 48;
 	private $beathStartHeight = 60;
-	private $beathStopHeight = 64;
+	private $beathStopHeight = 65;
 	protected $bedrockDepth = 5;
 	private $seaFloorGenerateRange = 5;
 	private $landHeightRange = 18; // 36 / 2
@@ -101,7 +101,7 @@ class Normal2 extends Normal{
 		$this->heightOffset = $random->nextRange(-5, 3);
 
 		//$this->selector->addBiome(Biome::getBiome(Biome::OCEAN));
-		$this->selector->addBiome(Biome::getBiome(Biome::PLAINS));
+		//$this->selector->addBiome(Biome::getBiome(Biome::PLAINS));
 		//$this->selector->addBiome(Biome::getBiome(Biome::DESERT));
 		//$this->selector->addBiome(Biome::getBiome(Biome::MOUNTAINS));
 		//$this->selector->addBiome(Biome::getBiome(Biome::FOREST));
@@ -119,8 +119,8 @@ class Normal2 extends Normal{
 		$cover = new GroundCover();
 		$this->generationPopulators[] = $cover;
 
-		$cave = new Cave();
-		$this->populators[] = $cave;
+		/*$cave = new Cave();
+		$this->populators[] = $cave;*/
 
 		$ores = new Ore();
 		$ores->setOreTypes([
@@ -185,7 +185,7 @@ class Normal2 extends Normal{
 					if($genyHeight < $this->beathStartHeight - 5){
 						$genyHeight += (int) ($this->seaFloorGenerateRange * $seaFloorNoise[$genx][$genz]);
 					}
-					$biome = Biome::getBiome(Biome::PLAINS);
+					$biome = Biome::getBiome(Biome::RIVER);
 					if($genyHeight < $this->seaFloorHeight - $this->seaFloorGenerateRange){
 						$genyHeight = $this->seaFloorHeight;
 					}
@@ -227,6 +227,8 @@ class Normal2 extends Normal{
 								$genyHeight2 = $genyHeight < $this->seaHeight - 7 ? $this->seaHeight - 7 : $genyHeight;
 								$genyHeight = $genyHeight1 > $genyHeight2 ? $genyHeight1 : $genyHeight2;
 							}
+						}else if($genyHeight <= $this->beathStopHeight && $genyHeight >= $this->beathStartHeight){
+							$biome = Biome::getBiome(Biome::BEACH);
 						}
 					}
 				}

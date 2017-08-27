@@ -32,6 +32,7 @@ use pocketmine\level\generator\normal\biome\IcePlainsBiome;
 use pocketmine\level\generator\normal\biome\MountainsBiome;
 use pocketmine\level\generator\normal\biome\OceanBiome;
 use pocketmine\level\generator\normal\biome\PlainBiome;
+use pocketmine\level\generator\normal\biome\PlainBiome2;
 use pocketmine\level\generator\normal\biome\RiverBiome;
 use pocketmine\level\generator\normal\biome\SmallMountainsBiome;
 use pocketmine\level\generator\normal\biome\SwampBiome;
@@ -138,7 +139,7 @@ abstract class Biome{
 
 		self::register(self::END, new Aether());
 
-		self::register(self::BIRCH_FOREST, new ForestBiome(ForestBiome::TYPE_BIRCH));
+		self::register(self::BIRCH_FOREST, new PlainBiome2());
 	}
 
 	/**

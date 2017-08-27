@@ -89,7 +89,7 @@ class BiomeSelector{
 				}
 			}
 		}else{
-			return Biome::PLAINS;
+			return Biome::BIRCH_FOREST;
 		}
 	}
 

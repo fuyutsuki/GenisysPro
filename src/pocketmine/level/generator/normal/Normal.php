@@ -164,7 +164,7 @@ class Normal extends Generator{
 			new OreType(new LapisOre(), 1, 6, 0, 32),
 			new OreType(new GoldOre(), 2, 8, 0, 32),
 			new OreType(new DiamondOre(), 2, 4, 0, 16),
-			new OreType(new EmeraldOre(), 2, 3, 45, 128),
+			new OreType(new EmeraldOre(), 2, 4, 0, 128),
 			new OreType(new Obsidian(), 7, 19, 0, 128),
 			new OreType(new Dirt(), 20, 32, 0, 128),
 			new OreType(new Stone(Stone::GRANITE), 20, 32, 0, 128),

@@ -66,7 +66,7 @@ class GroundCover extends Populator{
 							if($y === $waterHeight){
 								$b = Block::get(Block::ICE);
 							}else{
-								$b = Block::get(Block::STILL_WATER);
+								$b = Block::get(Block::WATER);
 							}
 						}
 						if($b->getDamage() === 0){

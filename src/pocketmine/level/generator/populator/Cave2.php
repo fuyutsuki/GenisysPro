@@ -67,7 +67,7 @@ class Cave2 extends Populator{
 		for($y = 127; $y > 0; --$y){
 			$b = $this->level->getBlockIdAt($x, $y, $z);
 			$bl = Block::get($b);
-			if(($bl->isSolid() || $bl instanceof Liquid) && ($b !== Block::LEAVES && $b !== Block::LEAVES2 && $b !== Block::COBBLE && $b !== 159 && $b !== 99 && $b !== 100)){
+			if(($bl->isSolid() || $bl instanceof Liquid) && ($b !== Block::LEAVES && $b !== Block::LEAVES2 && $b !== Block::COBBLE && $b !== Block::OBSIDIAN && $b !== 159 && $b !== 99 && $b !== 100)){
 				break;
 			}elseif($b !== 0 and $b !== Block::SNOW_LAYER){
 				return -1;
@@ -163,13 +163,14 @@ class CreateCave{
 	public function delBall($x, $y, $z, $level, $r, $block, $sx, $sy, $sz){
 		$id = $level->getBlockIdAt($x, $y, $z);
 
-		if($id != 0 && $id != 7 && $id != 4 && $y > 2){
+		if($id != 0 && $id != 7 && $id != 4 && $id !== Block::OBSIDIAN && $y > 2){
 			if($id === 8 || $id === 9){
 				$level->setBlockIdAt($x, $y, $z, 4);
 			}else{
 				$level->setBlockIdAt($x, $y, $z, $block);
 			}
-			if(sqrt(pow($x-$sx, 2)+pow($y-$sy, 2)+pow($z-$sz, 2)) < $r){
+			$d = sqrt(pow($x-$sx, 2)+pow($y-$sy, 2)+pow($z-$sz, 2));
+			if($d < $r || (($id === 8 || $id === 9) && $d < $r*4)){
 				$this->delBall($x+1, $y, $z, $level, $r, $block, $sx, $sy, $sz);
 				$this->delBall($x-1, $y, $z, $level, $r, $block, $sx, $sy, $sz);
 				$this->delBall($x, $y+1, $z, $level, $r, $block, $sx, $sy, $sz);
