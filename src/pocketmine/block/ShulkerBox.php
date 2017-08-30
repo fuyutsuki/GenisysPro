@@ -73,7 +73,7 @@ class ShulkerBox extends Transparent {
 	 * @return int
 	 */
 	public function getHardness(){
-		return 6;
+		return 2.5;
 	}
 	/**
 	 * @return int
@@ -84,6 +84,7 @@ class ShulkerBox extends Transparent {
 	/**
 	 * @return AxisAlignedBB
 	 */
+	/*
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
@@ -94,6 +95,7 @@ class ShulkerBox extends Transparent {
 			$this->z + 0.9375
 		);
 	}
+	*/
 	/**
 	 * @param Item        $item
 	 * @param Block       $block
