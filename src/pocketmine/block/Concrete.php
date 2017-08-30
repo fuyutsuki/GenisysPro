@@ -25,6 +25,7 @@
 namespace pocketmine\block;
 
 use pocketmine\item\Tool;
+use pocketmine\item\Item;
 
 class Concrete extends Solid {
 
@@ -76,6 +77,16 @@ class Concrete extends Solid {
 			15 => "Black Concrete",
 		];
 		return $names[$this->meta & 0x0f];
+	}
+
+	public function getDrops(Item $item) : array{
+		if($item->isPickaxe() >= 1){
+			return [
+				[Item::CONCRETE,$this->meta & 0x0f,1],
+			];
+		}else{
+			return [];
+		}
 	}
 
 }
