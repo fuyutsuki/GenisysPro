@@ -129,7 +129,7 @@ class Grass extends Solid {
 			if(!$player instanceof Player || $player->getLevel()->getBlockIdAt($this->x, $this->y+1, $this->z) !== Block::AIR){
 				return false;
 			}
-			$item->useOn($this);
+			$item->useOn($this,2);
 			$this->getLevel()->setBlock($this, new Farmland());
 
 			return true;
