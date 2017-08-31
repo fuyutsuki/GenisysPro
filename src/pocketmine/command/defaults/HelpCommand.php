@@ -27,8 +27,13 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\event\TranslationContainer;
 use pocketmine\utils\TextFormat;
 
-class HelpCommand extends VanillaCommand{
+class HelpCommand extends VanillaCommand {
 
+	/**
+	 * HelpCommand constructor.
+	 *
+	 * @param $name
+	 */
 	public function __construct($name){
 		parent::__construct(
 			$name,
@@ -39,6 +44,13 @@ class HelpCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.help");
 	}
 
+	/**
+	 * @param CommandSender $sender
+	 * @param string        $currentAlias
+	 * @param array         $args
+	 *
+	 * @return bool
+	 */
 	public function execute(CommandSender $sender, $currentAlias, array $args){
 		if(!$this->testPermission($sender)){
 			return true;
@@ -58,11 +70,7 @@ class HelpCommand extends VanillaCommand{
 			$pageNumber = 1;
 		}
 
-		if($sender instanceof ConsoleCommandSender){
-			$pageHeight = PHP_INT_MAX;
-		}else{
-			$pageHeight = 7;
-		}
+        $pageHeight = $sender instanceof ConsoleCommandSender ? PHP_INT_MAX : 7;
 
 		if($command === ""){
 			/** @var Command[][] $commands */
