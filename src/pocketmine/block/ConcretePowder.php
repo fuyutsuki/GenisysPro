@@ -25,6 +25,8 @@
 namespace pocketmine\block;
 
 use pocketmine\item\Tool;
+use pocketmine\item\Item;
+use pocketmine\level\Level;
 
 class ConcretePowder extends Fallable {
 
@@ -60,6 +62,15 @@ class ConcretePowder extends Fallable {
 		return Tool::TYPE_SHOVEL;
 	}
 
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(1)->getId() === Block::WATER||$this->getSide(1)->getId() === Block::STILL_WATER){
+				$this->getLevel()->setBlock($this,Block::get(Item::CONCRETE, $this->meta), false, false);
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+		return false;
+	}
 	/**
 	 * @return mixed
 	 */
