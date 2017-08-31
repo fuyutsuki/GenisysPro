@@ -27,10 +27,38 @@ namespace pocketmine\block;
 use pocketmine\item\Tool;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
+use pocketmine\entity\Entity;
+use pocketmine\math\Vector3;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\Player;
 
-class ConcretePowder extends Fallable {
+class ConcretePowder extends Solid {
 
 	protected $id = self::CONCRETE_POWDER;
+
+	/**
+	 * @param Item        $item
+	 * @param Block       $block
+	 * @param Block       $target
+	 * @param int         $face
+	 * @param float       $fx
+	 * @param float       $fy
+	 * @param float       $fz
+	 * @param Player|null $player
+	 *
+	 * @return bool
+	 */
+	 public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		$ret = $this->getLevel()->setBlock($this, $this, true, true);
+
+		return $ret;
+	}
+
 
 	/**
 	 * ConcretePowder constructor.
@@ -66,10 +94,31 @@ class ConcretePowder extends Fallable {
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(1)->getId() === Block::WATER||$this->getSide(1)->getId() === Block::STILL_WATER){
 				$this->getLevel()->setBlock($this,Block::get(Item::CONCRETE, $this->meta), false, false);
-				return Level::BLOCK_UPDATE_NORMAL;
+			}
+			$down = $this->getSide(Vector3::SIDE_DOWN);
+			if($down->getId() === self::AIR or ($down instanceof Liquid)){
+				$fall = Entity::createEntity("FallingSand", $this->getLevel(), new CompoundTag("", [
+					"Pos" => new ListTag("Pos", [
+						new DoubleTag("", $this->x + 0.5),
+						new DoubleTag("", $this->y),
+						new DoubleTag("", $this->z + 0.5)
+					]),
+					"Motion" => new ListTag("Motion", [
+						new DoubleTag("", 0),
+						new DoubleTag("", 0),
+						new DoubleTag("", 0)
+					]),
+					"Rotation" => new ListTag("Rotation", [
+						new FloatTag("", 0),
+						new FloatTag("", 0)
+					]),
+					"TileID" => new IntTag("TileID", $this->getId()),
+					"Data" => new ByteTag("Data", $this->getDamage()),
+				]));
+
+				$fall->spawnToAll();
 			}
 		}
-		return false;
 	}
 	/**
 	 * @return mixed
