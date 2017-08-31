@@ -1610,8 +1610,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	protected function checkGroundState($movX, $movY, $movZ, $dx, $dy, $dz){
 		if(!$this->onGround or $movY != 0){
 			$bb = clone $this->boundingBox;
-			$bb->minY = $this->y - 0.01;
-			$bb->maxY = $this->y + 0.01;
+			$bb->maxY = $bb->minY + 0.5;
+			$bb->minY -= 1;
 			if(count($this->level->getCollisionBlocks($bb, true)) > 0){
 				$this->onGround = true;
 			}else{
