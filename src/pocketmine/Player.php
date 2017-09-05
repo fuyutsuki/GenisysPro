@@ -2688,6 +2688,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 									$entity->setMotion($entity->getMotion()->multiply($f));
 								}
 							}
+							if($this->isFishing()){
+								$this->fishingHook->reelLine();
+							}
 							$this->setFishingHook($entity);
 							$reduceCount = false;
 							break;

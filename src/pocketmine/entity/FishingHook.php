@@ -24,10 +24,14 @@ namespace pocketmine\entity;
 use pocketmine\event\player\PlayerFishEvent;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\level\Level;
+use pocketmine\level\sound\SplashSound;
+use pocketmine\level\particle\BubbleParticle;
+use pocketmine\level\particle\WaterParticle;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Player;
+use pocketmine\math\Vector3;
 
 
 class FishingHook extends Projectile{
@@ -55,6 +59,7 @@ class FishingHook extends Projectile{
 
 	public function __construct(Level $level, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($level, $nbt, $shootingEntity);
+		$this->attractTimer = mt_rand(50, 180) * 2; // reset timer
 	}
 
 	public function setData($id){
@@ -73,26 +78,21 @@ class FishingHook extends Projectile{
 		$this->timings->startTiming();
 
 		$hasUpdate = parent::onUpdate($currentTick);
-
-		if($this->isCollidedVertically && $this->isInsideOfWater()){
+		$this->gravity = 0.1;
+		if($this->isInsideOfWater()){
 			$this->motionX = 0;
-			$this->motionY += 0.01;
+			//$this->motionY += 0.01;
+			$this->gravity = -0.01;
 			$this->motionZ = 0;
 			$this->motionChanged = true;
 			$hasUpdate = true;
-		}elseif($this->isCollided && $this->keepMovement === true){
-			$this->motionX = 0;
-			$this->motionY = 0;
-			$this->motionZ = 0;
-			$this->motionChanged = true;
-			$this->keepMovement = false;
-			$hasUpdate = true;
+			$this->teleport($this);
 		}
 		if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
-			$this->coughtTimer = mt_rand(5, 10) * 20; // random delay to catch fish
-			$this->attractTimer = mt_rand(30, 100) * 20; // reset timer
+			$this->coughtTimer = mt_rand(10, 35) * 2; // random delay to catch fish
+			$this->attractTimer = mt_rand(80, 180) * 2; // reset timer
 			$this->attractFish();
-			if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
+			//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
 		}elseif($this->attractTimer > 0){
 			$this->attractTimer--;
 		}
@@ -108,6 +108,11 @@ class FishingHook extends Projectile{
 
 	public function fishBites(){
 		if($this->shootingEntity instanceof Player){
+			$particle = new BubbleParticle($this);
+			$sound = new SplashSound($this);
+			$level = $this->shootingEntity->getLevel();
+			$level->addParticle($particle);
+			$level->addSound($sound);
 			$pk = new EntityEventPacket();
 			$pk->eid = $this->shootingEntity->getId();//$this or $this->shootingEntity
 			$pk->event = EntityEventPacket::FISH_HOOK_HOOK;
@@ -133,7 +138,14 @@ class FishingHook extends Projectile{
 			$item = ItemItem::get($fishes[$fish]);
 			$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new PlayerFishEvent($this->shootingEntity, $item, $this));
 			if(!$ev->isCancelled()){
-				$this->shootingEntity->getInventory()->addItem($item);
+				//$this->shootingEntity->getInventory()->addItem($item);
+				$po1 = $this->shootingEntity->getPosition();
+				$po2 = $this->getPosition();
+				$v = new Vector3($po1->x - $po2->x, (2+$po1->y - $po2->y), $po1->z - $po2->z);
+				$v = $v->normalize()->multiply($po1->distance($po2)*0.125);
+				$this->shootingEntity->getLevel()->dropItem($po2, $item, $v);
+				$particle = new WaterParticle($this);
+				$this->shootingEntity->getLevel()->addParticle($particle);
 				$this->shootingEntity->addXp(mt_rand(1, 6));
 				$this->damageRod = true;
 			}
