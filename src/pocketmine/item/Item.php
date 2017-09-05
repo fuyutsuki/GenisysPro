@@ -208,6 +208,7 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::SLIMEBALL] = Slimeball::class;
 			self::$list[self::EGG] = Egg::class;
 			self::$list[self::COMPASS] = Compass::class;
+			self::$list[self::FISHING_ROD] = FishingRod::class;
 			self::$list[self::CLOCK] = Clock::class;
 			self::$list[self::GLOWSTONE_DUST] = GlowstoneDust::class;
 			self::$list[self::DYE] = Dye::class;
