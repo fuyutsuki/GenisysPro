@@ -294,13 +294,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 *
 	 * @return bool
 	 */
-	public function linkHookToPlayer(FishingHook $entity){
+	public function linkHookToPlayer($entity){
 		if($entity->isAlive()){
 			$this->setFishingHook($entity);
-			$pk = new EntityEventPacket();
-			$pk->eid = $this->getFishingHook()->getId();
-			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
-			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+			if($entity !== null){
+				$pk = new EntityEventPacket();
+				$pk->eid = $this->getFishingHook()->getId();
+				$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
+				$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+			}
 			return true;
 		}
 		return false;
@@ -2691,7 +2693,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							if($this->isFishing()){
 								$this->fishingHook->reelLine();
 							}
-							$this->setFishingHook($entity);
+							$this->linkHookToPlayer($entity);
 							$reduceCount = false;
 							break;
 						case Item::SNOWBALL:
