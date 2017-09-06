@@ -2686,6 +2686,23 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							if(!$ev->isCancelled()){
 								if(!$this->isFishing()){
 									$f = 0.6;
+									$nbt = new CompoundTag("", [
+										"Pos" => new ListTag("Pos", [
+											new DoubleTag("", $this->x),
+											new DoubleTag("", $this->y + $this->getEyeHeight()),
+											new DoubleTag("", $this->z),
+										]),
+										"Motion" => new ListTag("Motion", [
+											//TODO: remove this because of a broken client
+											new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * 1.3),
+											new DoubleTag("", -sin($this->pitch / 180 * M_PI) * 1.3),
+											new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * 1.3),
+										]),
+										"Rotation" => new ListTag("Rotation", [
+											new FloatTag("", $this->yaw),
+											new FloatTag("", $this->pitch),
+										]),
+									]);
 									$entity = Entity::createEntity("FishingHook", $this->getLevel(), $nbt, $this);
 									$entity->setMotion($entity->getMotion()->multiply($f));
 								}
