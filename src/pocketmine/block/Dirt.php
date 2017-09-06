@@ -24,6 +24,8 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\Player;
+use pocketmine\level\Level;
+use pocketmine\level\sound\BlockPlaceSound;
 
 class Dirt extends Solid {
 
@@ -76,6 +78,7 @@ class Dirt extends Solid {
 				return false;
 			}
 			$item->useOn($this, 2);
+			$this->getLevel()->addSound(new BlockPlaceSound($this));
 			$this->getLevel()->setBlock($this, Block::get(Item::FARMLAND, 0), true);
 
 			return true;

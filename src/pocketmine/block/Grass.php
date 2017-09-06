@@ -27,6 +27,7 @@ use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\generator\object\TallGrass as TallGrassObject;
 use pocketmine\level\Level;
+use pocketmine\level\sound\BlockPlaceSound;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -130,11 +131,13 @@ class Grass extends Solid {
 				return false;
 			}
 			$item->useOn($this,2);
+			$this->getLevel()->addSound(new BlockPlaceSound($this));
 			$this->getLevel()->setBlock($this, new Farmland());
 
 			return true;
 		}elseif($item->isShovel() and $this->getSide(1)->getId() === Block::AIR){
 			$item->useOn($this);
+			$this->getLevel()->addSound(new BlockPlaceSound($this));
 			$this->getLevel()->setBlock($this, new GrassPath());
 
 			return true;
