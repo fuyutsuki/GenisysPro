@@ -42,12 +42,22 @@ class FishingHook extends Projectile{
 	public $height = 0.25;
 
 	protected $gravity = 0.1;
-	protected $drag = 0.05;
+	protected $drag = 0.025;
 
 	public $data = 0;
 	public $attractTimer = 100;
 	public $coughtTimer = 0;
 	public $damageRod = false;
+
+	public static $fishes = [ItemItem::RAW_FISH, ItemItem::RAW_SALMON, ItemItem::CLOWN_FISH, ItemItem::PUFFER_FISH];
+
+	public static function getFishes(){
+		return self::$fishes;
+	}
+
+	public static function setFishes(array $fishes){
+		self::$fishes = $fishes;
+	}
 
 	public function initEntity(){
 		parent::initEntity();
@@ -59,7 +69,7 @@ class FishingHook extends Projectile{
 
 	public function __construct(Level $level, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($level, $nbt, $shootingEntity);
-		$this->attractTimer = mt_rand(50, 180) * 2; // reset timer
+		$this->attractTimer = mt_rand(50, 220); // reset timer
 	}
 
 	public function setData($id){
@@ -74,23 +84,21 @@ class FishingHook extends Projectile{
 		if($this->closed){
 			return false;
 		}
-
+		//$this->gravity = 0.1;
 		$this->timings->startTiming();
-
 		$hasUpdate = parent::onUpdate($currentTick);
-		$this->gravity = 0.1;
 		if($this->isInsideOfWater()){
-			$this->motionX = 0;
-			//$this->motionY += 0.01;
-			$this->gravity = -0.01;
-			$this->motionZ = 0;
+			$this->motionX *= 8/9;
+			$this->motionY += 0.15;
+			//$this->gravity = -0.01;
+			$this->motionZ *= 8/9;
 			$this->motionChanged = true;
+			$this->teleport($this->getPosition()->add($this->getMotion()));
 			$hasUpdate = true;
-			$this->teleport($this);
 		}
 		if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
-			$this->coughtTimer = mt_rand(10, 35) * 2; // random delay to catch fish
-			$this->attractTimer = mt_rand(80, 180) * 2; // reset timer
+			$this->coughtTimer = mt_rand(10, 35); // random delay to catch fish
+			$this->attractTimer = mt_rand(80, 240); // reset timer
 			$this->attractFish();
 			//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
 		}elseif($this->attractTimer > 0){
@@ -133,7 +141,7 @@ class FishingHook extends Projectile{
 		$this->damageRod = false;
 
 		if($this->shootingEntity instanceof Player && $this->coughtTimer > 0){
-			$fishes = [ItemItem::RAW_FISH, ItemItem::RAW_SALMON, ItemItem::CLOWN_FISH, ItemItem::PUFFER_FISH];
+			$fishes = self::getFishes();
 			$fish = array_rand($fishes, 1);
 			$item = ItemItem::get($fishes[$fish]);
 			$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new PlayerFishEvent($this->shootingEntity, $item, $this));
