@@ -23,6 +23,7 @@ namespace pocketmine\entity;
 
 use pocketmine\event\player\PlayerFishEvent;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\item\FishingRod;
 use pocketmine\level\Level;
 use pocketmine\level\sound\SplashSound;
 use pocketmine\level\particle\BubbleParticle;
@@ -147,6 +148,13 @@ class FishingHook extends Projectile{
 			$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new PlayerFishEvent($this->shootingEntity, $item, $this));
 			if(!$ev->isCancelled()){
 				//$this->shootingEntity->getInventory()->addItem($item);
+				$rod = clone $this->shootingEntity->getInventory()->getItemInHand();
+				if($rod->getDamage() >= $rod->getMaxDurability()){
+					$rod = ItemItem::get(0);
+				}else{
+					$rod->setDamage($rod->getDamage()+6);
+				}
+				$this->shootingEntity->getInventory()->setItemInHand($rod);
 				$po1 = $this->shootingEntity->getPosition();
 				$po2 = $this->getPosition();
 				$v = new Vector3($po1->x - $po2->x, (2+$po1->y - $po2->y), $po1->z - $po2->z);
