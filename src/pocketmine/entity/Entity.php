@@ -46,7 +46,7 @@ use pocketmine\item\Elytra;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\Level;
 use pocketmine\level\Location;
-use pocketmine\level\particle\TerrainParticle;
+use pocketmine\level\particle\DestroyBlockParticle;
 use pocketmine\level\Position;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Math;
@@ -1550,9 +1550,7 @@ abstract class Entity extends Location implements Metadatable {
 			return;
 		}
 		if($fallDistance > 3){
-			for ($i=0; $i <20 ; $i++) { 
-				$this->getLevel()->addParticle(new TerrainParticle($this, $this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0))));
-			}
+			$this->getLevel()->addParticle(new DestroyBlockParticle($this, $this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0))));
 		}
 		if($this->isInsideOfWater()){
 			return;
