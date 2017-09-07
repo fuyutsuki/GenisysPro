@@ -178,7 +178,7 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::SHEARS] = Shears::class;
 			self::$list[self::BOW] = Bow::class;
 
-			self::$list[self::RAW_FISH] = Fish::class;
+			self::$list[self::RAW_FISH] = RawFish::class;
 			self::$list[self::COOKED_FISH] = CookedFish::class;
 
 			self::$list[self::NETHER_QUARTZ] = NetherQuartz::class;
@@ -265,6 +265,11 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::HORCE_ARMOR_IRON] = HorseArmerIron::class;
 			self::$list[self::HORCE_ARMOR_GOLD] = HorseArmerGold::class;
 			self::$list[self::HORCE_ARMOR_DIAMOND] = HorseArmerDiamond::class;
+
+			self::$list[self::RAW_SALMON] = RawSalmon::class;
+			self::$list[self::CLOWN_FISH] = ClownFish::class;
+			self::$list[self::PUFFER_FISH] = PufferFish::class;
+			self::$list[self::COOKED_SALMON] = CookedSalmon::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){
