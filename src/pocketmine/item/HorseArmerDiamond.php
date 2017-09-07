@@ -26,5 +26,8 @@ class HorseArmerDiamond extends Item{
 		parent::__construct(self::HORCE_ARMOR_DIAMOND, $meta, $count, "Horse Armer Diamond");
 	}
 
+	public function getMaxStackSize() : int {
+		return 1;
+	}
 }
 

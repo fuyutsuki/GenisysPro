@@ -26,5 +26,9 @@ class HorseArmerIron extends Item{
 		parent::__construct(self::HORCE_ARMOR_IRON, $meta, $count, "Horse Armer Iron");
 	}
 
+	public function getMaxStackSize() : int {
+		return 1;
+	}
+
 }
 

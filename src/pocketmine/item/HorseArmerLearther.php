@@ -26,5 +26,9 @@ class HorseArmerLearther extends Item{
 		parent::__construct(self::HORCE_ARMOR_LEATHER, $meta, $count, "Horse Armer Learther");
 	}
 
+	public function getMaxStackSize() : int {
+		return 1;
+	}
+
 }
 

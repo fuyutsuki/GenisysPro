@@ -73,7 +73,7 @@ class ShulkerBox extends Transparent {
 	 * @return int
 	 */
 	public function getHardness(){
-		return 2.5;
+		return 6.0;
 	}
 	/**
 	 * @return int
@@ -128,18 +128,14 @@ class ShulkerBox extends Transparent {
 	 *
 	 * @return array
 	 */
+	/*
 	public function getDrops(Item $item) : array{
- 		$tile = $this->getLevel()->getTile($this);
- 		if($tile instanceof TileShulkerBox){
  			return [
- 				[Item::SHULKER_BOX, $tile->getColor(), 1]
+ 				[Item::SHULKER_BOX, $this->meta & 0x0f, 1],
  			];
- 		}else{
- 			return [
- 				[Item::SHULKER_BOX, 10, 1] // Purple
- 			];
- 		}
- 	}
+	}
+	*/
+
 	public function getName() : string{
 		static $names = [
 			0 => "White Shulker Box",
@@ -160,5 +156,9 @@ class ShulkerBox extends Transparent {
 			15 => "Black Shulker Box",
 		];
 		return $names[$this->meta & 0x0f];
+	}
+	
+	public function getMaxStackSize() : int{
+		return 1;
 	}
 }
