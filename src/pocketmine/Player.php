@@ -295,14 +295,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @return bool
 	 */
 	public function linkHookToPlayer($entity){
-		if($entity->isAlive()){
-			$this->setFishingHook($entity);
-			if($entity !== null){
-				$pk = new EntityEventPacket();
-				$pk->eid = $this->getFishingHook()->getId();
-				$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
-				$this->server->broadcastPacket($this->level->getPlayers(), $pk);
-			}
+		$this->setFishingHook($entity);
+		if($entity !== null && $entity->isAlive()){
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->getFishingHook()->getId();
+			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
+			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
 			return true;
 		}
 		return false;
@@ -2686,6 +2684,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							if(!$ev->isCancelled()){
 								if(!$this->isFishing()){
 									$f = 0.6;
+									$speed = 1.5;
 									$nbt = new CompoundTag("", [
 										"Pos" => new ListTag("Pos", [
 											new DoubleTag("", $this->x),
@@ -2694,9 +2693,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 										]),
 										"Motion" => new ListTag("Motion", [
 											//TODO: remove this because of a broken client
-											new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * 1.3),
-											new DoubleTag("", -sin($this->pitch / 180 * M_PI) * 1.3),
-											new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * 1.3),
+											new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * $speed),
+											new DoubleTag("", -sin($this->pitch / 180 * M_PI) * $speed),
+											new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI) * $speed),
 										]),
 										"Rotation" => new ListTag("Rotation", [
 											new FloatTag("", $this->yaw),

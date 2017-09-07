@@ -21,7 +21,8 @@
 
 namespace pocketmine\entity;
 
-
+use pocketmine\Player;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityCombustByEntityEvent;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -143,6 +144,16 @@ abstract class Projectile extends Entity{
 
 					if($this instanceof Arrow and $this->isCritical()){
 						$damage += mt_rand(0, (int) ($damage / 2) + 1);
+					}
+
+					if($this instanceof FishingHook and $this->shootingEntity instanceof Player){
+						$rod = clone $this->shootingEntity->getInventory()->getItemInHand();
+						if($rod->getDamage() >= $rod->getMaxDurability()){
+							$rod = ItemItem::get(0);
+						}else{
+							$rod->setDamage($rod->getDamage()+18);
+						}
+						$this->shootingEntity->getInventory()->setItemInHand($rod);
 					}
 
 					if($this->shootingEntity === null){

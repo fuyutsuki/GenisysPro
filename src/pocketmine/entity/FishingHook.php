@@ -49,6 +49,10 @@ class FishingHook extends Projectile{
 	public $attractTimer = 100;
 	public $coughtTimer = 0;
 	public $damageRod = false;
+	public $canFishing = false;
+
+	public static $power = 0;
+	protected $damage = 0;
 
 	public static $fishes = [ItemItem::RAW_FISH, ItemItem::RAW_SALMON, ItemItem::CLOWN_FISH, ItemItem::PUFFER_FISH];
 
@@ -58,6 +62,10 @@ class FishingHook extends Projectile{
 
 	public static function setFishes(array $fishes){
 		self::$fishes = $fishes;
+	}
+
+	public static function setPower(int $power){
+		self::$power = $power;
 	}
 
 	public function initEntity(){
@@ -71,6 +79,10 @@ class FishingHook extends Projectile{
 	public function __construct(Level $level, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($level, $nbt, $shootingEntity);
 		$this->attractTimer = mt_rand(50, 220); // reset timer
+		$this->damage = self::$power;
+		if($shootingEntity !== null){
+			$this->setDataProperty(self::DATA_OWNER_EID, self::DATA_TYPE_LONG, $shootingEntity->getId());
+		}
 	}
 
 	public function setData($id){
@@ -96,20 +108,22 @@ class FishingHook extends Projectile{
 			$this->motionChanged = true;
 			$this->teleport($this->getPosition()->add($this->getMotion()));
 			$hasUpdate = true;
+			$this->canFishing = true;
 		}
-		if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
-			$this->coughtTimer = mt_rand(10, 35); // random delay to catch fish
-			$this->attractTimer = mt_rand(80, 240); // reset timer
-			$this->attractFish();
-			//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
-		}elseif($this->attractTimer > 0){
-			$this->attractTimer--;
+		if($this->canFishing){
+			if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
+				$this->coughtTimer = mt_rand(10, 35); // random delay to catch fish
+				$this->attractTimer = mt_rand(80, 240); // reset timer
+				$this->attractFish();
+					//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
+			}elseif($this->attractTimer > 0){
+				$this->attractTimer--;
+			}
+			if($this->coughtTimer > 0){
+				$this->coughtTimer--;
+				$this->fishBites();
+			}
 		}
-		if($this->coughtTimer > 0){
-			$this->coughtTimer--;
-			$this->fishBites();
-		}
-
 		$this->timings->stopTiming();
 
 		return $hasUpdate;
@@ -177,6 +191,14 @@ class FishingHook extends Projectile{
 		}
 
 		return $this->damageRod;
+	}
+
+	public function kill(){
+		parent::kill();
+		if($this->shootingEntity instanceof Player){
+			$this->shootingEntity->fishingHook->reelLine();
+			$this->shootingEntity->linkHookToPlayer(null);
+		}
 	}
 
 	public function spawnTo(Player $player){
