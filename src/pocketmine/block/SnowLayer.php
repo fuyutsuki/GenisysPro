@@ -62,6 +62,10 @@ class SnowLayer extends Flowable {
 	}
 
 
+	public function canBeReplaced(){
+		return true;
+	}
+
 	/**
 	 * @param Item        $item
 	 * @param Block       $block
