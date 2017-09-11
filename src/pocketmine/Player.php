@@ -4260,6 +4260,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				break;
 
 			default:
+				break;
 
 		}
 
@@ -4273,6 +4274,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if(!$ev->getKeepInventory()){
 			foreach($ev->getDrops() as $item){
 				$this->level->dropItem($this, $item);
+			}
+
+			if($this->floatingInventory !== null){		
+				$this->floatingInventory->clearAll();		
 			}
 
 			if($this->inventory !== null){
