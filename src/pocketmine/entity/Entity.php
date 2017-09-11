@@ -1515,7 +1515,7 @@ abstract class Entity extends Location implements Metadatable {
 	}
 
 	public function resetFallDistance(){
-		$this->fallDistance = 0;
+		$this->fallDistance = 0.0;
 	}
 
 	/**
@@ -1545,12 +1545,14 @@ abstract class Entity extends Location implements Metadatable {
 	/**
 	 * @param $fallDistance
 	 */
-	public function fall($fallDistance){
+	public function fall(float $fallDistance){
+		$fallDistance=ceil($fallDistance+1);
+		//echo "Dist".$fallDistance."\n";
 		if($this instanceof Player and $this->isSpectator()){
 			return;
 		}
 		if($fallDistance > 3){
-			$this->getLevel()->addParticle(new DestroyBlockParticle($this, $this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0))));
+			//$this->getLevel()->addParticle(new DestroyBlockParticle($this, $this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0))));
 		}
 		if($this->isInsideOfWater()){
 			return;
@@ -1570,6 +1572,7 @@ abstract class Entity extends Location implements Metadatable {
 		if($damage > 0){
 			$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FALL, $damage);
 			$this->attack($ev->getFinalDamage(), $ev);
+			//echo "Dam".$damage."\n";
 		}
 	}
 
