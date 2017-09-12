@@ -133,6 +133,7 @@ use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\Info as ProtocolInfo;
 use pocketmine\network\protocol\InteractPacket;
+use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\network\protocol\PlayerActionPacket;
 use pocketmine\network\protocol\PlayStatusPacket;
@@ -3246,6 +3247,18 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							}
 						}
 						break;
+					case EntityEventPacket::EATING:
+					if($packet->unknown === 0){
+						//Make sure a bad client doesn't crash everyone watching
+						throw new \InvalidArgumentException("Received eat-particle entity event with data 0");
+					}
+	
+					$this->dataPacket($packet);
+					$this->server->broadcastPacket($this->getViewers(), $packet);
+						break;
+					default:
+						$this->server->getLogger()->debug("UNHANDLED EVENT: " . $packet->event);
+						return false;
 				}
 				break;
 			case ProtocolInfo::DROP_ITEM_PACKET:
