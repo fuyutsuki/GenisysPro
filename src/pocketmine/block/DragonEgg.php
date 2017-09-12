@@ -79,7 +79,7 @@ class DragonEgg extends Fallable {
 			$y = $this->getY() + $RAND_VERTICAL[array_rand($RAND_VERTICAL)];
 			$z = $this->getZ() + $RAND_HORIZONTAL[array_rand($RAND_HORIZONTAL)];
 			if($level->getBlockIdAt($x,$y,$z) == 0 && $level->getBlockIdAt($x,$y - 1,$z) != 0){
-				$level->setBlock($this, new Air(), false, false);
+				$level->setBlock($this, new Air(), true, true);
 				$oldpos = clone $this;
 				$pos = new Position($x, $y, $z, $level);
 				$newpos = $pos;
@@ -88,7 +88,7 @@ class DragonEgg extends Fallable {
 				$intdist = $oldpos->distance($newpos);
 				for($c = 0; $c <= $intdist; $c++){
 					$progress = $c / $intdist;
-					$this->getLevel()->addSound(new GenericSound(new Position($oldpos->x + $posdistance->x * $progress, 1.62 + $oldpos->y + $posdistance->y * $progress, $oldpos->z + $posdistance->z * $progress, $this->getLevel()), 2010));						
+					//$this->getLevel()->addSound(new GenericSound(new Position($oldpos->x + $posdistance->x * $progress, 1.62 + $oldpos->y + $posdistance->y * $progress, $oldpos->z + $posdistance->z * $progress, $this->getLevel()), 2010));						
 				}
 				$safe = true;
 				break;
