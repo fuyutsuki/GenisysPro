@@ -11693,46 +11693,6 @@
     },
     {
         "type": 1,
-        "width": 2,
-        "height": 2,
-        "input": [
-            {
-                "id": 121,
-                "damage": -1,
-                "count": 1,
-                "nbt": ""
-            },
-            {
-                "id": 121,
-                "damage": -1,
-                "count": 1,
-                "nbt": ""
-            },
-            {
-                "id": 121,
-                "damage": -1,
-                "count": 1,
-                "nbt": ""
-            },
-            {
-                "id": 121,
-                "damage": -1,
-                "count": 1,
-                "nbt": ""
-            }
-        ],
-        "output": [
-            {
-                "id": 206,
-                "damage": 0,
-                "count": 4,
-                "nbt": ""
-            }
-        ],
-        "uuid": "b5bff475-2d8e-34f8-846c-317cd34e579d"
-    },
-    {
-        "type": 1,
         "width": 3,
         "height": 3,
         "input": [
@@ -21104,6 +21064,46 @@
         "output": [
             {
                 "id": 216,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "uuid": ""
+    },
+    {
+        "type": 1,
+        "width": 2,
+        "height": 2,
+        "input": [
+            {
+                "id": 121,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 121,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 121,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            },
+            {
+                "id": 121,
+                "damage": 0,
+                "count": 1,
+                "nbt": ""
+            }
+        ],
+        "output": [
+            {
+                "id": 206,
                 "damage": 0,
                 "count": 1,
                 "nbt": ""
