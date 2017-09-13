@@ -96,4 +96,11 @@ class DragonEgg extends Fallable {
 		}
 		return $safe; // Unnecessary but added just to stop PHPStorm from whining... And, Why not.
 	}
+
+	public function isTransparent(){
+		return true;
+	}
+	public function getLightFilter() : int{
+		return 0;
+	}
 }
