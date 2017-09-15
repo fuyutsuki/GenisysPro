@@ -23,6 +23,9 @@ namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\block\Block;
 use pocketmine\level\generator\populator\Setter;
+use pocketmine\block\Sapling;
+use pocketmine\level\generator\populator\BigTree;
+use pocketmine\level\generator\populator\Cave2;
 
 class DesertBiome extends SandyBiome{
 
@@ -57,7 +60,12 @@ class DesertBiome extends SandyBiome{
 		], [Block::SAND => true]);
 		$setter2->setBaseAmount(1);
 		$this->addPopulator($setter2);
-
+		$trees1_1 = new BigTree(Sapling::OAK, 0, Block::LOG, Block::AIR);
+		$trees1_1->setBaseAmount(0);
+		$this->addPopulator($trees1_1);
+		$cave = new Cave2(40);
+		$cave->setBaseAmount(0);
+		$this->addPopulator($cave);
 		$this->temperature = 2;
 		$this->rainfall = 0;
 	}

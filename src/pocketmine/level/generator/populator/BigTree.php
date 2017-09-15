@@ -37,10 +37,14 @@ class BigTree extends Populator{
 
 	private $type;
 	private $leaf;
+	private $log;
+	private $leaves;
 
-	public function __construct($type = Sapling::OAK, $leaf = Leaves::OAK){
+	public function __construct($type = Sapling::OAK, $leaf = Leaves::OAK, $log = Block::LOG, $leaves = Block::LEAVES){
 		$this->type = $type;
 		$this->leaf = $leaf;
+		$this->log = $log;
+		$this->leaves = $leaves;
 	}
 
 	public function setRandomAmount($amount){
@@ -63,7 +67,7 @@ class BigTree extends Populator{
 			}
 			//ObjectTree::growTree($this->level, $x, $y, $z, $random, $this->type);
 			//$log, $leaves, $leafType, $type, $treeHeight = 8
-			$tree = new ObjectTree(Block::LOG, Block::LEAVES, $this->leaf, $this->type, mt_rand(5, 7));
+			$tree = new ObjectTree($this->log, $this->leaves, $this->leaf, $this->type, mt_rand(5, 7));
 			if($tree->canPlaceObject($this->level, $x, $y, $z, $random)){
 				$tree->placeObject($this->level, $x, $y, $z, $random);
 			}
