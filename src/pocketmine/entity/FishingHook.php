@@ -80,7 +80,7 @@ class FishingHook extends Projectile{
 		parent::__construct($level, $nbt, $shootingEntity);
 		$this->attractTimer = mt_rand(50, 220); // reset timer
 		if($level->getWeather()->getWeather() >= 1){
-			$this->attractTimer = intval($this->attractTimer/2);
+			$this->attractTimer = intval($this->attractTimer*0.8);
 		}
 		$this->damage = self::$power;
 		if($shootingEntity !== null){
@@ -105,7 +105,7 @@ class FishingHook extends Projectile{
 		$hasUpdate = parent::onUpdate($currentTick);
 		if($this->isInsideOfWater()){
 			$this->motionX *= 8/9;
-			$this->motionY += 0.15;
+			$this->motionY += 0.225;
 			//$this->gravity = -0.01;
 			$this->motionZ *= 8/9;
 			$this->motionChanged = true;
@@ -115,16 +115,15 @@ class FishingHook extends Projectile{
 		}
 		if($this->canFishing){
 			if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
-				$this->coughtTimer = mt_rand(10, 35); // random delay to catch fish
+				$this->coughtTimer = mt_rand(20, 35); // random delay to catch fish
 				$this->attractTimer = mt_rand(80, 240); // reset timer
 				if($this->level->getWeather()->getWeather() >= 1){
-					$this->attractTimer = intval($this->attractTimer/2);
+					$this->attractTimer = intval($this->attractTimer*0.8);
 				}
 				$this->attractFish();
 					//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
 			}elseif($this->attractTimer > 0){
 				$this->attractTimer--;
-				var_dump($this->attractTimer);
 			}
 			if($this->coughtTimer > 0){
 				$this->coughtTimer--;

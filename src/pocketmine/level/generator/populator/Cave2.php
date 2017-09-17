@@ -160,23 +160,23 @@ class CreateCave{
 		}
 	}
 
-	public function delBall($x, $y, $z, $level, $r, $block, $sx, $sy, $sz){
+	public function delBall($x, $y, $z, $level, $r, $block, $sx, $sy, $sz, $cont = 0){
 		$id = $level->getBlockIdAt($x, $y, $z);
-
 		if($id != 0 && $id != 7 && $id != 4 && $id !== Block::OBSIDIAN && $y > 2){
 			if($id === 8 || $id === 9){
 				$level->setBlockIdAt($x, $y, $z, 4);
+				$cont++;
 			}else{
 				$level->setBlockIdAt($x, $y, $z, $block);
 			}
 			$d = sqrt(pow($x-$sx, 2)+pow($y-$sy, 2)+pow($z-$sz, 2));
-			if($d < $r || (($id === 8 || $id === 9) && $d < $r*4)){
-				$this->delBall($x+1, $y, $z, $level, $r, $block, $sx, $sy, $sz);
-				$this->delBall($x-1, $y, $z, $level, $r, $block, $sx, $sy, $sz);
-				$this->delBall($x, $y+1, $z, $level, $r, $block, $sx, $sy, $sz);
-				$this->delBall($x, $y-1, $z, $level, $r, $block, $sx, $sy, $sz);
-				$this->delBall($x, $y, $z+1, $level, $r, $block, $sx, $sy, $sz);
-				$this->delBall($x, $y, $z-1, $level, $r, $block, $sx, $sy, $sz);
+			if(($d < $r || (($id === 8 || $id === 9) && $d < $r*4)) && $cont <= 2){
+				$this->delBall($x+1, $y, $z, $level, $r, $block, $sx, $sy, $sz, $cont);
+				$this->delBall($x-1, $y, $z, $level, $r, $block, $sx, $sy, $sz, $cont);
+				$this->delBall($x, $y+1, $z, $level, $r, $block, $sx, $sy, $sz, $cont);
+				$this->delBall($x, $y-1, $z, $level, $r, $block, $sx, $sy, $sz, $cont);
+				$this->delBall($x, $y, $z+1, $level, $r, $block, $sx, $sy, $sz, $cont);
+				$this->delBall($x, $y, $z-1, $level, $r, $block, $sx, $sy, $sz, $cont);
 			}
 		}
 	}
