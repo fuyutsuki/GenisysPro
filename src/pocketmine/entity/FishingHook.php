@@ -79,6 +79,9 @@ class FishingHook extends Projectile{
 	public function __construct(Level $level, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($level, $nbt, $shootingEntity);
 		$this->attractTimer = mt_rand(50, 220); // reset timer
+		if($level->getWeather()->getWeather() >= 1){
+			$this->attractTimer = intval($this->attractTimer/2);
+		}
 		$this->damage = self::$power;
 		if($shootingEntity !== null){
 			$this->setDataProperty(self::DATA_OWNER_EID, self::DATA_TYPE_LONG, $shootingEntity->getId());
@@ -114,10 +117,14 @@ class FishingHook extends Projectile{
 			if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
 				$this->coughtTimer = mt_rand(10, 35); // random delay to catch fish
 				$this->attractTimer = mt_rand(80, 240); // reset timer
+				if($this->level->getWeather()->getWeather() >= 1){
+					$this->attractTimer = intval($this->attractTimer/2);
+				}
 				$this->attractFish();
 					//if($this->shootingEntity instanceof Player) $this->shootingEntity->sendTip("A fish bites!");
 			}elseif($this->attractTimer > 0){
 				$this->attractTimer--;
+				var_dump($this->attractTimer);
 			}
 			if($this->coughtTimer > 0){
 				$this->coughtTimer--;
@@ -171,12 +178,12 @@ class FishingHook extends Projectile{
 				$this->shootingEntity->getInventory()->setItemInHand($rod);
 				$po1 = $this->shootingEntity->getPosition();
 				$po2 = $this->getPosition();
-				$v = new Vector3($po1->x - $po2->x, (2+$po1->y - $po2->y), $po1->z - $po2->z);
+				$v = new Vector3($po1->x - $po2->x, (3+$po1->y - $po2->y), $po1->z - $po2->z);
 				$v = $v->normalize()->multiply($po1->distance($po2)*0.125);
 				$this->shootingEntity->getLevel()->dropItem($po2, $item, $v);
 				$particle = new WaterParticle($this);
 				$this->shootingEntity->getLevel()->addParticle($particle);
-				$this->shootingEntity->addXp(mt_rand(1, 6));
+				if($this->server->expEnabled) $this->shootingEntity->addXp(mt_rand(1, 6));
 				$this->damageRod = true;
 			}
 		}
