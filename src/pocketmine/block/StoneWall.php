@@ -23,6 +23,7 @@ namespace pocketmine\block;
 
 
 use pocketmine\item\Tool;
+use pocketmine\item\Item;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
 
@@ -63,6 +64,15 @@ class StoneWall extends Transparent {
 		return 2;
 	}
 
+	public function getDrops(Item $item) : array{
+		if($item->isPickaxe() >= 1){
+			return [
+				[Item::STONE_WALL,$this->meta,1],
+			];
+		}else{
+			return [];
+		}
+	}
 	/**
 	 * @return string
 	 */
