@@ -1546,7 +1546,7 @@ abstract class Entity extends Location implements Metadatable {
 	 * @param $fallDistance
 	 */
 	public function fall(float $fallDistance){
-		$fallDistance=ceil($fallDistance+1);
+		$fallDistance=ceil($fallDistance+0.5);
 		//echo "Dist".$fallDistance."\n";
 		if($this instanceof Player and $this->isSpectator()){
 			return;
