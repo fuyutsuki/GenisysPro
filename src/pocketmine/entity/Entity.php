@@ -31,6 +31,7 @@ use pocketmine\block\Portal;
 use pocketmine\block\PressurePlate;
 use pocketmine\block\Water;
 use pocketmine\block\SlimeBlock;
+use pocketmine\block\StillWater;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDespawnEvent;
@@ -1561,6 +1562,12 @@ abstract class Entity extends Location implements Metadatable {
 
 		//Get the block directly beneath the player's feet, check if it is a slime block
 		if($this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0)) instanceof SlimeBlock){
+			$damage = 0;
+		}
+		if($this->getLevel()->getBlock($this->floor()) instanceof Water){
+			$damage = 0;
+		}
+		if($this->getLevel()->getBlock($this->floor()) instanceof StillWater){
 			$damage = 0;
 		}
 		//TODO Improve
