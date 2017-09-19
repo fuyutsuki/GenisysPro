@@ -50,7 +50,7 @@ class SayEardCommand extends VanillaCommand{
 			return false;
 		}
 
-		$sender->getServer()->broadcastMessage(new TranslationContainer(($sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName())).TextFormat::GRAY .' > '.TextFormat::AQUA .'全体'.TextFormat::GRAY .' > '. TextFormat::WHITE . implode(" ", $args)));
+		$sender->getServer()->broadcastMessage(new TranslationContainer(TextFormat::LIGHT_PURPLE.($sender instanceof Player ? $sender->getDisplayName() : ($sender instanceof ConsoleCommandSender ? "Server" : $sender->getName())).TextFormat::GRAY .' > '.TextFormat::AQUA .'全体'.TextFormat::GRAY .' > '. TextFormat::WHITE . implode(" ", $args)));
 		return true;
 	}
 }
