@@ -142,7 +142,7 @@ class Potion extends Item{
 	}
 
 	public function canBeConsumed() : bool{
-		return $this->meta > 0;
+		return $this->meta >= 0;
 	}
 
 	public function canBeConsumedBy(Entity $entity) : bool{

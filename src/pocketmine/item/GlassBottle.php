@@ -52,7 +52,7 @@ class GlassBottle extends Item{
 					$player->getInventory()->setItemInHand($this);
 				}
 				if($player->getInventory()->canAddItem(Item::get(Item::POTION, 0, 1)) === true){
-					$player->getInventory()->AddItem(Item::get(Item::POTION, 0, 1));
+					$player->getInventory()->addItem(Item::get(Item::POTION, 0, 1));
 				}else{
 					$motion = $player->getDirectionVector()->multiply(0.4);
 					$position = clone $player->getPosition();
