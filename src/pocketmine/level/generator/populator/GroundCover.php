@@ -55,12 +55,15 @@ class GroundCover extends Populator{
 					$endY = $startY - count($cover);
 					for($y = $startY; $y > $endY and $y >= 0; --$y){
 						$b = $cover[$startY - $y];
-						if($column{$y} === "\x00" and $b->isSolid()){
+						if($column{$y} === "\x00" and isset(Block::$solid[$chunk->getBlockId($x, $y, $z)])){
 							$startY = $y-1;
 							continue;
 						}
 						if($y <= $waterHeight and $b->getId() == Block::GRASS and ($chunk->getBlockId($x, $y + 1, $z) == Block::STILL_WATER || $chunk->getBlockId($x, $y + 1, $z) == Block::WATER || $chunk->getBlockId($x, $y + 1, $z) == Block::ICE)){
 							$b = Block::get(Block::DIRT);
+						}
+						if($y <= $waterHeight and $b->getId() == Block::CONCRETE_POWDER){
+							$b = Block::get(Block::CONCRETE, $b->getDamage());
 						}
 						if($y <= $waterHeight and $b->getId() == Block::SNOW){
 							if($y === $waterHeight){
